@@ -1,8 +1,18 @@
 import React from "react";
-
 import RateCardPoster from "../images/rate-movie-poster.png"
 
 export default function RateCard() {
+
+    const [rateValue, setRateValue] = React.useState(0);
+    const sliderRef = React.useRef(null);
+    const ratingRef = React.useRef(null);
+
+    const handleSliderChange = () => {
+        const value = sliderRef.current.value;
+        setRateValue(value);
+
+    };
+
 
     return (
 
@@ -14,7 +24,8 @@ export default function RateCard() {
                 <h1 className="hero-info">PG-13 · 2014 · 1h 40m </h1>
                 <div className="rate-count-container-el">
 
-                    <h1 className="rate-count-el">0%</h1>
+                    <h1 className="rate-count-el">{rateValue}%</h1>
+                    <input class="rate-count-slider" type="range" min="0" max="100" ref={sliderRef} value={rateValue} onChange={handleSliderChange}></input>
                     <h1 className="rate-count-prompt">Drag the slider to rate the movie</h1>
 
 

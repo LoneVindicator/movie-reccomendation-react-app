@@ -7,7 +7,7 @@ import Footer from "../components/Footer"
 import { register } from 'swiper/element/bundle';
 import RateCard from "../components/RateCard";
 
-export default function Home() {
+export default function Home(props) {
 
 
     // register Swiper custom elements
@@ -19,7 +19,7 @@ export default function Home() {
 
         <div className="header-page-container">
 
-            <Navbar />
+            <Navbar {...props}/>
             <Hero />
             <Carousel carouselTitle = "Reccomendations"/>
             <Carousel carouselTitle = "New Releases"/>

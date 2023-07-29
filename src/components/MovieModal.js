@@ -10,7 +10,7 @@ export default function MovieModal(props) {
 
         <div className="movie-modal-overlay" onClick={props.toggleModal}>
 
-            <div className="movie-modal-content">
+            <div className="movie-modal-content" onClick={(e) => e.stopPropagation()}>
 
 
                 <div className="modal-image-container">

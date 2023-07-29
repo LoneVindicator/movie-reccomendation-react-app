@@ -58,7 +58,7 @@ export default function MovieCard(props) {
     const toggleModal = () => {
 
         setIsModalOpen(!isModalOpen);
-        isModalOpen? showScrollBar = "": showScrollBar = "hidden";
+        isModalOpen ? showScrollBar = "" : showScrollBar = "hidden";
 
         document.body.style.overflow = showScrollBar;
 
@@ -70,44 +70,48 @@ export default function MovieCard(props) {
 
     return (
 
-
-
-        <div className={isHovered ? "carousel-card-container" : "carousel-card-container-hover"} onClick={expandSlide} onMouseLeave={contractSlide}>
-
-            <div className="carousel-image-container" onClick={toggleModal}>
-
-                <img className="carousel-movie-poster" src={props.imgLink}></img>
-
-            </div>
-
-            <div className={isHovered ? "carousel-movie-title-container" : "carousel-movie-title-container-hover"} >
-
-                <h1 className="carousel-movie-title hover">{props.movieName}</h1>
+        <div className="carousel-card-container-overlay">
 
 
 
-            </div>
+            <div className="carousel-card-container" onClick={expandSlide} onMouseLeave={contractSlide}>
 
+                <div className="carousel-image-container" onClick={toggleModal}>
 
-            {isHovered &&
-
-                <div className="carousel-card-info-container">
-
-                    <h1 className="carousel-card-info-text carousel-movie-info">TV-MA · 2004 · 1h 35m </h1>
-                    <h1 className="carousel-card-info-text carousel-movie-desc">
-                        After witnessing his parents' death, Bruce learns the art of fighting to confront injustice.
-                        When he returns to Gotham as Batman, he must stop a secret society that intends to destroy the city.
-                    </h1>
+                    <img className="carousel-movie-poster" src={props.imgLink}></img>
 
                 </div>
 
-            }
+                <div className={isHovered ? "carousel-movie-title-container" : "carousel-movie-title-container-hover"} >
 
-            {isModalOpen &&
+                    <h1 className="carousel-movie-title hover">{props.movieName}</h1>
 
-                <MovieModal isModalOpen={isModalOpen} toggleModal = {toggleModal} {...props}/>
 
-            }
+
+                </div>
+
+
+                {isHovered &&
+
+                    <div className="carousel-card-info-container">
+
+                        <h1 className="carousel-card-info-text carousel-movie-info">TV-MA · 2004 · 1h 35m </h1>
+                        <h1 className="carousel-card-info-text carousel-movie-desc">
+                            After witnessing his parents' death, Bruce learns the art of fighting to confront injustice.
+                            When he returns to Gotham as Batman, he must stop a secret society that intends to destroy the city.
+                        </h1>
+
+                    </div>
+
+                }
+
+                {isModalOpen &&
+
+                    <MovieModal isModalOpen={isModalOpen} toggleModal={toggleModal} {...props} />
+
+                }
+
+            </div>
 
         </div>
 

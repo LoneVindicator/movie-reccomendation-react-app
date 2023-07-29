@@ -25,7 +25,7 @@ export default function RateCard() {
                 <div className="rate-count-container-el">
 
                     <h1 className="rate-count-el">{rateValue}%</h1>
-                    <input class="rate-count-slider" type="range" min="0" max="100" ref={sliderRef} value={rateValue} onChange={handleSliderChange}></input>
+                    <input className="rate-count-slider" type="range" min="0" max="100" ref={sliderRef} value={rateValue} onChange={handleSliderChange}></input>
                     <h1 className="rate-count-prompt">Drag the slider to rate the movie</h1>
 
 

@@ -6,12 +6,12 @@ export default function Footer() {
 
         <footer>
         
-            <div class="social-links">
+            <div className="social-links">
 
-                <i class="fa fa-twitter-square"></i>
-                <i class="fa fa-facebook-square"></i>
-                <i class="fa fa-youtube-play"></i>
-                <i class="fa fa-spotify"></i>
+                <i className="fa fa-twitter-square"></i>
+                <i className="fa fa-facebook-square"></i>
+                <i className="fa fa-youtube-play"></i>
+                <i className="fa fa-spotify"></i>
             </div>
 
         </footer>

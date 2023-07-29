@@ -29,7 +29,7 @@ export default function Carousel(props) {
         slidesPerView={slidesPerPage}
         slidesPerGroup={slidesPerPage}
         centeredSlides={false}
-        grabCursor={true}
+        grabCursor={false}
         pagination={{
           clickable: true,
         }}

@@ -37,15 +37,44 @@ nav {
   flex-direction: row;
   justify-content: flex-end;
   padding-top: 2em;
-  gap: 1.2rem;
+  gap: 0.1em;
 
   width: 80vw;
 
 }
 
+.nav-item {
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  justify-content: center;
+
+  width: 3.2em; /* Adjust the size of the circle */
+  height: 3.2em;
+  padding: 0.5em;
+  border-radius: 50%; /* Make it a circle */
+
+
+}
+
+.nav-item:hover {
+
+  border-radius: 50%; /* Make it a circle */
+  overflow: hidden; /* Hide anything outside the circle */
+
+  background-color:#a1afc7;
+  transition: background-color 0.3s;
+
+
+
+
+}
+
 .nav-icon-img {
 
-  width: 2vw;
+  width: 2.5em;
 
 
 }
@@ -122,6 +151,11 @@ nav {
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+}
+
+.hero-more-info-btn:hover{
+
+  background-color: rgb(66, 64, 64);;
 }
 
 /* Carousel Default No Hover */
@@ -265,9 +299,23 @@ nav {
   border: none;
 }
 
+.submit-btn:hover {
+
+  background-color: #f14054;
+  border: none;
+}
+
 .seen-btn {
 
   margin-top: 1em;
+
+
+}
+
+.seen-btn:hover {
+
+  margin-top: 1em;
+  background-color: rgb(66, 64, 64);
 
 
 }
@@ -328,21 +376,25 @@ footer {
 .fa-twitter-square:hover {
 
   color: #1DA1F2;
+  transition: color 0.3s;
 }
 
 .fa-facebook-square:hover {
 
   color: #4267B2;
+  transition: color 0.3s;
 }
 
 .fa-youtube-play:hover {
 
   color: #FF0000;
+  transition: color 0.3s;
 }
 
 .fa-spotify:hover {
 
   color: #1DB954;
+  transition: color 0.3s;
 }
 
 
@@ -352,7 +404,7 @@ footer {
 
 /* Carousel Default No Hover */
 
-.carousel-card-container-hover {
+.carousel-card-container {
 
 
   width: 14.5em;
@@ -366,7 +418,6 @@ footer {
   flex-direction: column;
 
 }
-
 
 .carousel-component-container {
 
@@ -382,6 +433,18 @@ footer {
 
   width: 14.5em;
   height: 22em;
+
+}
+
+.carousel-movie-poster:hover {
+
+  border: white solid;
+  box-sizing: border-box;
+  border-radius: 0.4em;
+
+  transition: border 0.2s;
+
+
 }
 
 .carousel-movie-title {
@@ -412,7 +475,7 @@ footer {
   overflow-y: auto;
 }
 
-.movie-modal-content {
+.movie-modal-content, .login-modal-content {
 
   width: 60em;
 
@@ -562,3 +625,105 @@ footer {
 
 
 }
+
+/* Login Componenet */
+
+.login-modal-content{
+
+  width: 40em;
+  margin-top: 0;
+
+  border-radius: 0.8em;
+
+}
+
+
+.login-content-container{
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: 1em;
+  gap: 1em;
+
+  
+  color: white;
+}
+
+.login-form{
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 1em;
+}
+
+.login-input-form{
+
+  width: 27em;
+  height: 2em;
+  padding-left: 1em;
+
+  border-radius: 0.3em;
+  border: none;
+
+  color: white;
+  background-color: #757780;
+
+}
+
+.social-links{
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding-bottom: 1em;
+
+  font-size: 0.9em;
+}
+
+.login-form{
+
+  display: flex;
+  flex-direction: column ;
+  
+}
+
+.login-prompt-container{
+
+  display: flex;
+  flex-direction: row;
+  color:#757780;
+
+  font-size: 0.9em;
+  gap:0.4em
+
+}
+
+.login-btn{
+
+  margin-top: 0.5em;
+  height: 3em;
+  font-size: 1em;
+  font-weight: 700;
+  color:#04151F;
+
+  background-color:#e2e2e2;
+  border: none;
+  border-radius: 0.3em;
+}
+
+.login-btn:hover {
+
+  background-color: white;
+  transition: background-color 0.3s;
+
+}
+
+.secondText:hover{
+
+  color: white;
+}
+/* ====================== */

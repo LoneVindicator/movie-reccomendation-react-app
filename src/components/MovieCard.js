@@ -1,5 +1,8 @@
 import React from "react";
 
+import { FaHeart, FaRegHeart } from "react-icons/fa6";
+import noImg from "../images/movie-no-img.png"
+
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -12,11 +15,21 @@ import MovieModal from "./MovieModal";
 export default function MovieCard(props) {
 
 
+
     const [showSlide, setShowSlide] = React.useState(false);
     const [isHovered, setIsHovered] = React.useState(false);
+    const [isFavourite, setIsFavourite] = React.useState(false);
+
     // [props.viewableSlideCount, setViewableSlideCount] = React.useState(6.5);
 
     let slideLength = 2.5;
+
+    function showHoverInfo(bool) {
+
+        setIsHovered(bool);
+
+
+    }
 
     function expandSlide() {
 
@@ -59,14 +72,25 @@ export default function MovieCard(props) {
 
         setIsModalOpen(!isModalOpen);
         isModalOpen ? showScrollBar = "" : showScrollBar = "hidden";
+        showHoverInfo(false);
 
         document.body.style.overflow = showScrollBar;
 
 
     }
 
+    const handleToggleFavourite = (e) => {
 
+        e.stopPropagation();
 
+        const tempIsFavourite = isFavourite;
+        setIsFavourite(!tempIsFavourite);
+
+    }
+
+    const handleImageError = (e) => {
+        e.target.src = noImg;
+      };
 
     return (
 
@@ -74,36 +98,41 @@ export default function MovieCard(props) {
 
 
 
-            <div className="carousel-card-container" onClick={expandSlide} onMouseLeave={contractSlide}>
+            <div className="carousel-card-container" onClick={expandSlide} onMouseEnter={() => { showHoverInfo(true) }} onMouseLeave={() => { showHoverInfo(false) }}>
 
                 <div className="carousel-image-container" onClick={toggleModal}>
 
-                    <img className="carousel-movie-poster" src={props.imgLink}></img>
+                    <img className={isHovered ? "carousel-movie-poster carousel-movie-poster-hover" : "carousel-movie-poster"} src={props.posterPath} onError={ handleImageError} loading="lazy"></img>
 
-                </div>
+                    <div className="carousel-image-overlay-container">
 
-                <div className={isHovered ? "carousel-movie-title-container" : "carousel-movie-title-container-hover"} >
+                        {isHovered ?
 
-                    <h1 className="carousel-movie-title hover">{props.movieName}</h1>
+                            (
+
+                                isFavourite ? <FaHeart className="carousel-movie-poster-heart-icon-true" onMouseEnter={() => { showHoverInfo(true) }} onClick={ (e) => { handleToggleFavourite(e) } } /> :
+                                    <FaRegHeart className="carousel-movie-poster-heart-icon" onMouseEnter={ () => { showHoverInfo(true) }} onClick={ (e) => { handleToggleFavourite(e) }} />
+                            ) :
+                            null
 
 
 
-                </div>
+                        }
 
 
-                {isHovered &&
-
-                    <div className="carousel-card-info-container">
-
-                        <h1 className="carousel-card-info-text carousel-movie-info">TV-MA · 2004 · 1h 35m </h1>
-                        <h1 className="carousel-card-info-text carousel-movie-desc">
-                            After witnessing his parents' death, Bruce learns the art of fighting to confront injustice.
-                            When he returns to Gotham as Batman, he must stop a secret society that intends to destroy the city.
-                        </h1>
 
                     </div>
 
-                }
+                </div>
+
+                <div className="carousel-movie-title-container" >
+
+                    <h1 className="carousel-movie-title hover">{props.title}</h1>
+
+
+
+
+                </div>
 
                 {isModalOpen &&
 

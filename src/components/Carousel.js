@@ -1,6 +1,9 @@
 import React from "react";
 import MovieCard from "../components/MovieCard"
 import movieData from "../data.json"
+import axios from "axios";
+import tmdbConfig from "../tmdb.json"
+
 
 // Import Swiper styles
 import 'swiper/css';
@@ -13,6 +16,123 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 export default function Carousel(props) {
 
+  //API Call to TMDB
+
+  const [movieData, setMovieData] = React.useState([]);
+  const apiKey = tmdbConfig.apiKey;
+
+
+  const handleSetMovieData = (movieInfoArray) => {
+
+    const updatedMovieData = movieInfoArray.map((movieInfo) => {
+
+      const posterPath = `https://www.themoviedb.org/t/p/w600_and_h900_bestv2/${movieInfo.poster_path}`;
+
+      const newMovie = {
+        id: movieInfo.id,
+        title: movieInfo.original_title,
+        poster_path: posterPath,
+
+      };
+
+      return newMovie;
+    });
+
+    setMovieData(updatedMovieData); // Assuming you have a state setter function called setMovieData
+    // console.log("set Successful")
+
+  };
+
+
+
+  React.useEffect(() => {
+
+    const randNumArray = props.randNumArray;
+    const nowPlaying = props.nowPlaying;
+    const listSelector = props.listSelector;
+
+    if (nowPlaying === true) {
+
+      const fetchData = async () => {
+        try {
+          const movieInfo = await axios.get(`https://api.themoviedb.org/3/movie/${listSelector}?api_key=${apiKey}`);
+      
+          // Assuming both APIs return data in the form of { data: ... }
+          const responseMovieInfo = movieInfo.data.results;
+
+          // Merge the data from both responses into the same object
+          const mergedData = responseMovieInfo.slice(0, 10);
+      
+          handleSetMovieData(mergedData);
+        } catch (error) {
+          // Handle any errors that may occur during the API calls
+          console.error('Error fetching data:', error);
+          return null; // Or handle the error appropriately
+        }
+      };
+
+      fetchData();
+
+      return;
+
+    }
+
+
+
+
+    const fetchData = async (index) => {
+      try {
+        const movieInfo = await axios.get(`https://api.themoviedb.org/3/movie/${index}?api_key=${apiKey}`);
+        const castInfo = await axios.get(`https://api.themoviedb.org/3/movie/${index}/credits?api_key=${apiKey}`);
+
+
+
+        // Assuming both APIs return data in the form of { data: ... }
+        const responseMovieInfo = movieInfo.data;
+        const responseCastInfo = castInfo.data;
+
+        // Merge the data from both responses into the same object
+        const mergedData = {
+          ...responseMovieInfo,
+          ...responseCastInfo,
+        };
+
+
+
+        return mergedData;
+      } catch (error) {
+        // Handle any errors that may occur during the API calls
+        console.error('Error fetching data:', error);
+
+        if(error.response.status === 404){
+
+          return fetchData(Math.random() * (10000 - 1) + 1);
+
+        }
+
+        return null; // Or handle the error appropriately
+      }
+    };
+
+    const fetchAllData = async () => {
+      const mergedDataArray = [];
+
+      for (const index of randNumArray) {
+        const mergedData = await fetchData(index);
+        if (mergedData) {
+          mergedDataArray.push(mergedData);
+        }
+      }
+
+
+      handleSetMovieData(mergedDataArray);
+    };
+
+    fetchAllData();
+  }, []);
+
+
+
   const [viewableSlideCount, setViewableSlideCount] = React.useState(6.5);
 
   const handleViewableSlideCountStateChange = (updatedValue) => {
@@ -21,6 +141,29 @@ export default function Carousel(props) {
   }
 
   const slidesPerPage = 6.4;
+
+  function formatRuntime(time) {
+
+    if (typeof time !== 'number') {
+      throw new Error('Invalid input: time should be a number.');
+    }
+
+    if (time < 0) {
+      throw new Error('Invalid input: time should be a non-negative number.');
+    }
+
+    const hours = Math.floor(time / 60);
+    const minutes = time % 60;
+
+    // You can customize the output format as needed
+    const formattedRuntime = `${hours}h ${minutes}m`;
+
+    return formattedRuntime;
+
+
+  }
+
+  console.log(movieData)
 
   return (
     <div className="carousel-component-container">
@@ -45,13 +188,19 @@ export default function Carousel(props) {
 
       >
         {movieData.map((movie, index) => (
+
           <SwiperSlide key={index}>
             <MovieCard
-              movieName={movie.movieName}
-              imgLink={movie.imgLink}
-              landscapeImgLink={movie.landscapeImgLink}
-              desc={movie.desc}
-              castMembers= {movie.castMembers}
+              id={movie.id}
+              title={movie.title}
+              posterPath={movie.poster_path}
+              backdropPath={movie.backdrop_path}
+              synopsis={movie.synopsis}
+              runtime={movie.runtime}
+              rating={movie.rating}
+              genre={movie.genre}
+              releaseDate={movie.release_date}
+              cast={movie.cast}
               slideStateChange={handleViewableSlideCountStateChange}
               viewableSlideCount={viewableSlideCount}
             />

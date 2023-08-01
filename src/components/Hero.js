@@ -1,8 +1,28 @@
 import React from "react";
+import tmdbLogo from "../images/tmdb-logo.svg"
+import MovieModal from "./MovieModal";
+import noBackdrop from "../images/backdrop-no-img.png"
 
-import heroImgOne from "../images/hero-img-one.png"
+export default function Hero(props) {
 
-export default function Hero() {
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+    let showScrollBar = "";
+
+    const toggleModal = () => {
+
+        setIsModalOpen(!isModalOpen);
+        isModalOpen ? showScrollBar = "" : showScrollBar = "hidden";
+
+        document.body.style.overflow = showScrollBar;
+
+
+    }
+
+    const handleImageError = (e) => {
+        e.target.src = noBackdrop;
+      };
+
 
     return (
 
@@ -10,21 +30,33 @@ export default function Hero() {
 
             <div className="hero-text-component">
 
-                <h2 className="hero-title">Batman Begins</h2>
-                <h1 className="hero-info">TV-MA · 2004 · 1h 35m </h1>
-                <p className="hero-desc">
-                    After witnessing his parents' death, Bruce learns the art of fighting to confront injustice. 
-                    When he returns to Gotham as Batman, he must stop a secret society that intends to destroy the city.
-                </p>
-                <button className="btn hero-more-info-btn">More Info</button>
+                <h2 className="hero-title">{props.title}</h2>
+                <h1 className="hero-info">{props.releaseDate} · {props.genre} · {props.runtime} </h1>
+
+                <div className="rating-container">
+
+                    <img className="rating-logo rating-tmdb-logo" src={tmdbLogo} ></img>
+                    <p className="rating-info tmdb-rating">{props.rating}</p>
+
+
+                </div>
+
+                <p className="hero-desc">{props.synopsis}</p>
+                <button className="btn hero-more-info-btn" onClick={toggleModal}>More Info</button>
 
             </div>
             <div className="hero-image-component">
 
-                <img className="hero-img" src={heroImgOne}></img>
+                <img className="hero-img" src={props.backdropPath} onError={ handleImageError }></img>
             </div>
 
-        
+            {isModalOpen &&
+
+                <MovieModal isModalOpen={isModalOpen} toggleModal={toggleModal} {...props} />
+
+            }
+
+
         </div>
 
 

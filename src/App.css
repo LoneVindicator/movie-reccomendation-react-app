@@ -51,20 +51,24 @@ nav {
 
   justify-content: center;
 
-  width: 3.2em; /* Adjust the size of the circle */
+  width: 3.2em;
+  /* Adjust the size of the circle */
   height: 3.2em;
   padding: 0.5em;
-  border-radius: 50%; /* Make it a circle */
+  border-radius: 50%;
+  /* Make it a circle */
 
 
 }
 
 .nav-item:hover {
 
-  border-radius: 50%; /* Make it a circle */
-  overflow: hidden; /* Hide anything outside the circle */
+  border-radius: 50%;
+  /* Make it a circle */
+  overflow: hidden;
+  /* Hide anything outside the circle */
 
-  background-color:#a1afc7;
+  background-color: #a1afc7;
   transition: background-color 0.3s;
 
 
@@ -87,16 +91,16 @@ nav {
 
   width: 80vw;
 
-
 }
 
-.hero-text-component {
+.hero-text-component,
+.rating-text-component {
 
   display: flex;
   flex-direction: column;
   background-color: black;
 
-  width: 20vw;
+  width: 40%;
 
   justify-content: center;
   align-items: center;
@@ -106,10 +110,39 @@ nav {
 
 }
 
+.hero-image-component {
+
+  width: 100%;
+}
+
+
+.rating-text-component {
+
+  width: 25%;
+}
+
+.rating-logo,
+.modal-rating-logo {
+
+  width: 2.0em;
+
+}
+
+.rating-info,
+.modal-rating-info {
+
+  font-weight: 600;
+}
+
+.modal-rating-info {
+
+  margin: 0;
+}
 
 .hero-img {
 
   object-fit: cover;
+  width: 100%;
 
 }
 
@@ -127,6 +160,20 @@ nav {
   font-size: 1.3em;
   margin: 0;
   margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.rating-container,
+.modal-rating-container {
+
+  display: flex;
+  flex-direction: row;
+  gap: 0.5em;
+}
+
+.modal-rating-container {
+
+  margin-bottom: 1em;
 }
 
 .hero-desc {
@@ -153,9 +200,10 @@ nav {
   line-height: normal;
 }
 
-.hero-more-info-btn:hover{
+.hero-more-info-btn:hover {
 
-  background-color: rgb(66, 64, 64);;
+  background-color: rgb(66, 64, 64);
+  ;
 }
 
 /* Carousel Default No Hover */
@@ -277,11 +325,7 @@ nav {
 
 }
 
-.carousel-movie-title-container-hover{
 
-  width: 80%;
-
-}
  */
 
 
@@ -299,7 +343,8 @@ nav {
   border: none;
 }
 
-.submit-btn:hover {
+.submit-btn:hover,
+.watch-trailer-btn:hover {
 
   background-color: #f14054;
   border: none;
@@ -337,7 +382,7 @@ nav {
 
 }
 
-.rate-count-slider{
+.rate-count-slider {
 
   width: 20em;
 }
@@ -408,14 +453,36 @@ footer {
 
 
   width: 14.5em;
-  height: 24em;
+  height: 26em;
 
 }
 
 .carousel-image-container {
 
-  display: flex;
-  flex-direction: column;
+  position: relative;
+  display: inline-block;
+
+
+
+}
+
+.carousel-movie-poster-heart-icon,
+.carousel-movie-poster-heart-icon-true {
+
+  position: absolute;
+  color: white;
+  cursor: pointer;
+  font-size: 2.5em;
+  left: 4.5em;
+  top: 0.3em;
+  transition: color 0.3s ease;
+
+
+}
+
+.carousel-movie-poster-heart-icon-true {
+
+  color: #EF233C;
 
 }
 
@@ -424,25 +491,39 @@ footer {
   width: 80vw;
 }
 
+.carousel-movie-title-container {
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+
+
+}
+
 .carousel-title {
 
   font-size: 1.4em;
+
 }
 
 .carousel-movie-poster {
 
   width: 14.5em;
   height: 22em;
+  opacity: 1;
 
 }
 
-.carousel-movie-poster:hover {
+.carousel-movie-poster-hover {
 
   border: white solid;
   box-sizing: border-box;
   border-radius: 0.4em;
+  opacity: 0.5;
 
   transition: border 0.2s;
+
 
 
 }
@@ -451,6 +532,7 @@ footer {
 
   font-size: 0.9em;
   color: #B3B3B3;
+  margin: 0;
 }
 
 
@@ -475,24 +557,47 @@ footer {
   overflow-y: auto;
 }
 
-.movie-modal-content, .login-modal-content {
+.movie-modal-content,
+.login-modal-content {
 
-  width: 60em;
+  width: 67em;
 
   background-color: #04151F;
-  border-radius: 5px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   margin-top: 10em;
 
   z-index: 1000;
 
   color: black;
+  border-radius: 0.5em;
+  animation: fadeInOut 0.3s ease-in-out;
+  /* CSS animation */
+
+}
+
+/* CSS animation for fadeInOut */
+@keyframes fadeInOut {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.movie-modal-content {
+
+  margin-top: 0;
+
+
 }
 
 .modal-image-container {
 
   width: 100%;
-  height: 20%;
 
   position: relative;
   display: inline-block;
@@ -502,12 +607,14 @@ footer {
 .modal-image-poster {
 
   width: 100%;
+  border-radius: 0.5em;
 
 }
 
 .modal-poster-container {
 
   width: 10em;
+
 
 }
 
@@ -531,8 +638,9 @@ footer {
 .modal-info-container {
 
   display: flex;
-  flex-direction: row;
-  gap: 1.5em;
+  display: row;
+  justify-content: space-between;
+
   padding: 1.5em;
 
   width: 100%;
@@ -540,12 +648,24 @@ footer {
 
 }
 
+.modal-info-container-lhs {
 
-.modal-bottom-container{
+  display: flex;
+  flex-direction: row;
+  gap: 1.5em;
+
+
+}
+
+
+.modal-bottom-container {
 
   display: flex;
   position: relative;
-  margin-top: -8em;
+  margin-top: -10em;
+  border-radius: 0.5em;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
   background-color: rgb(4, 21, 31, 0.8);
 
 }
@@ -553,19 +673,51 @@ footer {
 .modal-text-container {
 
   width: 30em;
+  border-radius: 0.5em;
 }
 
 .modal-text-movie-name {
 
   font-size: 1.3em;
+  margin-bottom: 0.2em;
 }
 
 .modal-text-movie-info {
 
   font-size: 0.8em;
   color: #B3B3B3;
+  margin-bottom: 0.2em;
+  margin-top: 0.2em;
 
 }
+
+.modal-text-genre-container {
+
+  display: flex;
+  flex-direction: row;
+  gap: 0.6em;
+  color: white;
+  font-size: 0.9em;
+  font-weight: 600;
+}
+
+.modal-text-genre {
+
+  border: white solid;
+  border-width: 0.2em;
+  border-radius: 0.4em;
+  padding: 0.3em;
+  cursor: pointer;
+
+}
+
+.modal-text-genre:hover{
+
+  background-color: white;
+  color: #04151F;
+}
+
+
 
 .modal-text-movie-desc {
 
@@ -576,59 +728,81 @@ footer {
 
 }
 
-.modal-cast-container {
+.modal-cast-container,
+.verticalCastSwiper {
 
-  display: flex;
-  flex-direction: column;
+  padding: 1em;
+  background-color: rgb(4, 21, 31, 0.8);
+  overflow: hidden;
+  border-radius: 0.5em;
 
-  width: 14em;
+  width: 16em;
+  height: 24em;
 
-  gap:0.5em;
-
-  
 }
 
 .modal-cast-title {
 
   font-size: 1.3em;
+  margin-top: 0;
   text-align: center;
 }
 
-.modal-cast-member-container{
+.modal-cast-member-container {
 
   display: flex;
   flex-direction: row;
 
   align-items: center;
-  gap:0.8em;
+  gap: 0.8em;
+
+  background-color: rgba(255, 255, 255, 0);
 
 }
 
-.modal-cast-photo-container{
+.modal-cast-photo-container {
 
-    width: 5em; /* Adjust the size of the circle */
-    height: 5em;
-    border-radius: 50%; /* Make it a circle */
-    overflow: hidden; /* Hide anything outside the circle */
+  /* Adjust the size of the circle */
+  height: 7em;
+  border-radius: 0.2em;
+  /* Make it a circle */
+  overflow: hidden;
+  /* Hide anything outside the circle */
 
 }
 
-.modal-cast-photo{
+.modal-cast-photo {
 
-  width: 100%;
-  height: 100%;
+  width: 5.7em;
+  height: 7em;
 }
 
-.modal-cast-actor-name{
+.modal-cast-text-container {
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+
+}
+
+.modal-cast-actor-name {
 
   font-size: 0.9em;
+  margin: 0;
 
 
+}
+
+.modal-cast-character-name {
+
+  font-size: 0.75em;
+  color: #B3B3B3;
+  margin: 0;
 }
 
 /* Login Componenet */
 
-.login-modal-content{
+.login-modal-content {
 
   width: 40em;
   margin-top: 0;
@@ -638,7 +812,7 @@ footer {
 }
 
 
-.login-content-container{
+.login-content-container {
 
   display: flex;
   flex-direction: column;
@@ -648,11 +822,11 @@ footer {
   padding: 1em;
   gap: 1em;
 
-  
+
   color: white;
 }
 
-.login-form{
+.login-form {
 
   display: flex;
   flex-direction: column;
@@ -660,7 +834,7 @@ footer {
   gap: 1em;
 }
 
-.login-input-form{
+.login-input-form {
 
   width: 27em;
   height: 2em;
@@ -674,7 +848,7 @@ footer {
 
 }
 
-.social-links{
+.social-links {
 
   display: flex;
   flex-direction: row;
@@ -684,33 +858,32 @@ footer {
   font-size: 0.9em;
 }
 
-.login-form{
+.login-form {
 
   display: flex;
-  flex-direction: column ;
-  
+  flex-direction: column;
+
 }
 
-.login-prompt-container{
+.login-prompt-container {
 
   display: flex;
   flex-direction: row;
-  color:#757780;
+  color: #757780;
 
   font-size: 0.9em;
-  gap:0.4em
-
+  gap: 0.4em
 }
 
-.login-btn{
+.login-btn {
 
   margin-top: 0.5em;
   height: 3em;
   font-size: 1em;
   font-weight: 700;
-  color:#04151F;
+  color: #04151F;
 
-  background-color:#e2e2e2;
+  background-color: #e2e2e2;
   border: none;
   border-radius: 0.3em;
 }
@@ -722,8 +895,9 @@ footer {
 
 }
 
-.secondText:hover{
+.secondText:hover {
 
   color: white;
 }
+
 /* ====================== */

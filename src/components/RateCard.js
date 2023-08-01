@@ -18,7 +18,7 @@ export default function RateCard() {
 
         <div className="hero-component">
 
-            <div className="hero-text-component">
+            <div className="rating-text-component">
 
                 <h2 className="hero-title">The Lego Movie</h2>
                 <h1 className="hero-info">PG-13 · 2014 · 1h 40m </h1>
@@ -38,7 +38,7 @@ export default function RateCard() {
             </div>
             <div className="hero-image-component">
 
-                <img className="hero-img" src={RateCardPoster}></img>
+                <img className="hero-img" src={RateCardPoster} loading="lazy"></img>
             </div>
 
 

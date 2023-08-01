@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import React from "react";
 
 import Home from './pages/Home'
 
@@ -8,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
 
-  const notifySuccess = (message) =>
+    const notifySuccess = (message) =>
 
     toast.success(message, {
       position: "top-right",
@@ -32,8 +33,9 @@ function App() {
       draggable: true,
       progress: undefined,
       theme: "colored",
-    });
+    }); 
 
+  console.log("test");
   return (
 
     <main>

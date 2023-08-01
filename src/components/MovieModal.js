@@ -1,12 +1,154 @@
 import React from "react"
 import ReactDOM from "react-dom"
-import CastMembers from "./CastMembers"
+import Cast from "./Cast";
+import tmdbLogo from "../images/tmdb-logo.svg"
+import axios from "axios";
+import noPoster from "../images/movie-no-img.png";
+import noBackdrop from "../images/backdrop-no-img.png";
+import tmdbConfig from "../tmdb.json"
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation'
+import 'swiper/css/pagination';
+
+// import required modules
+import { Pagination, Navigation } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 export default function MovieModal(props) {
 
-    console.log("MovieModal has been opened")
+    const slidesPerPage = 6.4;
+    const apiKey = tmdbConfig.apiKey;
+
+    const [viewableSlideCount, setViewableSlideCount] = React.useState(2);
+
+    const handleViewableSlideCountStateChange = (updatedValue) => {
+
+        setViewableSlideCount(updatedValue);
+    }
+
+    console.log("MovieModal has been opened");
+
+    //API Call to TMDB
+
+    const [movieData, setMovieData] = React.useState([]);
+
+
+    const handleSetMovieData = (movieInfo) => {
+
+        console.log("Movie Data");
+        console.log(movieInfo.cast);
+
+        const posterPath = `https://www.themoviedb.org/t/p/w600_and_h900_bestv2/${movieInfo.poster_path}`;
+        const backdropPath = `https://www.themoviedb.org/t/p/original/${movieInfo.backdrop_path}`;
+        const releaseDate = (movieInfo.release_date).substring(0, 4);
+        const runtime = formatRuntime(movieInfo.runtime);
+        const rating = movieInfo.vote_average.toFixed(1);
+        const cast = movieInfo.cast;
+        const genre = movieInfo.genres.map((genre) => genre.name);
+
+        const newMovie = {
+            id: movieInfo.id,
+            title: movieInfo.original_title,
+            synopsis: movieInfo.overview,
+            releaseDate: releaseDate,
+            runtime: runtime,
+            rating: rating,
+            cast: cast,
+            posterPath: posterPath,
+            backdropPath: backdropPath,
+            genre: genre,
+
+        };
+
+
+
+        setMovieData(newMovie);
+
+
+
+    };
+
+    React.useEffect(() => {
+
+
+
+        const fetchData = async () => {
+
+            try {
+
+                const movieInfo = await axios.get(`https://api.themoviedb.org/3/movie/${index}?api_key=${apiKey}`);
+                const castInfo = await axios.get(`https://api.themoviedb.org/3/movie/${index}/credits?api_key=${apiKey}`);
+
+
+
+                // Assuming both APIs return data in the form of { data: ... }
+                const responseMovieInfo = movieInfo.data;
+                const responseCastInfo = castInfo.data;
+
+                // Merge the data from both responses into the same object
+                const mergedData = {
+                    ...responseMovieInfo,
+                    ...responseCastInfo,
+                };
+
+                // console.log("Is API Working??");
+                // console.log(mergedData);
+
+                handleSetMovieData(mergedData);
+
+            } catch (error) {
+                // Handle any errors that may occur during the API calls
+                console.error('Error fetching data:', error);
+
+            }
+        };
+
+        const index = props.id;
+
+
+
+        fetchData(index);
+
+    }, []);
+
+    function formatRuntime(time) {
+
+        if (typeof time !== 'number') {
+            throw new Error('Invalid input: time should be a number.');
+        }
+
+        if (time < 0) {
+            throw new Error('Invalid input: time should be a non-negative number.');
+        }
+
+        const hours = Math.floor(time / 60);
+        const minutes = time % 60;
+
+        // You can customize the output format as needed
+        const formattedRuntime = `${hours}h ${minutes}m`;
+
+        return formattedRuntime;
+
+
+    }
+
+    const handleImageError = (e) => {
+        e.target.src = noPoster;
+    };
+
+    const handleBackdropError = (e) => {
+        e.target.src = noBackdrop;
+    };
+
+    console.log("hasItBeenUpdated")
+    console.log(movieData);
+    console.log(movieData.genre);
+
 
     return ReactDOM.createPortal(
+
 
         <div className="movie-modal-overlay" onClick={props.toggleModal}>
 
@@ -15,46 +157,102 @@ export default function MovieModal(props) {
 
                 <div className="modal-image-container">
 
-                    <img className="modal-image-poster" src={props.landscapeImgLink}></img>
+                    <img className="modal-image-poster" src={movieData.backdropPath} onError={handleBackdropError}></img>
 
 
                 </div>
 
                 <div className="modal-bottom-container">
 
+
                     <div className="modal-info-container">
 
-                        <div className="modal-poster-container">
+                        <div className="modal-info-container-lhs">
+
+                            <div className="modal-poster-container">
 
 
-                            <img className="modal-poster" src={props.imgLink}></img>
-                            <button className="btn watch-trailer-btn">Watch Trailer</button>
+                                <img className="modal-poster" src={movieData.posterPath} onError={handleImageError}></img>
+                                <button className="btn watch-trailer-btn">Watch Trailer</button>
+
+                            </div>
+
+                            <div className="modal-text-container">
+
+                                <h1 className="modal-text-movie-name">{movieData.title}</h1>
+                                <h1 className="modal-text-movie-info">{movieData.releaseDate} {movieData.genre && `· ${movieData.genre[0]}`} · {movieData.runtime}</h1>
+                                <div className="modal-rating-container">
+
+                                    <img className="modal-rating-logo modal-tmdb-logo" src={tmdbLogo}></img>
+                                    <p className="modal-rating-info modal-tmdb-rating">{movieData.rating}</p>
+
+
+                                </div>
+                                <h1 className="modal-text-movie-desc">{movieData.synopsis}</h1>
+
+                                <div className="modal-text-genre-container">
+
+                                    {movieData.genre &&
+
+                                        movieData.genre.map((item, index) => (
+                                            <p key={index} className="modal-text-genre">{item}</p>
+                                        ))}
+
+
+
+                                </div>
+
+
+                            </div>
+
 
                         </div>
 
-                        <div className="modal-text-container">
 
-                            <h1 className="modal-text-movie-name">{props.movieName}</h1>
-                            <h1 className="modal-text-movie-info">TV-MA · 1995 · 2h 34m </h1>
-                            <h1 className="modal-text-movie-desc">{props.desc}</h1>
-
-                        </div>
 
                         <div className="modal-cast-container">
 
                             <h1 className="modal-cast-title">Cast</h1>
 
-                            {props.castMembers.map((castMember, index) => (
+                            <Swiper
+                                direction={'vertical'}
+                                slidesPerView={3}
+                                slidesPerGroup={3}
+                                centeredSlides={false}
+                                grabCursor={false}
+                                pagination={{
+                                    clickable: true,
+                                }}
+                                navigation={{
+                                    clickable: true,
+                                }}
+                                modules={[Pagination, Navigation]}
+                                className="mySwiper verticalCastSwiper"
+                                onSlideChange={(swiper) =>
+                                    handleViewableSlideCountStateChange(swiper.activeIndex)
+                                }
 
-                                <CastMembers
 
-                                    key={index}
-                                    name={castMember.name}
-                                    photo={castMember.photo}
-                                >
+                            >
 
-                                </CastMembers>
-                            ))}
+                                {movieData.cast && movieData.cast.map((cast, index) => (
+
+                                    <SwiperSlide key={index} >
+
+                                        <Cast
+
+                                            key={index}
+                                            name={cast.name}
+                                            character={cast.character}
+                                            profilePath={`https://www.themoviedb.org/t/p/w300_and_h450_bestv2${cast.profile_path}`}
+                                        >
+
+                                        </Cast>
+
+                                    </SwiperSlide>
+                                ))}
+
+                            </Swiper>
 
                         </div>
 

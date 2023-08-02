@@ -21,7 +21,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5em;
+  gap: 1.8em;
 
   background-color: #8D99AE;
   width: 100vw;
@@ -42,6 +42,8 @@ nav {
   width: 80vw;
 
 }
+
+
 
 .nav-item {
 
@@ -107,12 +109,12 @@ nav {
   text-align: center;
   padding: 1.2rem;
 
-
 }
 
 .hero-image-component {
 
   width: 100%;
+  display: flex;
 }
 
 
@@ -449,14 +451,6 @@ footer {
 
 /* Carousel Default No Hover */
 
-.carousel-card-container {
-
-
-  width: 14.5em;
-  height: 26em;
-
-}
-
 .carousel-image-container {
 
   position: relative;
@@ -510,7 +504,6 @@ footer {
 .carousel-movie-poster {
 
   width: 14.5em;
-  height: 22em;
   opacity: 1;
 
 }
@@ -551,8 +544,7 @@ footer {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  z-index: 999;
+  z-index: 1000;
 
   overflow-y: auto;
 }
@@ -901,3 +893,139 @@ footer {
 }
 
 /* ====================== */
+
+/* Phone */
+
+@media screen and (max-width: 1200px) {
+
+  .header-page-container{
+
+    background-color: rgb(0, 0, 0);
+  }
+
+  .hero-component{
+
+    width: 100vw;
+  }
+
+  .nav, .carousel-component-container, .hero-component {
+
+    width: 95vw;
+
+  }
+
+  .hero-component{
+
+    width: 100vw;
+    min-width: 100%;
+  }
+
+  .carousel-movie-poster{
+
+    width: 8em;
+  }
+
+}
+
+/* Tablet iPadOS*/
+
+@media screen and (max-width: 810px) {
+
+  .header-page-container{
+
+    background-color: rgb(218, 14, 14);
+    height: 30vh;
+  }
+
+  .hero-component{
+
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: right;
+
+    width: 100vw;
+  }
+
+  .nav, .carousel-component-container, .hero-component {
+
+    width: 95vw;
+
+  }
+
+  .hero-component{
+
+    width: 100vw;
+    min-width: 100%;
+    margin-bottom: 10em;
+  }
+
+  .hero-text-component, .rating-text-component{
+
+    position: relative;
+
+    width: 20vw;
+    margin-top: -20em;
+    z-index: 999;
+
+    background-color: rgba(5, 5, 5, 0.61);
+    
+  }
+
+  .rating-text-component{
+
+    width: 40vw;
+    margin-top: -23em;
+  }
+
+  .rate-count-el{
+
+    font-size: 2em;
+    margin: 0.2em;
+  }
+
+  .rate-component{
+
+    margin-bottom: 3em;
+    
+  }
+
+  .rate-count-slider {
+
+    width: 20em;
+  }
+
+  .hero-title {
+
+    font-size: 1em;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin: 0;
+  }
+  
+  .hero-info {
+  
+    font-size: 0.8em;
+    margin: 0;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+
+  .hero-desc{
+
+    font-size: 0.8em;
+    display: none;
+  }
+
+  .rating-logo{
+
+    width: 1.5em;
+  }
+
+  .carousel-movie-poster{
+
+    width: 10em;
+  }
+
+}

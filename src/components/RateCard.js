@@ -16,7 +16,7 @@ export default function RateCard() {
 
     return (
 
-        <div className="hero-component">
+        <div className="hero-component rate-component">
 
             <div className="rating-text-component">
 

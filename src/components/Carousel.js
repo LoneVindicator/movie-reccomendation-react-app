@@ -56,13 +56,13 @@ export default function Carousel(props) {
       const fetchData = async () => {
         try {
           const movieInfo = await axios.get(`https://api.themoviedb.org/3/movie/${listSelector}?api_key=${apiKey}`);
-      
+
           // Assuming both APIs return data in the form of { data: ... }
           const responseMovieInfo = movieInfo.data.results;
 
           // Merge the data from both responses into the same object
           const mergedData = responseMovieInfo.slice(0, 10);
-      
+
           handleSetMovieData(mergedData);
         } catch (error) {
           // Handle any errors that may occur during the API calls
@@ -104,7 +104,7 @@ export default function Carousel(props) {
         // Handle any errors that may occur during the API calls
         console.error('Error fetching data:', error);
 
-        if(error.response.status === 404){
+        if (error.response.status === 404) {
 
           return fetchData(Math.random() * (1000 - 1) + 1);
 
@@ -169,7 +169,7 @@ export default function Carousel(props) {
     <div className="carousel-component-container">
       <h1 className="carousel-title">{props.carouselTitle}</h1>
       <Swiper
-        slidesPerView={slidesPerPage}
+        slidesPerView={1.0}
         slidesPerGroup={slidesPerPage}
         centeredSlides={false}
         grabCursor={false}
@@ -183,31 +183,80 @@ export default function Carousel(props) {
         className="mySwiper"
         onSlideChange={(swiper) =>
           handleViewableSlideCountStateChange(swiper.activeIndex)
+
+
+        }
+
+        breakpoints={{
+          // when window width is >= 320px
+          320: {
+            slidesPerView: 1.0,
+        
+          },
+          // when window width is >= 480px
+          480: {
+            slidesPerView: 1.8,
+         
+          },
+          // when window width is >= 640px
+          640: {
+            slidesPerView: 4.6,
+            slidesPerGroup:4.6,
+         
+          },
+          840: {
+            slidesPerView: 4.3,
+            slidesPerGroup:3.3,
+           
+          },
+
+          1240: {
+            slidesPerView: 4.1,
+          
+          },
+
+          1440: {
+            slidesPerView: 4.8,
+        
+          },
+
+          1640: {
+            slidesPerView: 5.6,
+        
+          },
+
+          1840: {
+            slidesPerView: 6.4,
+         
+            
+          },
+
+        }
         }
 
 
       >
-        {movieData.map((movie, index) => (
+      {movieData.map((movie, index) => (
 
-          <SwiperSlide key={index}>
-            <MovieCard
-              id={movie.id}
-              title={movie.title}
-              posterPath={movie.poster_path}
-              backdropPath={movie.backdrop_path}
-              synopsis={movie.synopsis}
-              runtime={movie.runtime}
-              rating={movie.rating}
-              genre={movie.genre}
-              releaseDate={movie.release_date}
-              cast={movie.cast}
-              slideStateChange={handleViewableSlideCountStateChange}
-              viewableSlideCount={viewableSlideCount}
-            />
-          </SwiperSlide>
-        ))}
+        <SwiperSlide key={index}>
+          <MovieCard
+            id={movie.id}
+            title={movie.title}
+            posterPath={movie.poster_path}
+            backdropPath={movie.backdrop_path}
+            synopsis={movie.synopsis}
+            runtime={movie.runtime}
+            rating={movie.rating}
+            genre={movie.genre}
+            releaseDate={movie.release_date}
+            cast={movie.cast}
+            slideStateChange={handleViewableSlideCountStateChange}
+            viewableSlideCount={viewableSlideCount}
+          />
+        </SwiperSlide>
+      ))}
 
-      </Swiper>
-    </div>
+    </Swiper>
+    </div >
   );
 }

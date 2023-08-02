@@ -106,7 +106,7 @@ export default function Carousel(props) {
 
         if(error.response.status === 404){
 
-          return fetchData(Math.random() * (10000 - 1) + 1);
+          return fetchData(Math.random() * (1000 - 1) + 1);
 
         }
 

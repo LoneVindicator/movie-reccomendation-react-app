@@ -1,7 +1,7 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth, saveUserDataToDatabase } from "../firebase";
 
 export default function RegistrationModal(props) {
 
@@ -17,9 +17,12 @@ export default function RegistrationModal(props) {
         createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
 
-            console.log(userCredential);
+            const user = userCredential.user;
+
+            saveUserDataToDatabase(user.uid, user.email)
             props.handleIsRegistrationModalOpen(false);
             props.notifySuccess("Registration successful");
+
         }).catch((error) => {
 
             console.log(error);

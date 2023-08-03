@@ -190,7 +190,8 @@ export default function Carousel(props) {
         breakpoints={{
           // when window width is >= 320px
           320: {
-            slidesPerView: 1.0,
+            slidesPerView: 2.8,
+            slidesPerGroup: 2.8,
         
           },
           // when window width is >= 480px

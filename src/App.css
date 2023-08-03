@@ -53,9 +53,8 @@ nav {
 
   justify-content: center;
 
-  width: 3.2em;
+
   /* Adjust the size of the circle */
-  height: 3.2em;
   padding: 0.5em;
   border-radius: 50%;
   /* Make it a circle */
@@ -63,7 +62,31 @@ nav {
 
 }
 
-.nav-item:hover {
+.search-nav-item{
+
+  display: flex;
+  flex-direction: row-reverse;
+  gap:1em;
+  
+}
+
+#query{
+
+  height: 2rem;
+  font-size: 0.9em;
+  width: 20vw;
+  border-radius: 0.2em;
+  border: none;
+  padding-left: 0.5em;
+}
+
+#query:active{
+
+
+}
+
+
+.nav-login-item:hover {
 
   border-radius: 50%;
   /* Make it a circle */
@@ -354,14 +377,11 @@ nav {
 
 .seen-btn {
 
-  margin-top: 1em;
-
 
 }
 
 .seen-btn:hover {
 
-  margin-top: 1em;
   background-color: rgb(66, 64, 64);
 
 
@@ -382,6 +402,13 @@ nav {
   margin-bottom: 0.5em;
 
 
+}
+
+.rate-btn-container{
+
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
 }
 
 .rate-count-slider {
@@ -929,7 +956,7 @@ footer {
 
 /* Tablet iPadOS*/
 
-@media screen and (max-width: 810px) {
+@media screen and (max-width: 1060px) {
 
   .header-page-container{
 
@@ -1027,5 +1054,205 @@ footer {
 
     width: 10em;
   }
+
+  .movie-modal-content{
+
+    width: 95%;
+    flex-direction: row;
+
+  }
+
+  .modal-info-container-lhs{
+
+    width: 100%;
+  }
+
+  .modal-info-container {
+
+    flex-direction: column;
+    gap:1em;
+
+    
+  }
+
+ .modal-cast-container{
+
+  width: 100%;
+  height: 20em;
+ }
+
+ .modal-cast-member-container{
+
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+ }
+
+ .verticalCastSwiper{
+
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+ }
+
+}
+
+/* Phone iPhone 11 */
+
+@media screen and (max-width: 375px) {
+
+  .header-page-container{
+
+    background-color: rgb(0, 38, 255);
+    height: 30vh;
+  }
+
+  .hero-component{
+
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: right;
+
+    width: 100vw;
+  }
+
+  .nav, .carousel-component-container, .hero-component {
+
+    width: 95vw;
+
+  }
+
+  .hero-component{
+
+    width: 100vw;
+    min-width: 100%;
+    margin-bottom: 3em;
+  }
+
+  .hero-text-component, .rating-text-component{
+
+    position: relative;
+
+    width: 35vw;
+    height: 16vh;
+
+    margin-top: -12em;
+    z-index: 999;
+    padding: 1em;
+
+    background-color: rgba(5, 5, 5, 0.61);
+    
+  }
+
+  .hero-more-info-btn{
+
+    margin-top: 0.2em;
+    width: 7em;
+    height: 3em;
+  }
+
+  .rating-text-component{
+
+    height: 100%;
+    margin-top: -11.5em;
+  }
+
+  .rate-count-el{
+
+    font-size: 1em;
+    margin: 0.2em;
+  }
+
+  .rate-count-prompt {
+
+    font-size: 0.6em;
+  }
+
+  .rate-component{
+
+    margin-bottom: 0.2em;
+    
+  }
+
+  .rate-count-slider {
+
+    width: 10em;
+  }
+
+  .hero-title {
+
+    font-size: 0.8em;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin: 0;
+  }
+  
+  .hero-info {
+  
+    font-size: 0.7em;
+    margin: 0;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    width: 100%;
+  }
+
+  .hero-desc{
+
+    font-size: 0.8em;
+    display: none;
+  }
+
+  .rating-logo{
+
+    width: 1em;
+  }
+
+  .rating-info{
+
+    font-size: 0.9em;
+
+  }
+
+  .carousel-movie-poster{
+
+    width: 7em;
+  }
+
+  .rate-btn-container{
+
+    display: flex;
+    flex-direction: row;
+    gap:0.2em;
+
+  }
+
+  .rate-btn{
+
+    margin: 0;
+    font-size: 0.7em;
+    height: 1.8em;
+    width: 6em;
+
+  }
+
+  .rate-component{
+
+    position: relative;
+
+  }
+
+  .rate-text-component{
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+  }
+
+
+
 
 }

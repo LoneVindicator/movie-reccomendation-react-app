@@ -232,6 +232,27 @@ export default function MovieModal(props) {
                                     handleViewableSlideCountStateChange(swiper.activeIndex)
                                 }
 
+                                breakpoints={{
+                                    // when window width is >= 320px
+                                    0: {
+                                        slidesPerView: 5.8,
+                                        slidesPerGroup: 5.8,
+                                        direction: 'horizontal',
+
+                                    },
+
+                                    1000: {
+                                        direction: 'vertical',
+                                        slidesPerView: 3,
+                                        slidesPerGroup: 3,
+
+                                    },
+
+
+                                }
+                                }
+
+
 
                             >
 
@@ -247,6 +268,7 @@ export default function MovieModal(props) {
                                             profilePath={`https://www.themoviedb.org/t/p/w300_and_h450_bestv2${cast.profile_path}`}
                                         >
 
+   
                                         </Cast>
 
                                     </SwiperSlide>

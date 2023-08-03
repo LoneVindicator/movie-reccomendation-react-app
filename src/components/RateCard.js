@@ -31,9 +31,16 @@ export default function RateCard() {
 
                 </div>
 
+                <div className="rate-btn-container">
 
-                <button className="btn submit-btn">Submit</button>
-                <button className="btn seen-btn">Haven't Seen</button>
+                <button className="btn rate-btn submit-btn">Submit</button>
+                <button className="btn rate-btn seen-btn">Haven't Seen</button>
+
+
+                </div>
+
+
+
 
             </div>
             <div className="hero-image-component">

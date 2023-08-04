@@ -283,6 +283,7 @@ export default function MovieModal(props) {
                                             key={index}
                                             name={cast.name}
                                             character={cast.character}
+                                            castId={cast.id}
                                             profilePath={`https://www.themoviedb.org/t/p/w300_and_h450_bestv2${cast.profile_path}`}
                                             toggleModal= {props.toggleModal}
                                         >

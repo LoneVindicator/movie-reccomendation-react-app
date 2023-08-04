@@ -53,10 +53,14 @@ nav {
 
   justify-content: center;
 
+  opacity: 0.8;
+
 
   /* Adjust the size of the circle */
-  padding: 0.5em;
-  border-radius: 50%;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  border-radius: 0.2em;
+
   /* Make it a circle */
 
 
@@ -70,6 +74,14 @@ nav {
   
 }
 
+.favourites-nav-item{
+
+  font-size: 2.8em;
+  width: 0.6em;
+  height: 1em;
+  color: black;
+}
+
 #query{
 
   height: 2rem;
@@ -78,6 +90,7 @@ nav {
   border-radius: 0.2em;
   border: none;
   padding-left: 0.5em;
+
 }
 
 #query:active{
@@ -86,12 +99,10 @@ nav {
 }
 
 
-.nav-login-item:hover {
+.nav-item:hover {
 
-  border-radius: 50%;
-  /* Make it a circle */
-  overflow: hidden;
-  /* Hide anything outside the circle */
+opacity: 1;
+  cursor: pointer;
 
   background-color: #a1afc7;
   transition: background-color 0.3s;

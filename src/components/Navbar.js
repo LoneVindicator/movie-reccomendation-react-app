@@ -7,7 +7,10 @@ import RegistrationModal from "../components/RegistrationModal";
 
 import { auth } from "../firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
+import { FaHeart } from "react-icons/fa6";
 import axios from "axios";
+import { getFavoriteMovieIds } from "../firebase";
+import MovieGrid from "./MovieGrid";
 
 import 'react-toastify/dist/ReactToastify.css';
 import tmdbConfig from "../tmdb.json"
@@ -20,6 +23,8 @@ export default function Navbar(props) {
     const apiKey = tmdbConfig.apiKey;
     const [movieId, setMovieId] = React.useState(null);
     const [query, setQuery] = React.useState("");
+    const [favouriteMovieArr, setFavoriteMovieArr] = React.useState(null);
+    const [updateFavouritesCounter, setUpdateFavouritesCounter] = React.useState(0);
 
     const toggleLoginModal = () => {
 
@@ -36,15 +41,42 @@ export default function Navbar(props) {
 
     }
 
+    const [isMovieGridModalOpen, setIsMovieGridModalOpen] = React.useState(false);
+
+    const toggleMovieGridModal = () => {
+
+        if(authUser === null){
+
+            notifyError("You must be logged in to perform this action");
+            return;
+        }
+
+        console.log(favouriteMovieArr)
+        setUpdateFavouritesCounter(updateFavouritesCounter + 1);
+        setIsMovieGridModalOpen(!isMovieGridModalOpen);
+
+    }
+
+
     const [authUser, setAuthUser] = React.useState(null);
 
     React.useEffect(() => {
+
+
 
         const listen = onAuthStateChanged(auth, (user) => {
 
             if (user) {
 
-                setAuthUser(user);
+                const tempUserId = user.uid;
+
+                setAuthUser(tempUserId);
+                getFavoriteMovieIds(tempUserId).then((favourites) => {
+                    console.log("show me favourites");
+                    setFavoriteMovieArr(favourites);
+                    console.log(favourites); // This will log the array of movieIds when the Promise is fulfilled.
+                });
+
             } else {
                 setAuthUser(null);
             }
@@ -54,7 +86,7 @@ export default function Navbar(props) {
 
             listen();
         }
-    }, [])
+    }, [updateFavouritesCounter])
 
     const userSignOut = () => {
 
@@ -122,6 +154,8 @@ export default function Navbar(props) {
     }
 
 
+
+
     return (
 
         <nav>
@@ -134,6 +168,12 @@ export default function Navbar(props) {
 
                 </form>
 
+
+            </div>
+
+            <div className="nav-item favourites-nav-item">
+
+                <FaHeart className="nav-icon-img" onClick={toggleMovieGridModal} />
 
             </div>
 
@@ -189,6 +229,13 @@ export default function Navbar(props) {
             {isModalOpen &&
 
                 <MovieModal isModalOpen={isModalOpen} toggleModal={toggleModal} id={movieId} />
+
+            }
+
+
+            {isMovieGridModalOpen &&
+
+                <MovieGrid isMovieGridModalOpen={isMovieGridModalOpen} toggleMovieGridModal={toggleMovieGridModal} favouriteMovieArr={favouriteMovieArr} {...props} />
 
             }
 

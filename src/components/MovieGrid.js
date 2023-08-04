@@ -44,18 +44,73 @@ export default function MovieGrid(props) {
 
     React.useEffect(() => {
 
-        // const randNumArray = props.randNumArray;
-        const nowPlaying = true;
-        const listSelector = "popular";
+        const favouriteMovieArr = props.favouriteMovieArr;
+        const castId = props.castId;
 
-        if (nowPlaying === true) {
+        if(favouriteMovieArr != null ){
+
+            const fetchData = async (index) => {
+                try {
+                  const movieInfo = await axios.get(`https://api.themoviedb.org/3/movie/${index}?api_key=${apiKey}`);
+                  const castInfo = await axios.get(`https://api.themoviedb.org/3/movie/${index}/credits?api_key=${apiKey}`);
+          
+          
+          
+                  // Assuming both APIs return data in the form of { data: ... }
+                  const responseMovieInfo = movieInfo.data;
+                  const responseCastInfo = castInfo.data;
+          
+                  // Merge the data from both responses into the same object
+                  const mergedData = {
+                    ...responseMovieInfo,
+                    ...responseCastInfo,
+                  };
+          
+          
+          
+                  return mergedData;
+                } catch (error) {
+                  // Handle any errors that may occur during the API calls
+                  console.error('Error fetching data:', error);
+          
+                  if (error.response.status === 404) {
+          
+                    return fetchData(Math.random() * (1000 - 1) + 1);
+          
+                  }
+          
+                  return null; // Or handle the error appropriately
+                }
+              };
+          
+              const fetchAllData = async () => {
+                const mergedDataArray = [];
+          
+                for (const index of favouriteMovieArr) {
+                  const mergedData = await fetchData(index);
+                  if (mergedData) {
+                    mergedDataArray.push(mergedData);
+                  }
+                }
+          
+          
+                handleSetMovieData(mergedDataArray);
+              };
+          
+              fetchAllData();
+        }
 
             const fetchData = async () => {
                 try {
-                    const movieInfo = await axios.get(`https://api.themoviedb.org/3/movie/${listSelector}?api_key=${apiKey}`);
+                    // const movieInfo = await axios.get(`https://api.themoviedb.org/3/movie/${listSelector}?api_key=${apiKey}`);
+                    const movieInfo = await axios.get(`https://api.themoviedb.org/3/person/${castId}/movie_credits?api_key=${apiKey}&sort_by=release_date.desc`);
+
 
                     // Assuming both APIs return data in the form of { data: ... }
-                    const responseMovieInfo = movieInfo.data.results;
+                    const responseMovieInfo = movieInfo.data.cast.slice(0, 30);
+
+                    console.log("MOVIE GRID CAST API")
+                    console.log(responseMovieInfo);
 
                     // Merge the data from both responses into the same object
                     const mergedData = responseMovieInfo;
@@ -70,12 +125,6 @@ export default function MovieGrid(props) {
 
             fetchData();
 
-            return;
-
-        }
-
-
-
     }, []);
 
     return ReactDOM.createPortal(
@@ -84,7 +133,7 @@ export default function MovieGrid(props) {
 
             <div className="movie-grid-modal-content" onClick={(e) => e.stopPropagation()}>
 
-                <h1 className="movie-grid-modal-title">Test Grid Modal</h1>
+                <h1 className="movie-grid-modal-title">{props.favouriteMovieArr? `Your Favourites`: `${props.name}'s Movies`}</h1>
 
                 <div className="movie-grid-container">
                     {movieData.map((movie) => (

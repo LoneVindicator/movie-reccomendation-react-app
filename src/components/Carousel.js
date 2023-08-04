@@ -190,29 +190,30 @@ export default function Carousel(props) {
         breakpoints={{
           // when window width is >= 320px
           320: {
-            slidesPerView: 2.8,
-            slidesPerGroup: 2.8,
+            slidesPerView: 2.2,
+            slidesPerGroup: 2.6,
         
           },
           // when window width is >= 480px
           480: {
-            slidesPerView: 1.8,
+            slidesPerView: 2.2,
+            slidesPerGroup: 2.7,
          
           },
           // when window width is >= 640px
           640: {
-            slidesPerView: 4.6,
-            slidesPerGroup:4.6,
+            slidesPerView: 3.6,
+            slidesPerGroup: 3.6,
          
           },
           840: {
-            slidesPerView: 4.3,
-            slidesPerGroup:3.3,
+            slidesPerView: 4.2,
+            slidesPerGroup: 4.2,
            
           },
 
           1240: {
-            slidesPerView: 4.1,
+            slidesPerView: 3.8,
           
           },
 
@@ -227,7 +228,7 @@ export default function Carousel(props) {
           },
 
           1840: {
-            slidesPerView: 6.4,
+            slidesPerView: 6.1,
          
             
           },

@@ -5,13 +5,41 @@ import Carousel from "../components/Carousel";
 import Footer from "../components/Footer"
 import tmdbConfig from "../tmdb.json"
 
+
 import { register } from 'swiper/element/bundle';
 import RateCard from "../components/RateCard";
 
 
 import axios from "axios";
 
-export default function Home(props) {
+function formatRuntime(time) {
+
+    if (typeof time !== 'number') {
+        throw new Error('Invalid input: time should be a number.');
+    }
+
+    if (time < 0) {
+        throw new Error('Invalid input: time should be a non-negative number.');
+    }
+
+    const hours = Math.floor(time / 60);
+    const minutes = time % 60;
+
+    // You can customize the output format as needed
+    const formattedRuntime = `${hours}h ${minutes}m`;
+
+    return formattedRuntime;
+
+
+}
+
+function getRandomNumber(max, min) {
+
+    return Math.random() * (max - min) + min;
+}
+
+
+function Home(props) {
 
     const [movieData, setMovieData] = React.useState([]);
     const apiKey = tmdbConfig.apiKey;
@@ -90,33 +118,6 @@ export default function Home(props) {
 
     }, [])
 
-    function formatRuntime(time) {
-
-        if (typeof time !== 'number') {
-            throw new Error('Invalid input: time should be a number.');
-        }
-
-        if (time < 0) {
-            throw new Error('Invalid input: time should be a non-negative number.');
-        }
-
-        const hours = Math.floor(time / 60);
-        const minutes = time % 60;
-
-        // You can customize the output format as needed
-        const formattedRuntime = `${hours}h ${minutes}m`;
-
-        return formattedRuntime;
-
-
-    }
-
-    function getRandomNumber(max, min) {
-
-        return Math.random() * (max - min) + min;
-    }
-
-
 
     // register Swiper custom elements
     register();
@@ -163,3 +164,6 @@ export default function Home(props) {
 
     )
 }
+
+export default Home;
+export { formatRuntime, getRandomNumber };

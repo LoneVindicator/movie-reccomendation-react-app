@@ -1,6 +1,5 @@
 import React from "react";
 import userIcon from "../images/user-icon.png";
-import searchIcon from "../images/search-icon.png";
 import logoutIcon from "../images/logout-icon.png";
 
 import LoginModal from "../components/LoginModal";
@@ -10,7 +9,6 @@ import { auth } from "../firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import axios from "axios";
 
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import tmdbConfig from "../tmdb.json"
 import MovieModal from "./MovieModal";

@@ -23,6 +23,7 @@ export default function MovieCard(props) {
     const [isHovered, setIsHovered] = React.useState(false);
     const [isFavourite, setIsFavourite] = React.useState(false);
     const [userId, setUserId] = React.useState(null);
+    const isMovieGridModalOpen = props.isMovieGridModalOpen;
 
     React.useEffect(() => {
 
@@ -112,7 +113,6 @@ export default function MovieCard(props) {
         showHoverInfo(false);
 
         document.body.style.overflow = showScrollBar;
-
 
     }
 

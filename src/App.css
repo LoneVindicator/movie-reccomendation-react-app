@@ -134,6 +134,14 @@ nav {
 
 }
 
+.rating-text-and-info-container {
+
+  display: flex;
+  flex-direction: row;
+  gap: 0.5em;
+  
+}
+
 .hero-image-component {
 
   width: 100%;
@@ -143,7 +151,7 @@ nav {
 
 .rating-text-component {
 
-  width: 25%;
+  width: 40%;
 }
 
 .rating-logo,
@@ -211,13 +219,15 @@ nav {
 
 .btn {
 
-  width: 10em;
-  height: 3em;
-  margin-top: 1.8em;
+  width: 8em;
+  height: 2em;
+  margin-top: 0.2em;
   border-radius: 1.5em;
   background-color: transparent;
   border: 0.2em solid;
   color: white;
+
+  cursor: pointer;
 
   font-size: 0.9rem;
   font-style: normal;
@@ -404,6 +414,21 @@ nav {
 
 }
 
+.rate-info-icon{
+
+  width: 1em;
+  height: 1em;
+  opacity: 0.8;
+  margin-bottom: 0.5em;
+
+  cursor: pointer;
+
+}
+
+.rate-info-icon:hover {
+
+  opacity: 1;
+}
 .rate-btn-container{
 
   display: flex;
@@ -577,7 +602,7 @@ footer {
 }
 
 .movie-modal-content,
-.login-modal-content {
+.login-modal-content, .movie-grid-modal-content {
 
   width: 67em;
 
@@ -592,6 +617,74 @@ footer {
   animation: fadeInOut 0.3s ease-in-out;
   /* CSS animation */
 
+}
+
+.modal-image-container{
+
+  position: relative;
+
+}
+
+.modal-close-btn{
+
+  position: absolute;
+  font-size: 2.5em;
+  right: 2%;
+  top: 3%;
+  color: white;
+  padding: 0.1em;
+  cursor: pointer;
+  background-color: #04151f67;
+  border-radius: 0.2em;
+
+  opacity: 0.8;
+
+  z-index: 10000;
+}
+
+.modal-close-btn:hover{
+
+  opacity: 1;
+
+
+
+}
+
+.movie-grid-modal-content{
+
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+  width: 70vw;
+  height: 90vh;
+  margin-top: 0;
+  overflow-y: scroll;
+  
+  color: white;
+}
+
+.movie-grid-container {
+  display: grid;
+  height: 100%;
+  grid-template-columns: repeat(5, 1fr); /* 5 columns with equal width */
+  grid-template-rows: repeat(6, 1fr); /* 6 rows with equal height */
+  gap: 1em; /* Gap between grid items, adjust as per your preference */
+}
+
+.movie-grid-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #000;
+  height: 100%; /* This will make each item occupy the full height of the row */
+  border: none;
+
+}
+
+.movie-grid-modal-title{
+
+  font-size: 1.5em;
+  padding-left: 0.2em;
 }
 
 /* CSS animation for fadeInOut */
@@ -779,6 +872,16 @@ footer {
 
 }
 
+.modal-cast-member-container:hover{
+
+  border: white solid;
+  border-radius: 0.4em;
+  background-color: rgba(255, 255, 255, 0.164);
+
+  transition:ease-in-out 0.1s ;
+
+}
+
 .modal-cast-photo-container {
 
   /* Adjust the size of the circle */
@@ -952,6 +1055,19 @@ footer {
     width: 8em;
   }
 
+  .carousel-movie-poster-heart-icon,
+  .carousel-movie-poster-heart-icon-true {
+  
+    font-size: 2em;
+    left: 70%;
+  
+  }
+
+  .modal-close-btn{
+
+    top: 15%;
+  }
+
 }
 
 /* Tablet iPadOS*/
@@ -961,7 +1077,7 @@ footer {
   .header-page-container{
 
     background-color: rgb(218, 14, 14);
-    height: 30vh;
+    height: 20vh;
   }
 
   .hero-component{
@@ -983,17 +1099,19 @@ footer {
   .hero-component{
 
     width: 100vw;
-    min-width: 100%;
-    margin-bottom: 10em;
+
   }
 
   .hero-text-component, .rating-text-component{
 
     position: relative;
 
-    width: 20vw;
-    margin-top: -20em;
+    width: 40vw;
     z-index: 999;
+    padding: 2em;
+    padding-top: 0.5em;
+
+    bottom: 50%;
 
     background-color: rgba(5, 5, 5, 0.61);
     
@@ -1001,8 +1119,8 @@ footer {
 
   .rating-text-component{
 
-    width: 40vw;
-    margin-top: -23em;
+    width: 54vw;
+
   }
 
   .rate-count-el{
@@ -1019,7 +1137,7 @@ footer {
 
   .rate-count-slider {
 
-    width: 20em;
+    width: 15em;
   }
 
   .hero-title {
@@ -1055,9 +1173,15 @@ footer {
     width: 10em;
   }
 
+  .modal-image-poster{
+
+    width: 100vw;
+    height: 100%;
+  }
+
   .movie-modal-content{
 
-    width: 95%;
+    width: 100%;
     flex-direction: row;
 
   }
@@ -1088,11 +1212,39 @@ footer {
   align-items: center;
  }
 
+ .modal-text-movie-desc{
+
+  width: 80%;
+ }
+
  .verticalCastSwiper{
 
   width: 100%;
   height: auto;
   overflow: hidden;
+ }
+
+ .modal-text-movie-desc{
+
+  font-size: 0.9em;
+ }
+
+ .modal-text-genre{
+
+  font-size: 0.8em;
+ }
+
+ .modal-bottom-container{
+
+  margin-top: -4em;
+
+
+ }
+
+ .modal-close-btn{
+
+  font-size: 2em;
+  top:10%
  }
 
 }
@@ -1104,17 +1256,19 @@ footer {
   .header-page-container{
 
     background-color: rgb(0, 38, 255);
-    height: 30vh;
+    height: 26vh;
+
+  }
+
+
+  .btn{
+
+    font-size: 0.5em;
+
   }
 
   .hero-component{
 
-    display: flex;
-    flex-direction: column-reverse;
-    justify-content: center;
-    align-items: right;
-
-    width: 100vw;
   }
 
   .nav, .carousel-component-container, .hero-component {
@@ -1123,21 +1277,12 @@ footer {
 
   }
 
-  .hero-component{
-
-    width: 100vw;
-    min-width: 100%;
-    margin-bottom: 3em;
-  }
-
   .hero-text-component, .rating-text-component{
 
     position: relative;
+    padding: 0;
+    max-height: 282px;
 
-    width: 35vw;
-    height: 16vh;
-
-    margin-top: -12em;
     z-index: 999;
     padding: 1em;
 
@@ -1145,18 +1290,14 @@ footer {
     
   }
 
-  .hero-more-info-btn{
+  /* .hero-more-info-btn{
 
     margin-top: 0.2em;
     width: 7em;
     height: 3em;
-  }
+  } */
 
-  .rating-text-component{
 
-    height: 100%;
-    margin-top: -11.5em;
-  }
 
   .rate-count-el{
 
@@ -1166,23 +1307,17 @@ footer {
 
   .rate-count-prompt {
 
-    font-size: 0.6em;
-  }
-
-  .rate-component{
-
-    margin-bottom: 0.2em;
-    
+    font-size: 0.5em;
   }
 
   .rate-count-slider {
 
-    width: 10em;
+    width: 8em;
   }
 
   .hero-title {
 
-    font-size: 0.8em;
+    font-size: 0.7em;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
@@ -1191,7 +1326,7 @@ footer {
   
   .hero-info {
   
-    font-size: 0.7em;
+    font-size: 0.5em;
     margin: 0;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
@@ -1206,13 +1341,21 @@ footer {
 
   .rating-logo{
 
-    width: 1em;
+    width: 0.8em;
+    height: 0.8em;
   }
 
   .rating-info{
 
-    font-size: 0.9em;
+    font-size: 0.6em;
+    margin-top: 0;
 
+  }
+
+  .rate-info-icon{
+
+    width: 0.6em;
+    height: 0.6em;
   }
 
   .carousel-movie-poster{
@@ -1228,30 +1371,40 @@ footer {
 
   }
 
-  .rate-btn{
+  /* .rate-btn{
 
     margin: 0;
     font-size: 0.7em;
     height: 1.8em;
     width: 6em;
 
-  }
+  } */
 
-  .rate-component{
+  .modal-text-movie-desc{
 
-    position: relative;
+    font-size: 0.5em;
+   }
 
-  }
+   .modal-text-genre{
 
-  .rate-text-component{
+    font-size: 0.6em;
+   }
 
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+   .modal-poster {
 
-  }
+    width: 6em;
+   }
 
+   .watch-trailer-btn{
+
+    width: 12em;
+
+   }
+
+   .modal-close-btn{
+
+    font-size: 1.3em
+   }
 
 
 

@@ -6,6 +6,8 @@ import axios from "axios";
 import noPoster from "../images/movie-no-img.png";
 import noBackdrop from "../images/backdrop-no-img.png";
 import tmdbConfig from "../tmdb.json"
+import closeBtn from "../images/close-btn.png"
+import { FaRegWindowClose } from "react-icons/fa";
 
 // Import Swiper styles
 import 'swiper/css';
@@ -158,6 +160,7 @@ export default function MovieModal(props) {
                 <div className="modal-image-container">
 
                     <img className="modal-image-poster" src={movieData.backdropPath} onError={handleBackdropError}></img>
+                    <FaRegWindowClose className="modal-close-btn" onClick={ props.toggleModal }/>
 
 
                 </div>
@@ -234,14 +237,29 @@ export default function MovieModal(props) {
 
                                 breakpoints={{
                                     // when window width is >= 320px
-                                    0: {
-                                        slidesPerView: 5.8,
-                                        slidesPerGroup: 5.8,
+                                    
+                                    110: {
+                                        slidesPerView: 2.5,
+                                        slidesPerGroup: 2.5,
                                         direction: 'horizontal',
 
                                     },
 
-                                    1000: {
+                                    365: {
+                                        direction: 'horizontal',
+                                        slidesPerView: 3.8,
+                                        slidesPerGroup: 3.8,
+
+                                    },
+
+                                    620: {
+                                        direction: 'horizontal',
+                                        slidesPerView: 5.8,
+                                        slidesPerGroup: 5.8,
+
+                                    },
+
+                                    1060: {
                                         direction: 'vertical',
                                         slidesPerView: 3,
                                         slidesPerGroup: 3,
@@ -266,6 +284,7 @@ export default function MovieModal(props) {
                                             name={cast.name}
                                             character={cast.character}
                                             profilePath={`https://www.themoviedb.org/t/p/w300_and_h450_bestv2${cast.profile_path}`}
+                                            toggleModal= {props.toggleModal}
                                         >
 
    

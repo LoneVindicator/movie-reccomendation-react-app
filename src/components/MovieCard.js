@@ -35,7 +35,7 @@ export default function MovieCard(props) {
             
               tempUserId = user.uid
               setUserId(tempUserId);
-              console.log(`movie id: ${props.id}, user id: ${tempUserId}`)
+            //   console.log(`movie id: ${props.id}, user id: ${tempUserId}`)
               checkMovieFavorited(tempUserId, props.id)
             } else {
               // User is signed out, set the state to null
@@ -48,8 +48,8 @@ export default function MovieCard(props) {
             try {
               const isTempFavorite = await isMovieFavorited(userId, movieId);
 
-              console.log(`isTempFavourite is: ${isTempFavorite}`)
-              console.log(isTempFavorite);
+            //   console.log(`isTempFavourite is: ${isTempFavorite}`)
+            //   console.log(isTempFavorite);
               setIsFavourite(isTempFavorite);
             } catch (error) {
               console.error("Error occurred:", error);
@@ -59,8 +59,6 @@ export default function MovieCard(props) {
     }, []);
 
     // [props.viewableSlideCount, setViewableSlideCount] = React.useState(6.5);
-
-    let slideLength = 2.5;
 
     function showHoverInfo(bool) {
 
@@ -122,8 +120,8 @@ export default function MovieCard(props) {
 
         e.stopPropagation();
 
-        console.log("handleToggleFavourite");
-        console.log(isFavourite);
+        // console.log("handleToggleFavourite");
+        // console.log(isFavourite);
    
         
         if(userId === null){
@@ -187,7 +185,7 @@ export default function MovieCard(props) {
 
                 {isModalOpen &&
 
-                    <MovieModal isModalOpen={isModalOpen} toggleModal={toggleModal} {...props} />
+                    <MovieModal isModalOpen={isModalOpen} toggleModal={toggleModal} handleToggleFavourite={ handleToggleFavourite } isFavourite={isFavourite}{...props} />
 
                 }
 

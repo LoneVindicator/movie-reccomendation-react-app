@@ -109,8 +109,8 @@ export default function MovieGrid(props) {
                     // Assuming both APIs return data in the form of { data: ... }
                     const responseMovieInfo = movieInfo.data.cast.slice(0, 30);
 
-                    console.log("MOVIE GRID CAST API")
-                    console.log(responseMovieInfo);
+                    // console.log("MOVIE GRID CAST API")
+                    // console.log(responseMovieInfo);
 
                     // Merge the data from both responses into the same object
                     const mergedData = responseMovieInfo;
@@ -149,6 +149,7 @@ export default function MovieGrid(props) {
                                 genre={movie.genre}
                                 releaseDate={movie.release_date}
                                 cast={movie.cast}
+                                {... props}
         
                             />
                         </div>

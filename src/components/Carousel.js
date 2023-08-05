@@ -163,7 +163,7 @@ export default function Carousel(props) {
 
   }
 
-  console.log(movieData)
+  // console.log(movieData)
 
   return (
     <div className="carousel-component-container">

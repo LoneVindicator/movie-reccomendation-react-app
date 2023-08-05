@@ -9,7 +9,7 @@ import { auth } from "../firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { FaHeart } from "react-icons/fa6";
 import axios from "axios";
-import { getFavoriteMovieIds } from "../firebase";
+import { getFavoriteMovieIds, isMovieFavorited, toggleMovieFavorite } from "../firebase";
 import MovieGrid from "./MovieGrid";
 
 import 'react-toastify/dist/ReactToastify.css';
@@ -24,12 +24,36 @@ export default function Navbar(props) {
     const [movieId, setMovieId] = React.useState(null);
     const [query, setQuery] = React.useState("");
     const [favouriteMovieArr, setFavoriteMovieArr] = React.useState(null);
-    const [updateFavouritesCounter, setUpdateFavouritesCounter] = React.useState(0);
-
+    const [isFavourite, setIsFavourite] = React.useState(false);
+    
     const toggleLoginModal = () => {
 
         setIsLoginModalOpen(!isLoginModalOpen);
         handleIsRegistrationModalOpen(false);
+
+    }
+
+
+    const handleToggleFavourite = (e) => {
+
+
+
+        e.stopPropagation();
+
+        // console.log("handleToggleFavourite");
+        // console.log(isFavourite);
+
+
+        if (authUser === null) {
+
+            console.log("You must be logged in to perform this action!");
+            notifyError("You must be logged in to perform this action!");
+            return;
+        }
+        const tempIsFavourite = isFavourite;
+
+        setIsFavourite(!tempIsFavourite);
+        toggleMovieFavorite(authUser, movieId, !tempIsFavourite);
 
     }
 
@@ -45,14 +69,12 @@ export default function Navbar(props) {
 
     const toggleMovieGridModal = () => {
 
-        if(authUser === null){
+        if (authUser === null) {
 
             notifyError("You must be logged in to perform this action");
             return;
         }
 
-        console.log(favouriteMovieArr)
-        setUpdateFavouritesCounter(updateFavouritesCounter + 1);
         setIsMovieGridModalOpen(!isMovieGridModalOpen);
 
     }
@@ -74,7 +96,7 @@ export default function Navbar(props) {
                 getFavoriteMovieIds(tempUserId).then((favourites) => {
                     console.log("show me favourites");
                     setFavoriteMovieArr(favourites);
-                    console.log(favourites); // This will log the array of movieIds when the Promise is fulfilled.
+                    
                 });
 
             } else {
@@ -86,7 +108,7 @@ export default function Navbar(props) {
 
             listen();
         }
-    }, [updateFavouritesCounter])
+    }, [favouriteMovieArr])
 
     const userSignOut = () => {
 
@@ -119,6 +141,7 @@ export default function Navbar(props) {
                 const mergedData = responseSearchResults
 
                 setMovieId(mergedData);
+                checkMovieFavorited(authUser, mergedData)
                 setIsModalOpen(true);
                 setQuery("");
             } catch (error) {
@@ -131,6 +154,18 @@ export default function Navbar(props) {
         };
 
         fetchData();
+
+        async function checkMovieFavorited(userId, movieId) {
+            try {
+                const isTempFavorite = await isMovieFavorited(userId, movieId);
+
+                //   console.log(`isTempFavourite is: ${isTempFavorite}`)
+                //   console.log(isTempFavorite);
+                setIsFavourite(isTempFavorite);
+            } catch (error) {
+                console.error("Error occurred:", error);
+            }
+        }
 
         return;
 
@@ -228,12 +263,13 @@ export default function Navbar(props) {
 
             {isModalOpen &&
 
-                <MovieModal isModalOpen={isModalOpen} toggleModal={toggleModal} id={movieId} />
+                <MovieModal isModalOpen={isModalOpen} toggleModal={toggleModal} id={movieId} handleToggleFavourite={handleToggleFavourite} isFavourite={isFavourite} {...props} />
 
             }
 
 
             {isMovieGridModalOpen &&
+
 
                 <MovieGrid isMovieGridModalOpen={isMovieGridModalOpen} toggleMovieGridModal={toggleMovieGridModal} favouriteMovieArr={favouriteMovieArr} {...props} />
 

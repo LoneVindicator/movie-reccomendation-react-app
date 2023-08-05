@@ -19,7 +19,7 @@ export default function LoginModal(props) {
         signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
 
-            console.log(userCredential);
+            // console.log(userCredential);
             props.toggleLoginModal();
             props.notifySuccess("Login successful");
 

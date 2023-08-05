@@ -8,6 +8,7 @@ import noBackdrop from "../images/backdrop-no-img.png";
 import tmdbConfig from "../tmdb.json"
 import closeBtn from "../images/close-btn.png"
 import { FaRegWindowClose } from "react-icons/fa";
+import { FaHeart, FaRegHeart } from "react-icons/fa6";
 
 // Import Swiper styles
 import 'swiper/css';
@@ -24,6 +25,10 @@ export default function MovieModal(props) {
     const apiKey = tmdbConfig.apiKey;
 
     const [viewableSlideCount, setViewableSlideCount] = React.useState(2);
+    const [isHovered, setIsHovered] = React.useState(false);
+
+    console.log("WHAT IS PROPS.ISFAVOURITE")
+    console.log(props.isFavourite)
 
     const handleViewableSlideCountStateChange = (updatedValue) => {
 
@@ -39,8 +44,8 @@ export default function MovieModal(props) {
 
     const handleSetMovieData = (movieInfo) => {
 
-        console.log("Movie Data");
-        console.log(movieInfo.cast);
+        // console.log("Movie Data");
+        // console.log(movieInfo.cast);
 
         const posterPath = `https://www.themoviedb.org/t/p/w600_and_h900_bestv2/${movieInfo.poster_path}`;
         const backdropPath = `https://www.themoviedb.org/t/p/original/${movieInfo.backdrop_path}`;
@@ -71,6 +76,13 @@ export default function MovieModal(props) {
 
 
     };
+
+    function showHoverInfo(bool) {
+
+        setIsHovered(bool);
+
+
+    }
 
     React.useEffect(() => {
 
@@ -144,9 +156,9 @@ export default function MovieModal(props) {
         e.target.src = noBackdrop;
     };
 
-    console.log("hasItBeenUpdated")
-    console.log(movieData);
-    console.log(movieData.genre);
+    // console.log("hasItBeenUpdated")
+    // console.log(movieData);
+    // console.log(movieData.genre);
 
 
     return ReactDOM.createPortal(
@@ -159,8 +171,8 @@ export default function MovieModal(props) {
 
                 <div className="modal-image-container">
 
-                    <img className="modal-image-poster" src={movieData.backdropPath} onError={handleBackdropError}></img>
-                    <FaRegWindowClose className="modal-close-btn" onClick={ props.toggleModal }/>
+                    <img className="modal-image-poster" src={movieData.backdropPath} onError={handleBackdropError} ></img>
+                    <FaRegWindowClose className="modal-close-btn" onClick={props.toggleModal} />
 
 
                 </div>
@@ -172,11 +184,32 @@ export default function MovieModal(props) {
 
                         <div className="modal-info-container-lhs">
 
-                            <div className="modal-poster-container">
+                            <div className="carousel-card-container" onMouseEnter={() => { showHoverInfo(true) }} onMouseLeave={() => { showHoverInfo(false) }} >
+
+                                <div className="carousel-image-container" >
+
+                                    <img className={ isHovered ? "carousel-movie-poster carousel-movie-poster-hover" : "carousel-movie-poster"} src={movieData.posterPath} onError={props.handleImageError} loading="lazy"></img>
+
+                                    <div className="carousel-image-overlay-container">
+
+                                        { isHovered ?
+
+                                            (
+
+                                                props.isFavourite ? <FaHeart className="carousel-movie-poster-heart-icon carousel-movie-poster-heart-icon-true" onMouseEnter={() => { showHoverInfo(true) }} onClick={(e) => { props.handleToggleFavourite(e) }} /> :
+                                                    <FaRegHeart className="carousel-movie-poster-heart-icon" onMouseEnter={() => { showHoverInfo(true) }} onClick={(e) => { props.handleToggleFavourite(e, props.isFavourite) }} />
+                                            ) :
+                                            null
 
 
-                                <img className="modal-poster" src={movieData.posterPath} onError={handleImageError}></img>
-                                <button className="btn watch-trailer-btn">Watch Trailer</button>
+
+                                        }
+
+
+
+                                    </div>
+
+                                </div>
 
                             </div>
 
@@ -237,7 +270,7 @@ export default function MovieModal(props) {
 
                                 breakpoints={{
                                     // when window width is >= 320px
-                                    
+
                                     110: {
                                         slidesPerView: 2.5,
                                         slidesPerGroup: 2.5,
@@ -285,10 +318,10 @@ export default function MovieModal(props) {
                                             character={cast.character}
                                             castId={cast.id}
                                             profilePath={`https://www.themoviedb.org/t/p/w300_and_h450_bestv2${cast.profile_path}`}
-                                            toggleModal= {props.toggleModal}
+                                            toggleModal={props.toggleModal}
                                         >
 
-   
+
                                         </Cast>
 
                                     </SwiperSlide>

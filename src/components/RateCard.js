@@ -6,9 +6,12 @@ import { formatRuntime } from "../pages/Home";
 import { getRandomNumber } from "../pages/Home";
 import infoIcon from "../images/info-icon.png"
 import MovieModal from "./MovieModal";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebase";
+import { notifyError } from "../App";
+import { toggleMovieFavorite, isMovieFavorited } from "../firebase";
 
-
-export default function RateCard() {
+export default function RateCard(props) {
 
     const [rateValue, setRateValue] = React.useState(0);
     const sliderRef = React.useRef(null);
@@ -16,13 +19,72 @@ export default function RateCard() {
     const [movieData, setMovieData] = React.useState([]);
     const [rateCardCounter, setRateCardCounter] = React.useState(0);
     const apiKey = tmdbConfig.apiKey;
-
+    const [isFavourite, setIsFavourite] = React.useState(false);
+    const [authUser, setAuthUser] = React.useState(null);
 
     const handleSliderChange = () => {
         const value = sliderRef.current.value;
         setRateValue(value);
 
     };
+
+    const handleToggleFavourite = (e) => {
+
+      
+
+        e.stopPropagation();
+
+        // console.log("handleToggleFavourite");
+        // console.log(isFavourite);
+   
+        
+        if(authUser === null){
+
+            console.log("You must be logged in to perform this action!");
+            notifyError("You must be logged in to perform this action!");
+            return;
+        }
+        const tempIsFavourite = isFavourite;
+
+        setIsFavourite(!tempIsFavourite);
+        toggleMovieFavorite(authUser, movieData.id, !tempIsFavourite);
+
+    }
+
+    React.useEffect(() => {
+
+
+
+        const listen = onAuthStateChanged(auth, (user) => {
+
+            if (user) {
+
+                const tempUserId = user.uid;
+                setAuthUser(tempUserId);
+                checkMovieFavorited(tempUserId, movieData.id);
+
+            } else {
+                setAuthUser(null);
+            }
+        })
+
+        async function checkMovieFavorited(userId, movieId) {
+            try {
+              const isTempFavorite = await isMovieFavorited(userId, movieId);
+
+            //   console.log(`isTempFavourite is: ${isTempFavorite}`)
+            //   console.log(isTempFavorite);
+              setIsFavourite(isTempFavorite);
+            } catch (error) {
+              console.error("Error occurred:", error);
+            }
+          }
+
+        return () => {
+
+            listen();
+        }
+    }, [])
 
 
 
@@ -149,7 +211,7 @@ export default function RateCard() {
 
             {isModalOpen &&
 
-                <MovieModal isModalOpen={isModalOpen} toggleModal={toggleModal} id={movieData.id} />
+                <MovieModal isModalOpen={isModalOpen} toggleModal={toggleModal} handleToggleFavourite={handleToggleFavourite} isFavourite={isFavourite} id={ movieData.id} {...props} />
 
             }
 

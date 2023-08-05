@@ -161,7 +161,7 @@ export default function MovieCard(props) {
 
                             (
 
-                                isFavourite ? <FaHeart className="carousel-movie-poster-heart-icon-true" onMouseEnter={() => { showHoverInfo(true) }} onClick={ (e) => { handleToggleFavourite(e) } } /> :
+                                isFavourite ? <FaHeart className="carousel-movie-poster-heart-icon carousel-movie-poster-heart-icon-true" onMouseEnter={() => { showHoverInfo(true) }} onClick={ (e) => { handleToggleFavourite(e) } } /> :
                                     <FaRegHeart className="carousel-movie-poster-heart-icon" onMouseEnter={ () => { showHoverInfo(true) }} onClick={ (e) => { handleToggleFavourite(e) }} />
                             ) :
                             null

@@ -27,7 +27,7 @@ export default function MovieModal(props) {
     const [viewableSlideCount, setViewableSlideCount] = React.useState(2);
     const [isHovered, setIsHovered] = React.useState(false);
 
-    console.log("WHAT IS PROPS.ISFAVOURITE")
+    console.log(`What is movie ID: ${props.id}`)
     console.log(props.isFavourite)
 
     const handleViewableSlideCountStateChange = (updatedValue) => {

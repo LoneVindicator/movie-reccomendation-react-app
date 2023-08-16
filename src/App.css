@@ -69,8 +69,15 @@ nav {
 .search-nav-item{
 
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: column;
   gap:1em;
+  width:40vw;
+  z-index: 1000;
+  opacity: 1;
+
+  top:10%;
+
+  position: relative;
   
 }
 
@@ -86,7 +93,7 @@ nav {
 
   height: 2rem;
   font-size: 0.9em;
-  width: 20vw;
+  width: 100%;
   border-radius: 0.2em;
   border: none;
   padding-left: 0.5em;
@@ -95,7 +102,41 @@ nav {
 
 #query:active{
 
+  outline: none;
+  border: none;
 
+}
+
+.nav-search-dropdown{
+
+  position: absolute;
+
+  background-color: white;
+  color: black;
+  top: 0;
+  width: 100%;
+  margin-top: 3.1em;
+
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border-radius: 0.4em;
+ 
+}
+
+.search-result{
+
+padding-left: 0.5em;
+padding-right: 0.5em;
+}
+
+
+.search-result:hover{
+
+  display: flex;
+  flex-direction: row;
+
+
+  background-color: #998a8a;
 }
 
 
@@ -1315,6 +1356,7 @@ footer {
     width: 95vw;
 
   }
+  
 
   .hero-text-component, .rating-text-component{
 

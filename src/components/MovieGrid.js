@@ -22,6 +22,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 // 3. Make search better
 // 4. Filter by category
 // 5. Refactor
+// 6. Ignore just a push test
 
 export default function MovieGrid(props) {
 

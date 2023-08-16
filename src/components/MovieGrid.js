@@ -15,6 +15,13 @@ import 'swiper/css/pagination';
 import { Grid, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+// TODO: 
+
+// 1. Separate MovieGrid into two modals; CastGrid, FavouriteGrid
+// 2. Implement CastGrid  
+// 3. Make search better
+// 4. Filter by category
+// 5. Refactor
 
 export default function MovieGrid(props) {
 

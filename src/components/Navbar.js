@@ -22,10 +22,12 @@ export default function Navbar(props) {
     const [isLoginModalOpen, setIsLoginModalOpen] = React.useState(false);
     const apiKey = tmdbConfig.apiKey;
     const [movieId, setMovieId] = React.useState(null);
+    const [searchResultsArr, setSearchResultsArr] = React.useState([]);
     const [query, setQuery] = React.useState("");
     const [favouriteMovieArr, setFavoriteMovieArr] = React.useState(null);
     const [isFavourite, setIsFavourite] = React.useState(false);
-    
+    const [openSearchDropdown, setOpenSearchDropdown] = React.useState(false);
+
     const toggleLoginModal = () => {
 
         setIsLoginModalOpen(!isLoginModalOpen);
@@ -96,7 +98,7 @@ export default function Navbar(props) {
                 getFavoriteMovieIds(tempUserId).then((favourites) => {
                     console.log("show me favourites");
                     setFavoriteMovieArr(favourites);
-                    
+
                 });
 
             } else {
@@ -124,26 +126,77 @@ export default function Navbar(props) {
         })
     }
 
+    const handleSetSearchResultsArr = (movieInfoArray) => {
+
+        const updatedMovieData = movieInfoArray.map((movieInfo) => {
+
+            const posterPath = `https://www.themoviedb.org/t/p/w600_and_h900_bestv2/${movieInfo.poster_path}`;
+            const releaseDate = (movieInfo.release_date).substring(0, 4);
+
+            const newMovie = {
+                id: movieInfo.id,
+                title: movieInfo.original_title,
+                poster_path: posterPath,
+                releaseDate: releaseDate,
+
+
+            };
+
+            return newMovie;
+        });
+
+        setSearchResultsArr(updatedMovieData); // Assuming you have a state setter function called setMovieData
+        // console.log("set Successful")
+
+    };
+
     //Search Movie
 
-    const searchMovie = (e) => {
+    const handleSearchClick = (movieId) => {
 
-        e.preventDefault()
+        console.log(`WHAT IS THE MOVIEID: ${movieId}`)
+
+        setMovieId(movieId);
+        checkMovieFavorited(authUser, movieId)
+        setIsModalOpen(true);
+        setOpenSearchDropdown(null);
+
+        async function checkMovieFavorited(userId, movieId) {
+            try {
+                const isTempFavorite = await isMovieFavorited(userId, movieId);
+
+                //   console.log(`isTempFavourite is: ${isTempFavorite}`)
+                //   console.log(isTempFavorite);
+                setIsFavourite(isTempFavorite);
+            } catch (error) {
+                console.error("Error occurred:", error);
+            }
+        }
+
+
+    }
+
+    const searchMovie = () => {
 
         const fetchData = async () => {
             try {
                 const searchResults = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}`);
 
                 // Assuming both APIs return data in the form of { data: ... }
-                const responseSearchResults = searchResults.data.results[0].id;
+                const responseSearchResults = searchResults.data.results;
 
                 // Merge the data from both responses into the same object
-                const mergedData = responseSearchResults
 
-                setMovieId(mergedData);
-                checkMovieFavorited(authUser, mergedData)
-                setIsModalOpen(true);
-                setQuery("");
+
+                // const mergedData = responseSearchResults
+
+                // setMovieId(mergedData);
+                // checkMovieFavorited(authUser, mergedData)
+                // setIsModalOpen(true);
+                // setQuery("");
+                handleSetSearchResultsArr(responseSearchResults);
+
+
             } catch (error) {
                 // Handle any errors that may occur during the API calls
                 console.error('Error fetching data:', error);
@@ -188,6 +241,38 @@ export default function Navbar(props) {
 
     }
 
+    const handleSearchMovie = (updatedQuery) => {
+
+        setOpenSearchDropdown(true);
+
+        setQuery(updatedQuery);
+        searchMovie(updatedQuery);
+
+    }
+
+    const toggleOpenSearchDropdown = () => {
+
+        const tempOpenSearchDropdown = toggleOpenSearchDropdown;
+
+        if(tempOpenSearchDropdown === false){
+
+            setOpenSearchDropdown(true);
+
+
+        }else{
+
+  
+
+            
+                setOpenSearchDropdown(false);
+ 
+
+        }
+
+
+
+    }
+
 
 
 
@@ -195,13 +280,24 @@ export default function Navbar(props) {
 
         <nav>
 
-            <div className="nav-item search-nav-item">
+            <div className="nav-item search-nav-item" onFocus={ toggleOpenSearchDropdown } onBlur={ toggleOpenSearchDropdown}>
 
-                <form onSubmit={searchMovie}>
 
-                    <input type="text" placeholder="Search Movie" id="query" value={query} onChange={(e) => setQuery(e.target.value)}></input>
 
-                </form>
+                <input className="nav-search-box" type="text" placeholder="Search Movie" id="query" value={query} onChange={(e) => handleSearchMovie(e.target.value)}></input>
+
+                {openSearchDropdown &&
+                    <div className="nav-search-box nav-search-dropdown">
+
+                        {searchResultsArr.map((option, index) => (
+                            <div className="nav-search-box search-result" key={index} onMouseDown={() => handleSearchClick(option.id)} >
+                                {option.title} {option.releaseDate}
+                            </div>
+                        ))}
+
+                    </div>}
+
+
 
 
             </div>

@@ -66,32 +66,32 @@ nav {
 
 }
 
-.search-nav-item{
+.search-nav-item {
 
   display: flex;
   flex-direction: column;
-  gap:1em;
-  width:40vw;
+  gap: 1em;
+  width: 40vw;
   z-index: 1000;
   opacity: 1;
 
-  top:10%;
+  top: 10%;
 
   position: relative;
-  
+
 }
 
-.favourites-nav-item{
+.favourites-nav-item {
 
-  font-size: 2.8em;
+  font-size: 2.4em;
   width: 0.6em;
   height: 1em;
   color: black;
 }
 
-#query{
+#query {
 
-  height: 2rem;
+  height: 70%;
   font-size: 0.9em;
   width: 100%;
   border-radius: 0.2em;
@@ -100,14 +100,14 @@ nav {
 
 }
 
-#query:active{
+#query:active {
 
   outline: none;
   border: none;
 
 }
 
-.nav-search-dropdown{
+.nav-search-dropdown {
 
   position: absolute;
 
@@ -116,33 +116,56 @@ nav {
   top: 0;
   width: 100%;
   margin-top: 3.1em;
+  max-height: 30em;
+  overflow-y: auto;
 
   padding-top: 0.5em;
   padding-bottom: 0.5em;
   border-radius: 0.4em;
- 
+
 }
 
-.search-result{
-
-padding-left: 0.5em;
-padding-right: 0.5em;
-}
-
-
-.search-result:hover{
+.search-result {
 
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  gap:0.1em;
 
-
-  background-color: #998a8a;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
 }
 
+
+.search-result:hover {
+
+  background-color:#a1afc7;
+  color:white;
+}
+
+.search-result-text {
+
+  margin: 0;
+  font-size: 1em;
+
+}
+
+.search-result-line {
+
+  width: 100%;
+  color:#B3B3B3;
+
+}
+
+.search-result-release-date {
+
+  font-size: 0.8em;
+  color: #757780;
+  font-weight: 500;
+}
 
 .nav-item:hover {
 
-opacity: 1;
+  opacity: 1;
   cursor: pointer;
 
   background-color: #a1afc7;
@@ -155,7 +178,7 @@ opacity: 1;
 
 .nav-icon-img {
 
-  width: 2.5em;
+  width: 2.0em;
 
 
 }
@@ -191,7 +214,7 @@ opacity: 1;
   display: flex;
   flex-direction: row;
   gap: 0.5em;
-  
+
 }
 
 .hero-image-component {
@@ -437,10 +460,7 @@ opacity: 1;
   border: none;
 }
 
-.seen-btn {
-
-
-}
+.seen-btn {}
 
 .seen-btn:hover {
 
@@ -466,7 +486,7 @@ opacity: 1;
 
 }
 
-.rate-info-icon{
+.rate-info-icon {
 
   width: 1em;
   height: 1em;
@@ -481,7 +501,8 @@ opacity: 1;
 
   opacity: 1;
 }
-.rate-btn-container{
+
+.rate-btn-container {
 
   display: flex;
   flex-direction: row;
@@ -568,13 +589,13 @@ footer {
 
   position: absolute;
   color: white;
-  
+
   cursor: pointer;
   font-size: 2.5em;
   left: 4.5em;
   top: 0.3em;
   transition: color 0.6s ease;
-  
+
 
 
 }
@@ -592,23 +613,24 @@ footer {
   0% {
     /* Initial size */
     transform: scale(1);
-   
-    
+
+
   }
+
   25% {
     /* Temporary changes during the animation */
 
     transform: scale(0.9, 1.2);
-    
-    
+
+
   }
 
   100% {
     /* Reverting back to the initial size */
 
     transform: scale(1);
-    
-  
+
+
   }
 }
 
@@ -655,6 +677,13 @@ footer {
 
 }
 
+.modal-movie-poster{
+
+  opacity: 0.9;
+  background-color: black;
+  
+}
+
 .carousel-movie-title {
 
   font-size: 0.9em;
@@ -684,7 +713,8 @@ footer {
 }
 
 .movie-modal-content,
-.login-modal-content, .movie-grid-modal-content {
+.login-modal-content,
+.movie-grid-modal-content {
 
   width: 67em;
 
@@ -697,17 +727,19 @@ footer {
   color: black;
   border-radius: 0.5em;
   animation: fadeInOut 0.3s ease-in-out;
+  overflow-y: scroll;
+  overflow-x: hidden;
   /* CSS animation */
 
 }
 
-.modal-image-container{
+.modal-image-container {
 
   position: relative;
 
 }
 
-.modal-close-btn{
+.modal-close-btn {
 
   position: absolute;
   font-size: 2.5em;
@@ -724,7 +756,7 @@ footer {
   z-index: 10000;
 }
 
-.modal-close-btn:hover{
+.modal-close-btn:hover {
 
   opacity: 1;
 
@@ -732,7 +764,7 @@ footer {
 
 }
 
-.movie-grid-modal-content{
+.movie-grid-modal-content {
 
   display: flex;
   flex-direction: column;
@@ -741,16 +773,20 @@ footer {
   height: 90vh;
   margin-top: 0;
   overflow-y: scroll;
-  
+  overflow-x: scroll;
+
   color: white;
 }
 
 .movie-grid-container {
   display: grid;
   height: 100%;
-  grid-template-columns: repeat(5, 1fr); /* 5 columns with equal width */
-  grid-template-rows: repeat(6, 1fr); /* 6 rows with equal height */
-  gap: 1em; /* Gap between grid items, adjust as per your preference */
+  grid-template-columns: repeat(5, 1fr);
+  /* 5 columns with equal width */
+  grid-template-rows: repeat(6, 1fr);
+  /* 6 rows with equal height */
+  gap: 1em;
+  /* Gap between grid items, adjust as per your preference */
 }
 
 .movie-grid-item {
@@ -758,12 +794,13 @@ footer {
   justify-content: center;
   align-items: center;
   border: 1px solid #000;
-  height: 100%; /* This will make each item occupy the full height of the row */
+  height: 100%;
+  /* This will make each item occupy the full height of the row */
   border: none;
 
 }
 
-.movie-grid-modal-title{
+.movie-grid-modal-title {
 
   font-size: 1.5em;
   padding-left: 0.2em;
@@ -905,7 +942,7 @@ footer {
 
 }
 
-.modal-text-genre:hover{
+.modal-text-genre:hover {
 
   background-color: white;
   color: #04151F;
@@ -954,13 +991,13 @@ footer {
 
 }
 
-.modal-cast-member-container:hover{
+.modal-cast-member-container:hover {
 
   border: white solid;
   border-radius: 0.4em;
   background-color: rgba(255, 255, 255, 0.164);
 
-  transition:ease-in-out 0.1s ;
+  transition: ease-in-out 0.1s;
 
 }
 
@@ -1110,47 +1147,50 @@ footer {
 
 @media screen and (max-width: 1200px) {
 
-  nav{
+  nav {
 
     width: 100vw;
     padding-right: 1em;
   }
 
 
-  .hero-component{
+  .hero-component {
 
     width: 100vw;
   }
 
-  .nav, .carousel-component-container, .hero-component {
+  .nav,
+  .carousel-component-container,
+  .hero-component {
 
     width: 95vw;
 
   }
 
-  .hero-component{
+  .hero-component {
 
     width: 100vw;
     min-width: 100%;
   }
 
-  .carousel-movie-poster{
+  .carousel-movie-poster {
 
     width: 8em;
   }
 
   .carousel-movie-poster-heart-icon,
   .carousel-movie-poster-heart-icon-true {
-  
+
     font-size: 2em;
     left: 70%;
-  
+
   }
 
-  .modal-close-btn{
+  .modal-close-btn {
 
     top: 15%;
   }
+
 
 }
 
@@ -1158,13 +1198,13 @@ footer {
 
 @media screen and (max-width: 1060px) {
 
-  .header-page-container{
+  .header-page-container {
 
- 
+
     height: 20vh;
   }
 
-  .hero-component{
+  .hero-component {
 
     display: flex;
     flex-direction: column-reverse;
@@ -1174,45 +1214,48 @@ footer {
     width: 100vw;
   }
 
-  .nav, .carousel-component-container, .hero-component {
+  .nav,
+  .carousel-component-container,
+  .hero-component {
 
     width: 95vw;
 
   }
 
-  .hero-component{
+  .hero-component {
 
     width: 100vw;
 
   }
 
-  .hero-text-component, .rating-text-component{
+  .hero-text-component,
+  .rating-text-component {
 
-    position:absolute;
+    position: absolute;
     z-index: 999;
     padding: 2em;
     padding-top: 0.5em;
 
     background-color: rgba(5, 5, 5, 0.61);
-    
+
   }
 
-  .rating-text-component{
+  .rating-text-component {
 
     width: 54vw;
 
   }
 
-  .rate-count-el{
+  .rate-count-el {
 
     font-size: 2em;
     margin: 0.2em;
   }
 
-  .rate-component{
+  .rate-component {
 
     margin-bottom: 3em;
-    
+
   }
 
   .rate-count-slider {
@@ -1228,45 +1271,45 @@ footer {
     line-height: normal;
     margin: 0;
   }
-  
+
   .hero-info {
-  
+
     font-size: 0.8em;
     margin: 0;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
   }
 
-  .hero-desc{
+  .hero-desc {
 
     font-size: 0.8em;
     display: none;
   }
 
-  .rating-logo{
+  .rating-logo {
 
     width: 1.5em;
   }
 
-  .carousel-movie-poster{
+  .carousel-movie-poster {
 
     width: 10em;
   }
 
-  .modal-image-poster{
+  .modal-image-poster {
 
     width: 100vw;
     height: 100%;
   }
 
-  .movie-modal-content{
+  .movie-modal-content {
 
     width: 100%;
     flex-direction: row;
 
   }
 
-  .modal-info-container-lhs{
+  .modal-info-container-lhs {
 
     width: 100%;
   }
@@ -1274,58 +1317,70 @@ footer {
   .modal-info-container {
 
     flex-direction: column;
-    gap:1em;
+    gap: 1em;
 
-    
+
   }
 
- .modal-cast-container{
+  .modal-cast-container {
 
-  width: 100%;
-  height: 20em;
- }
+    width: 100%;
+    height: 15em;
+  }
 
- .modal-cast-member-container{
+  .modal-cast-member-container {
 
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
- }
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 
- .modal-text-movie-desc{
+  .modal-text-movie-desc {
 
-  width: 80%;
- }
+    width: 80%;
+  }
 
- .verticalCastSwiper{
+  .verticalCastSwiper {
 
-  width: 100%;
-  height: auto;
-  overflow: hidden;
- }
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+  }
 
- .modal-text-movie-desc{
+  .modal-text-movie-desc {
 
-  font-size: 0.9em;
- }
+    font-size: 0.9em;
+  }
 
- .modal-text-genre{
+  .modal-text-genre {
 
-  font-size: 0.8em;
- }
+    font-size: 0.8em;
+  }
 
- .modal-bottom-container{
+  .modal-bottom-container {
 
-  margin-top: -4em;
+    margin-top: -4em;
 
 
- }
+  }
 
- .modal-close-btn{
+  .modal-close-btn {
 
-  font-size: 2em;
-  top:10%
- }
+    font-size: 2em;
+    top: 10%
+  }
+
+  .movie-grid-modal-content{
+
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .movie-grid-container {
+
+    grid-template-columns: repeat(3, 1fr);
+
+  }
 
 }
 
@@ -1333,32 +1388,31 @@ footer {
 
 @media screen and (max-width: 375px) {
 
-  .header-page-container{
+  .header-page-container {
 
-    
+
     height: 26vh;
 
   }
 
 
-  .btn{
+  .btn {
 
     font-size: 0.5em;
 
   }
 
-  .hero-component{
-
-  }
-
-  .nav, .carousel-component-container, .hero-component {
+  .nav,
+  .carousel-component-container,
+  .hero-component {
 
     width: 95vw;
 
   }
-  
 
-  .hero-text-component, .rating-text-component{
+
+  .hero-text-component,
+  .rating-text-component {
 
     padding: 0;
     max-height: 282px;
@@ -1367,7 +1421,7 @@ footer {
     padding: 1em;
 
     background-color: rgba(5, 5, 5, 0.61);
-    
+
   }
 
   /* .hero-more-info-btn{
@@ -1379,7 +1433,7 @@ footer {
 
 
 
-  .rate-count-el{
+  .rate-count-el {
 
     font-size: 1em;
     margin: 0.2em;
@@ -1403,9 +1457,9 @@ footer {
     line-height: normal;
     margin: 0;
   }
-  
+
   .hero-info {
-  
+
     font-size: 0.5em;
     margin: 0;
     margin-top: 0.5em;
@@ -1413,41 +1467,41 @@ footer {
     width: 100%;
   }
 
-  .hero-desc{
+  .hero-desc {
 
     font-size: 0.8em;
     display: none;
   }
 
-  .rating-logo{
+  .rating-logo {
 
     width: 0.8em;
     height: 0.8em;
   }
 
-  .rating-info{
+  .rating-info {
 
     font-size: 0.6em;
     margin-top: 0;
 
   }
 
-  .rate-info-icon{
+  .rate-info-icon {
 
     width: 0.6em;
     height: 0.6em;
   }
 
-  .carousel-movie-poster{
+  .carousel-movie-poster {
 
     width: 7em;
   }
 
-  .rate-btn-container{
+  .rate-btn-container {
 
     display: flex;
     flex-direction: row;
-    gap:0.2em;
+    gap: 0.2em;
 
   }
 
@@ -1460,31 +1514,31 @@ footer {
 
   } */
 
-  .modal-text-movie-desc{
+  .modal-text-movie-desc {
 
     font-size: 0.5em;
-   }
+  }
 
-   .modal-text-genre{
+  .modal-text-genre {
 
     font-size: 0.6em;
-   }
+  }
 
-   .modal-poster {
+  .modal-poster {
 
     width: 6em;
-   }
+  }
 
-   .watch-trailer-btn{
+  .watch-trailer-btn {
 
     width: 12em;
 
-   }
+  }
 
-   .modal-close-btn{
+  .modal-close-btn {
 
     font-size: 1.3em
-   }
+  }
 
 
 

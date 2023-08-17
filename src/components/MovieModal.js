@@ -27,15 +27,10 @@ export default function MovieModal(props) {
     const [viewableSlideCount, setViewableSlideCount] = React.useState(2);
     const [isHovered, setIsHovered] = React.useState(false);
 
-    console.log(`What is movie ID: ${props.id}`)
-    console.log(props.isFavourite)
-
     const handleViewableSlideCountStateChange = (updatedValue) => {
 
         setViewableSlideCount(updatedValue);
     }
-
-    console.log("MovieModal has been opened");
 
     //API Call to TMDB
 
@@ -188,7 +183,7 @@ export default function MovieModal(props) {
 
                                 <div className="carousel-image-container" >
 
-                                    <img className={ isHovered ? "carousel-movie-poster carousel-movie-poster-hover" : "carousel-movie-poster"} src={movieData.posterPath} onError={props.handleImageError} loading="lazy"></img>
+                                    <img className={ isHovered ? "carousel-movie-poster carousel-movie-poster-hover modal-movie-poster" : "carousel-movie-poster"} src={movieData.posterPath} onError={props.handleImageError} loading="lazy"></img>
 
                                     <div className="carousel-image-overlay-container">
 
@@ -252,14 +247,9 @@ export default function MovieModal(props) {
 
                             <Swiper
                                 direction={'vertical'}
-                                slidesPerView={3}
-                                slidesPerGroup={3}
                                 centeredSlides={false}
                                 grabCursor={false}
                                 pagination={{
-                                    clickable: true,
-                                }}
-                                navigation={{
                                     clickable: true,
                                 }}
                                 modules={[Pagination, Navigation]}
@@ -273,29 +263,32 @@ export default function MovieModal(props) {
 
                                     110: {
                                         slidesPerView: 2.5,
-                                        slidesPerGroup: 2.5,
                                         direction: 'horizontal',
+                                        navigation:false,
 
                                     },
 
                                     365: {
                                         direction: 'horizontal',
                                         slidesPerView: 3.8,
-                                        slidesPerGroup: 3.8,
+                                        navigation:false,
+                                    
 
                                     },
 
                                     620: {
                                         direction: 'horizontal',
                                         slidesPerView: 5.8,
-                                        slidesPerGroup: 5.8,
+                                        navigation:false,
+                                      
 
                                     },
 
                                     1060: {
                                         direction: 'vertical',
                                         slidesPerView: 3,
-                                        slidesPerGroup: 3,
+                                        navigation:true,
+                                    
 
                                     },
 

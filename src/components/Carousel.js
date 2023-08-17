@@ -169,16 +169,13 @@ export default function Carousel(props) {
     <div className="carousel-component-container">
       <h1 className="carousel-title">{props.carouselTitle}</h1>
       <Swiper
-        slidesPerView={1.0}
-        slidesPerGroup={slidesPerPage}
+ 
         centeredSlides={false}
         grabCursor={false}
         pagination={{
           clickable: true,
         }}
-        navigation={{
-          clickable: true,
-        }}
+    
         modules={[Pagination, Navigation]}
         className="mySwiper"
         onSlideChange={(swiper) =>
@@ -191,44 +188,54 @@ export default function Carousel(props) {
           // when window width is >= 320px
           320: {
             slidesPerView: 2.2,
-            slidesPerGroup: 2.6,
+            navigation:false,
         
           },
           // when window width is >= 480px
           480: {
-            slidesPerView: 2.2,
-            slidesPerGroup: 2.7,
+            slidesPerView: 2.2,  
+            navigation:false,   
          
           },
           // when window width is >= 640px
           640: {
             slidesPerView: 3.6,
-            slidesPerGroup: 3.6,
-         
+            navigation:false,
+          
           },
           840: {
             slidesPerView: 4.2,
-            slidesPerGroup: 4.2,
+            navigation:false,
+
+        
            
           },
 
           1240: {
             slidesPerView: 3.8,
+            navigation:true,
+           
           
           },
 
           1440: {
             slidesPerView: 4.8,
+            navigation:true,
+      
         
           },
 
           1640: {
             slidesPerView: 5.6,
+            navigation:true,
+      
         
           },
 
           1840: {
             slidesPerView: 6.1,
+            navigation:true,
+         
          
             
           },

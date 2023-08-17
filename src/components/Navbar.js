@@ -96,7 +96,7 @@ export default function Navbar(props) {
 
                 setAuthUser(tempUserId);
                 getFavoriteMovieIds(tempUserId).then((favourites) => {
-                    console.log("show me favourites");
+                    
                     setFavoriteMovieArr(favourites);
 
                 });
@@ -154,11 +154,9 @@ export default function Navbar(props) {
 
     const handleSearchClick = (movieId) => {
 
-        console.log(`WHAT IS THE MOVIEID: ${movieId}`)
-
         setMovieId(movieId);
         checkMovieFavorited(authUser, movieId)
-        setIsModalOpen(true);
+        toggleModal();
         setOpenSearchDropdown(null);
 
         async function checkMovieFavorited(userId, movieId) {
@@ -233,11 +231,14 @@ export default function Navbar(props) {
 
     const toggleModal = () => {
 
+        console.log("toggle run!")
+
         setIsModalOpen(!isModalOpen);
         isModalOpen ? showScrollBar = "" : showScrollBar = "hidden";
 
         document.body.style.overflow = showScrollBar;
 
+        console.log(`isScrollBar visible: ${showScrollBar}`)
 
     }
 
@@ -284,14 +285,16 @@ export default function Navbar(props) {
 
 
 
-                <input className="nav-search-box" type="text" placeholder="Search Movie" id="query" value={query} onChange={(e) => handleSearchMovie(e.target.value)}></input>
+                <input className="nav-search-box" type="text" placeholder="Search Movie" id="query" value={query} onChange={(e) => handleSearchMovie(e.target.value)} autoComplete="off"></input>
 
                 {openSearchDropdown &&
                     <div className="nav-search-box nav-search-dropdown">
 
                         {searchResultsArr.map((option, index) => (
                             <div className="nav-search-box search-result" key={index} onMouseDown={() => handleSearchClick(option.id)} >
-                                {option.title} {option.releaseDate}
+                                <h1 className="search-result-text search-result-title">{option.title}</h1>
+                                <p className="search-result-text search-result-release-date">{option.releaseDate}</p>
+                                <hr className="search-result-line"></hr>
                             </div>
                         ))}
 

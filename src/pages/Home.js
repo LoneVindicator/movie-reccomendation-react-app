@@ -4,45 +4,36 @@ import Hero from "../components/Hero"
 import Carousel from "../components/Carousel";
 import Footer from "../components/Footer"
 import tmdbConfig from "../tmdb.json"
+import { formatRuntime, getRandomNumber, fetchRandomMoviesForCarousel, handleSetMovieData } from "../utils";
+import axios from "axios";
 
 
 import { register } from 'swiper/element/bundle';
 import RateCard from "../components/RateCard";
 
 
-import axios from "axios";
-
-function formatRuntime(time) {
-
-    if (typeof time !== 'number') {
-        throw new Error('Invalid input: time should be a number.');
-    }
-
-    if (time < 0) {
-        throw new Error('Invalid input: time should be a non-negative number.');
-    }
-
-    const hours = Math.floor(time / 60);
-    const minutes = time % 60;
-
-    // You can customize the output format as needed
-    const formattedRuntime = `${hours}h ${minutes}m`;
-
-    return formattedRuntime;
 
 
-}
 
-function getRandomNumber(max, min) {
-
-    return Math.random() * (max - min) + min;
-}
 
 
 function Home(props) {
 
+    //Variables
+
     const [movieData, setMovieData] = React.useState([]);
     const apiKey = tmdbConfig.apiKey;
+
+    //Get Random numbers for the reccomendation & newToYou carousel slide
+
+    const reccomendationsRandNumArray = Array(10).fill().map(() => getRandomNumber(10000, 1));
+    const newToYouRandNumArray = Array(10).fill().map(() => getRandomNumber(10000, 1));
+
+    //SwiperJS Boilerplate
+
+    // register Swiper custom elements
+    register();
+
 
 
     const handleSetMovieData = (movieInfo) => {
@@ -68,7 +59,6 @@ function Home(props) {
         };
 
         setMovieData(newMovie);
-        // console.log(newMovie);
     }
 
 
@@ -76,54 +66,11 @@ function Home(props) {
 
 
 
-    //TMDB API FOR HERO
-
     React.useEffect(() => {
 
-        const fetchData = async () => {
-            try {
-
-                let randomNumber = getRandomNumber(1000, 1);
-
-                const movieInfo = await axios.get(`https://api.themoviedb.org/3/movie/${randomNumber}?api_key=${apiKey}`);
-                const castInfo = await axios.get(`https://api.themoviedb.org/3/movie/${randomNumber}/credits?api_key=${apiKey}`);
-
-                // Assuming both APIs return data in the form of { data: ... }
-                const responseMovieInfo = movieInfo.data;
-                const responseCastInfo = castInfo.data;
-
-                // Merge the data from both responses into the same object
-                const mergedData = {
-                    ...responseMovieInfo,
-                    ...responseCastInfo,
-                };
-
-                handleSetMovieData(mergedData)
-            } catch (error) {
-                // Handle any errors that may occur during the API calls
-                console.error('Error fetching data:', error);
-
-
-                // if (error.response.status === 404) {
-
-                //     return fetchData(Math.random() * (10000 - 1) + 1);
-
-                // }
-
-
-            }
-        };
-
-        fetchData();
+        fetchRandomMoviesForCarousel(axios, apiKey, handleSetMovieData);
 
     }, [])
-
-
-    // register Swiper custom elements
-    register();
-
-    const reccomendationsRandNumArray = Array(10).fill().map(() => getRandomNumber(10000, 1));
-    const newToYouRandNumArray = Array(10).fill().map(() => getRandomNumber(10000, 1));
 
     return (
 
@@ -150,7 +97,7 @@ function Home(props) {
             <Carousel carouselTitle="Reccomendations" randNumArray={reccomendationsRandNumArray} nowPlaying={false} />
             <Carousel carouselTitle="New Releases" randNumArray={null} nowPlaying={true} listSelector={"now_playing"} />
             <RateCard />
-            <Carousel carouselTitle="Similar to Donnie Darkko" randNumArray={[489, 991, 941, 817, 836, 193, 891, 138, 202, 756]} nowPlaying={false}/>
+            <Carousel carouselTitle="Similar to Donnie Darkko" randNumArray={[489, 991, 941, 817, 836, 193, 891, 138, 202, 756]} nowPlaying={false} />
             <Carousel carouselTitle="Popular right now" nowPlaying={true} listSelector={"popular"} />
             <Carousel carouselTitle="New to you" randNumArray={newToYouRandNumArray} nowPlaying={false} />
             <Footer />

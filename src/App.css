@@ -826,6 +826,7 @@ footer {
   align-items: center;
   border: 1px solid #000;
   height: 100%;
+  width: 11em;
   /* This will make each item occupy the full height of the row */
   border: none;
 

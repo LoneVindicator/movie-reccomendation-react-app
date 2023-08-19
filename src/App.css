@@ -129,7 +129,7 @@ nav {
 
   display: flex;
   flex-direction: column;
-  gap:0.1em;
+  gap: 0.1em;
 
   padding-left: 0.5em;
   padding-right: 0.5em;
@@ -138,8 +138,8 @@ nav {
 
 .search-result:hover {
 
-  background-color:#a1afc7;
-  color:white;
+  background-color: #a1afc7;
+  color: white;
 }
 
 .search-result-text {
@@ -152,7 +152,7 @@ nav {
 .search-result-line {
 
   width: 100%;
-  color:#B3B3B3;
+  color: #B3B3B3;
 
 }
 
@@ -647,6 +647,7 @@ footer {
   text-overflow: ellipsis;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
+  width: 93%;
 
 
 }
@@ -677,11 +678,11 @@ footer {
 
 }
 
-.modal-movie-poster{
+.modal-movie-poster {
 
   opacity: 0.9;
   background-color: black;
-  
+
 }
 
 .carousel-movie-title {
@@ -689,6 +690,9 @@ footer {
   font-size: 0.9em;
   color: #B3B3B3;
   margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 
@@ -768,7 +772,10 @@ footer {
 
   display: flex;
   flex-direction: column;
-  padding: 1em;
+  gap:0.1em;
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: 2em;
   width: 70vw;
   height: 90vh;
   margin-top: 0;
@@ -778,20 +785,44 @@ footer {
   color: white;
 }
 
+.grid-header-container {
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.grid-close-btn-container{
+
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+
+}
+
+.grid-close-btn {
+
+  display: flex;
+  position: unset;
+
+
+}
+
 .movie-grid-container {
   display: grid;
   height: 100%;
-  grid-template-columns: repeat(5, 1fr);
-  /* 5 columns with equal width */
-  grid-template-rows: repeat(6, 1fr);
-  /* 6 rows with equal height */
-  gap: 1em;
-  /* Gap between grid items, adjust as per your preference */
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  /* Automatically adjust columns with minimum width of 150px */
+  grid-template-rows: repeat(auto-fill, minmax(500px, 1fr));
+  /* Automatically adjust rows with minimum height of 200px */
+  grid-column-gap: 1em;
+  grid-row-gap: 2em;
+  /* Gap between grid item
+  s, adjust as per your preference */
 }
 
 .movie-grid-item {
   display: flex;
-  justify-content: center;
   align-items: center;
   border: 1px solid #000;
   height: 100%;
@@ -800,10 +831,53 @@ footer {
 
 }
 
+.grid-cast-info{
+
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+
+  height: 19em;
+
+}
+
 .movie-grid-modal-title {
 
   font-size: 1.5em;
-  padding-left: 0.2em;
+  
+}
+
+.grid-cast-photo-container{
+
+  height: 100%;
+
+}
+
+.grid-cast-photo{
+
+  height: 100%;
+}
+
+.grid-cast-text{
+
+  width: 70%;
+  height: 100%;
+  overflow: hidden;
+  
+}
+
+.grid-actor-name{
+
+  margin: 0;
+}
+
+.movie-grid-modal-desc{
+
+  color:#B3B3B3;
+  font-size: 0.9em;
+  text-overflow: ellipsis;
+
+
 }
 
 /* CSS animation for fadeInOut */
@@ -963,6 +1037,7 @@ footer {
 .verticalCastSwiper {
 
   padding: 1em;
+  padding-left: 0;
   background-color: rgb(4, 21, 31, 0.8);
   overflow: hidden;
   border-radius: 0.5em;
@@ -1191,6 +1266,12 @@ footer {
     top: 15%;
   }
 
+  .grid-cast-info{
+
+    height: 19em;
+  
+  }
+
 
 }
 
@@ -1370,15 +1451,17 @@ footer {
     top: 10%
   }
 
-  .movie-grid-modal-content{
+  .movie-grid-modal-content {
 
     width: 100vw;
     height: 100vh;
+    padding-left: 3em;
+    padding-right: 3em;
   }
 
   .movie-grid-container {
 
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(6, 1fr);
 
   }
 
@@ -1539,6 +1622,8 @@ footer {
 
     font-size: 1.3em
   }
+
+
 
 
 

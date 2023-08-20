@@ -2,13 +2,13 @@ import React from "react"
 import ReactDOM from "react-dom"
 import Cast from "./Cast";
 import tmdbLogo from "../images/tmdb-logo.svg"
-import axios from "axios";
 import noPoster from "../images/movie-no-img.png";
 import noBackdrop from "../images/backdrop-no-img.png";
 import tmdbConfig from "../tmdb.json"
-import closeBtn from "../images/close-btn.png"
 import { FaRegWindowClose } from "react-icons/fa";
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
+
+import { fetchMovieInfo, formatRuntime, handleBackdropError } from "../utils";
 
 // Import Swiper styles
 import 'swiper/css';
@@ -21,9 +21,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 export default function MovieModal(props) {
 
-    const slidesPerPage = 6.4;
-    const apiKey = tmdbConfig.apiKey;
 
+    const [movieData, setMovieData] = React.useState([]);
     const [viewableSlideCount, setViewableSlideCount] = React.useState(2);
     const [isHovered, setIsHovered] = React.useState(false);
 
@@ -34,7 +33,7 @@ export default function MovieModal(props) {
 
     //API Call to TMDB
 
-    const [movieData, setMovieData] = React.useState([]);
+
 
 
     const handleSetMovieData = (movieInfo) => {
@@ -81,79 +80,11 @@ export default function MovieModal(props) {
 
     React.useEffect(() => {
 
+        const movieId = props.id;
+        fetchMovieInfo(movieId, handleSetMovieData);
 
-
-        const fetchData = async () => {
-
-            try {
-
-                const movieInfo = await axios.get(`https://api.themoviedb.org/3/movie/${index}?api_key=${apiKey}`);
-                const castInfo = await axios.get(`https://api.themoviedb.org/3/movie/${index}/credits?api_key=${apiKey}`);
-
-
-
-                // Assuming both APIs return data in the form of { data: ... }
-                const responseMovieInfo = movieInfo.data;
-                const responseCastInfo = castInfo.data;
-
-                // Merge the data from both responses into the same object
-                const mergedData = {
-                    ...responseMovieInfo,
-                    ...responseCastInfo,
-                };
-
-                // console.log("Is API Working??");
-                // console.log(mergedData);
-
-                handleSetMovieData(mergedData);
-
-            } catch (error) {
-                // Handle any errors that may occur during the API calls
-                console.error('Error fetching data:', error);
-
-            }
-        };
-
-        const index = props.id;
-
-
-
-        fetchData(index);
 
     }, []);
-
-    function formatRuntime(time) {
-
-        if (typeof time !== 'number') {
-            throw new Error('Invalid input: time should be a number.');
-        }
-
-        if (time < 0) {
-            throw new Error('Invalid input: time should be a non-negative number.');
-        }
-
-        const hours = Math.floor(time / 60);
-        const minutes = time % 60;
-
-        // You can customize the output format as needed
-        const formattedRuntime = `${hours}h ${minutes}m`;
-
-        return formattedRuntime;
-
-
-    }
-
-    const handleImageError = (e) => {
-        e.target.src = noPoster;
-    };
-
-    const handleBackdropError = (e) => {
-        e.target.src = noBackdrop;
-    };
-
-    // console.log("hasItBeenUpdated")
-    // console.log(movieData);
-    // console.log(movieData.genre);
 
 
     return ReactDOM.createPortal(

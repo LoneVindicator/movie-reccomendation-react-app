@@ -165,5 +165,41 @@ function onAuthCheckIfMovieIsFavourited(setAuthUser, movieId, setIsFavourite) {
     }
 }
 
+function fetchMovieInfo( movieId, handleSetMovieData ) {
 
-export { formatRuntime, getRandomNumber, fetchRandomMoviesForHero, newMovieObject, toggleModal, handleImageError, handleToggleFavourite, onAuthCheckIfMovieIsFavourited };
+    const fetchData = async () => {
+        try {
+
+            const movieInfo = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`);
+            const castInfo = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${apiKey}`);
+
+            // Assuming both APIs return data in the form of { data: ... }
+            const responseMovieInfo = movieInfo.data;
+            const responseCastInfo = castInfo.data;
+
+            // Merge the data from both responses into the same object
+            const mergedData = {
+                ...responseMovieInfo,
+                ...responseCastInfo,
+            };
+
+            handleSetMovieData(mergedData);
+
+        } catch (error) {
+            // Handle any errors that may occur during the API calls
+            console.error('Error fetching data:', error);
+
+        }
+    };
+
+    fetchData();
+
+
+}
+
+const handleBackdropError = (e) => {
+    e.target.src = noBackdrop;
+};
+
+
+export { formatRuntime, getRandomNumber, fetchRandomMoviesForHero, newMovieObject, toggleModal, handleImageError, handleToggleFavourite, onAuthCheckIfMovieIsFavourited, fetchMovieInfo, handleBackdropError };

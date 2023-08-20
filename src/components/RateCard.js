@@ -1,26 +1,24 @@
 import React from "react";
-import axios from "axios";
-import RateCardPoster from "../images/rate-movie-poster.png"
-import tmdbConfig from "../tmdb.json";
-import { formatRuntime } from "../pages/Home";
-import { getRandomNumber } from "../pages/Home";
 import infoIcon from "../images/info-icon.png"
 import MovieModal from "./MovieModal";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../firebase";
-import { notifyError } from "../App";
+
 import { toggleMovieFavorite, isMovieFavorited } from "../firebase";
+
+import { fetchRandomMoviesForHero, newMovieObject, toggleModal, handleToggleFavourite, onAuthCheckIfMovieIsFavourited } from "../utils";
+
 
 export default function RateCard(props) {
 
     const [rateValue, setRateValue] = React.useState(0);
     const sliderRef = React.useRef(null);
-    const ratingRef = React.useRef(null);
     const [movieData, setMovieData] = React.useState([]);
     const [rateCardCounter, setRateCardCounter] = React.useState(0);
-    const apiKey = tmdbConfig.apiKey;
     const [isFavourite, setIsFavourite] = React.useState(false);
     const [authUser, setAuthUser] = React.useState(null);
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+    let showScrollBar = "";
+
 
     const handleSliderChange = () => {
         const value = sliderRef.current.value;
@@ -28,124 +26,23 @@ export default function RateCard(props) {
 
     };
 
-    const handleToggleFavourite = (e) => {
+    React.useEffect( () => {
 
-      
+        onAuthCheckIfMovieIsFavourited(setAuthUser, movieData.id, setIsFavourite)
 
-        e.stopPropagation();
-
-        // console.log("handleToggleFavourite");
-        // console.log(isFavourite);
-   
-        
-        if(authUser === null){
-
-            console.log("You must be logged in to perform this action!");
-            notifyError("You must be logged in to perform this action!");
-            return;
-        }
-        const tempIsFavourite = isFavourite;
-
-        setIsFavourite(!tempIsFavourite);
-        toggleMovieFavorite(authUser, movieData.id, !tempIsFavourite);
-
-    }
-
-    React.useEffect(() => {
-
-
-
-        const listen = onAuthStateChanged(auth, (user) => {
-
-            if (user) {
-
-                const tempUserId = user.uid;
-                setAuthUser(tempUserId);
-                checkMovieFavorited(tempUserId, movieData.id);
-
-            } else {
-                setAuthUser(null);
-            }
-        })
-
-        async function checkMovieFavorited(userId, movieId) {
-            try {
-              const isTempFavorite = await isMovieFavorited(userId, movieId);
-
-            //   console.log(`isTempFavourite is: ${isTempFavorite}`)
-            //   console.log(isTempFavorite);
-              setIsFavourite(isTempFavorite);
-            } catch (error) {
-              console.error("Error occurred:", error);
-            }
-          }
-
-        return () => {
-
-            listen();
-        }
-    }, [])
+    }, [isModalOpen])
 
 
 
     const handleSetMovieData = (movieInfo) => {
 
-        const backdropPath = `https://www.themoviedb.org/t/p/original/${movieInfo.backdrop_path}`;
-        const releaseDate = (movieInfo.release_date).substring(0, 4);
-        const runtime = formatRuntime(movieInfo.runtime);
-        const genre = movieInfo.genres[0].name;
-
-
-        const newMovie = {
-            id: movieInfo.id,
-            title: movieInfo.original_title,
-            releaseDate: releaseDate,
-            runtime: runtime,
-            backdrop_path: backdropPath,
-            genre: genre,
-        };
-
+        const newMovie = newMovieObject(movieInfo);
         setMovieData(newMovie);
-        // console.log(newMovie);
     }
 
     React.useEffect(() => {
 
-        const fetchData = async () => {
-            try {
-
-                let randomNumber = getRandomNumber(1000, 1);
-
-                const movieInfo = await axios.get(`https://api.themoviedb.org/3/movie/${randomNumber}?api_key=${apiKey}`);
-                const castInfo = await axios.get(`https://api.themoviedb.org/3/movie/${randomNumber}/credits?api_key=${apiKey}`);
-
-                // Assuming both APIs return data in the form of { data: ... }
-                const responseMovieInfo = movieInfo.data;
-                const responseCastInfo = castInfo.data;
-
-                // Merge the data from both responses into the same object
-                const mergedData = {
-                    ...responseMovieInfo,
-                    ...responseCastInfo,
-                };
-
-                handleSetMovieData(mergedData)
-            } catch (error) {
-                // Handle any errors that may occur during the API calls
-                console.error('Error fetching data:', error);
-
-
-                // if (error.response.status === 404) {
-
-                //     return fetchData(Math.random() * (10000 - 1) + 1);
-
-                // }
-
-
-            }
-        };
-
-        fetchData();
+        fetchRandomMoviesForHero(handleSetMovieData);
 
     }, [rateCardCounter]);
 
@@ -153,21 +50,6 @@ export default function RateCard(props) {
 
         setRateCardCounter(rateCardCounter + 1);
     }
-
-    const [isModalOpen, setIsModalOpen] = React.useState(false);
-
-    let showScrollBar = "";
-
-    const toggleModal = () => {
-
-        setIsModalOpen(!isModalOpen);
-        isModalOpen ? showScrollBar = "" : showScrollBar = "hidden";
-
-        document.body.style.overflow = showScrollBar;
-
-
-    }
-
 
     return (
 
@@ -178,7 +60,7 @@ export default function RateCard(props) {
                 <div className="rating-text-and-info-container">
 
                     <h2 className="hero-title">{movieData.title}</h2>
-                    <img className="rate-info-icon" src={infoIcon} onClick={ toggleModal }></img>
+                    <img className="rate-info-icon" src={infoIcon} onClick={ () => toggleModal(setIsModalOpen, isModalOpen, showScrollBar) }></img>
 
                 </div>
 
@@ -211,7 +93,7 @@ export default function RateCard(props) {
 
             {isModalOpen &&
 
-                <MovieModal isModalOpen={isModalOpen} toggleModal={toggleModal} handleToggleFavourite={handleToggleFavourite} isFavourite={isFavourite} id={ movieData.id} {...props} />
+                <MovieModal isModalOpen={isModalOpen} toggleModal={() => toggleModal(setIsModalOpen, isModalOpen, showScrollBar)} handleToggleFavourite={() => handleToggleFavourite( authUser, setIsFavourite, isFavourite, movieData, toggleMovieFavorite )} isFavourite={isFavourite} id={ movieData.id} {...props} />
 
             }
 

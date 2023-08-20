@@ -1,3 +1,11 @@
+import axios from "axios";
+import tmdbConfig from "./tmdb.json"
+import noBackdrop from "./images/backdrop-no-img.png"
+import { notifyError } from "./App";
+import { auth, isMovieFavorited } from "./firebase";
+
+const apiKey = tmdbConfig.apiKey;
+
 
 
 function formatRuntime(time) {
@@ -27,12 +35,13 @@ function getRandomNumber(max, min) {
 }
 
 
-function fetchRandomMoviesForCarousel(axios, apiKey, handleSetMovieData){
+function fetchRandomMoviesForHero(handleSetMovieData) {
 
     const fetchData = async () => {
         try {
 
-            let randomNumber = getRandomNumber(1000, 1);
+            let randomNumber = getRandomNumber(10000, 1);
+
 
             const movieInfo = await axios.get(`https://api.themoviedb.org/3/movie/${randomNumber}?api_key=${apiKey}`);
             const castInfo = await axios.get(`https://api.themoviedb.org/3/movie/${randomNumber}/credits?api_key=${apiKey}`);
@@ -61,8 +70,100 @@ function fetchRandomMoviesForCarousel(axios, apiKey, handleSetMovieData){
 
 }
 
-    //Create an array of object the movie's info
+function newMovieObject(movieInfo) {
 
-   
+    const posterPath = `https://www.themoviedb.org/t/p/w600_and_h900_bestv2/${movieInfo.poster_path}`;
+    const backdropPath = `https://www.themoviedb.org/t/p/original/${movieInfo.backdrop_path}`;
+    const releaseDate = (movieInfo.release_date).substring(0, 4);
+    const runtime = formatRuntime(movieInfo.runtime);
+    const rating = movieInfo.vote_average.toFixed(1);
+    const genre = movieInfo.genres[0].name;
 
-export { formatRuntime, getRandomNumber, fetchRandomMoviesForCarousel};
+    const movieObject = {
+        id: movieInfo.id,
+        title: movieInfo.original_title,
+        synopsis: movieInfo.overview,
+        releaseDate: releaseDate,
+        runtime: runtime,
+        rating: rating,
+        genre: genre,
+        cast: movieInfo.cast,
+        poster_path: posterPath,
+        backdrop_path: backdropPath,
+    };
+
+    return movieObject
+}
+
+const toggleModal = (setIsModalOpen, isModalOpen, showScrollBar) => {
+
+    setIsModalOpen(!isModalOpen);
+    isModalOpen ? showScrollBar = "" : showScrollBar = "hidden";
+
+    document.body.style.overflow = showScrollBar;
+
+
+}
+
+const handleImageError = (e) => {
+    e.target.src = noBackdrop;
+};
+
+
+const handleToggleFavourite = (authUser, setIsFavourite, isFavourite, movieData, toggleMovieFavorite) => {
+
+
+    // console.log("handleToggleFavourite");
+    // console.log(isFavourite);
+
+
+    if (authUser === null) {
+
+        console.log("You must be logged in to perform this action!");
+        notifyError("You must be logged in to perform this action!");
+        return;
+    }
+    const tempIsFavourite = isFavourite;
+
+    setIsFavourite(!tempIsFavourite);
+    toggleMovieFavorite(authUser, movieData.id, !tempIsFavourite);
+
+}
+
+
+
+function onAuthCheckIfMovieIsFavourited(setAuthUser, movieId, setIsFavourite) {
+
+    let tempUserId = null;
+
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            // User is signed in, update the state with the current user
+
+            tempUserId = user.uid
+            setAuthUser(tempUserId);
+            //   console.log(`movie id: ${props.id}, user id: ${tempUserId}`)
+            checkMovieFavorited(tempUserId, movieId, setIsFavourite, isMovieFavorited);
+
+        } else {
+            // User is signed out, set the state to null
+
+            setAuthUser(null);
+        }
+    });
+
+    async function checkMovieFavorited(userId, movieId, setIsFavourite, isMovieFavorited) {
+        try {
+            const isTempFavorite = await isMovieFavorited(userId, movieId);
+
+            //   console.log(`isTempFavourite is: ${isTempFavorite}`)
+            //   console.log(isTempFavorite);
+            setIsFavourite(isTempFavorite);
+        } catch (error) {
+            console.error("Error occurred:", error);
+        }
+    }
+}
+
+
+export { formatRuntime, getRandomNumber, fetchRandomMoviesForHero, newMovieObject, toggleModal, handleImageError, handleToggleFavourite, onAuthCheckIfMovieIsFavourited };

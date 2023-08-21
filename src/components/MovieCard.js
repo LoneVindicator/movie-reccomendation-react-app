@@ -25,6 +25,8 @@ export default function MovieCard(props) {
     const [userId, setUserId] = React.useState(null);
     const [isModalOpen, setIsModalOpen] = React.useState(false);
 
+    let showScrollBar = "";
+
     React.useEffect(() => {
 
         onAuthCheckIfMovieIsFavourited(setUserId, props.id, setIsFavourite);
@@ -57,7 +59,7 @@ export default function MovieCard(props) {
     }
 
 
-    let showScrollBar = "";
+
 
     return (
 

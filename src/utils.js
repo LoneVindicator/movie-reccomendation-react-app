@@ -284,5 +284,90 @@ const handleBackdropError = (e) => {
     e.target.src = noBackdrop;
 };
 
+function fetchMoviesForGrid(favouriteMovieArr, castId, handleSetMovieData, setActorInfo){
 
-export { formatRuntime, getRandomNumber, fetchRandomMoviesForHero, newMovieObject, toggleModal, handleImageError, handleToggleFavourite, onAuthCheckIfMovieIsFavourited, fetchMovieInfo, handleBackdropError, fetchMoviesForCarousel };
+    if (favouriteMovieArr != null) {
+
+        const fetchData = async (index) => {
+            try {
+                const movieInfo = await axios.get(`https://api.themoviedb.org/3/movie/${index}?api_key=${apiKey}`);
+                const castInfo = await axios.get(`https://api.themoviedb.org/3/movie/${index}/credits?api_key=${apiKey}`);
+
+
+
+                // Assuming both APIs return data in the form of { data: ... }
+                const responseMovieInfo = movieInfo.data;
+                const responseCastInfo = castInfo.data;
+
+                // Merge the data from both responses into the same object
+                const mergedData = {
+                    ...responseMovieInfo,
+                    ...responseCastInfo,
+                };
+
+
+
+
+
+                return mergedData;
+            } catch (error) {
+                // Handle any errors that may occur during the API calls
+                console.error('Error fetching data:', error);
+
+                if (error.response.status === 404) {
+
+                    return fetchData(Math.random() * (1000 - 1) + 1);
+
+                }
+
+                return null; // Or handle the error appropriately
+            }
+        };
+
+        const fetchAllData = async () => {
+            const mergedDataArray = [];
+
+            for (const index of favouriteMovieArr) {
+                const mergedData = await fetchData(index);
+                if (mergedData) {
+                    mergedDataArray.push(mergedData);
+                }
+            }
+
+
+            handleSetMovieData(mergedDataArray);
+        };
+
+        fetchAllData();
+    }
+
+    const fetchData = async () => {
+        try {
+            // const movieInfo = await axios.get(`https://api.themoviedb.org/3/movie/${listSelector}?api_key=${apiKey}`);
+            const movieInfo = await axios.get(`https://api.themoviedb.org/3/person/${castId}/movie_credits?api_key=${apiKey}&sort_by=release_date.desc`);
+            const actorInfo = await axios.get(`https://api.themoviedb.org/3/person/${castId}?api_key=${apiKey}`);
+
+            // Assuming both APIs return data in the form of { data: ... }
+            const responseMovieInfo = movieInfo.data.cast.slice(0, 30);
+            const responseActorInfo = actorInfo.data;
+
+            // console.log("MOVIE GRID CAST API")
+            // console.log(responseMovieInfo);
+
+            // Merge the data from both responses into the same object
+            const mergedData = responseMovieInfo;
+
+            handleSetMovieData(mergedData);
+            setActorInfo(responseActorInfo);
+
+        } catch (error) {
+            // Handle any errors that may occur during the API calls
+            console.error('Error fetching data:', error);
+            return null; // Or handle the error appropriately
+        }
+    };
+
+    fetchData();
+}
+
+export { formatRuntime, getRandomNumber, fetchRandomMoviesForHero, newMovieObject, toggleModal, handleImageError, handleToggleFavourite, onAuthCheckIfMovieIsFavourited, fetchMovieInfo, handleBackdropError, fetchMoviesForCarousel, fetchMoviesForGrid };

@@ -1,12 +1,8 @@
 import React from "react";
-import noImg from "../images/cast-no-img.png"
 import MovieGrid from "./MovieGrid";
+import { handleImageError } from "../utils";
 
 export default function Cast(props) {
-
-    const handleImageError = (e) => {
-        e.target.src = noImg;
-    };
 
     const [isMovieGridModalOpen, setIsMovieGridModalOpen] = React.useState(false);
 

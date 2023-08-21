@@ -15,50 +15,31 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import MovieModal from "./MovieModal";
 import { auth, isMovieFavorited, toggleMovieFavorite } from "../firebase";
 
+import { onAuthCheckIfMovieIsFavourited, toggleModal, handleImageError, handleToggleFavourite } from "../utils";
+
 export default function MovieCard(props) {
 
 
-
-    const [showSlide, setShowSlide] = React.useState(false);
     const [isHovered, setIsHovered] = React.useState(false);
     const [isFavourite, setIsFavourite] = React.useState(false);
     const [userId, setUserId] = React.useState(null);
-    const isMovieGridModalOpen = props.isMovieGridModalOpen;
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
 
     React.useEffect(() => {
 
-        let tempUserId = null;
-
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-              // User is signed in, update the state with the current user
-            
-              tempUserId = user.uid
-              setUserId(tempUserId);
-            //   console.log(`movie id: ${props.id}, user id: ${tempUserId}`)
-              checkMovieFavorited(tempUserId, props.id)
-            } else {
-              // User is signed out, set the state to null
-             
-              setUserId(null);
-            }
-          });
-
-          async function checkMovieFavorited(userId, movieId) {
-            try {
-              const isTempFavorite = await isMovieFavorited(userId, movieId);
-
-            //   console.log(`isTempFavourite is: ${isTempFavorite}`)
-            //   console.log(isTempFavorite);
-              setIsFavourite(isTempFavorite);
-            } catch (error) {
-              console.error("Error occurred:", error);
-            }
-          }
+        onAuthCheckIfMovieIsFavourited(setUserId, props.id, setIsFavourite);
 
     }, []);
 
-    // [props.viewableSlideCount, setViewableSlideCount] = React.useState(6.5);
+    //Fix for a bug
+
+    React.useEffect(() => {
+
+        setIsHovered(false);
+
+        
+
+    }, [isModalOpen]);
 
     function showHoverInfo(bool) {
 
@@ -67,79 +48,16 @@ export default function MovieCard(props) {
 
     }
 
-    function expandSlide() {
-
-        // setTimeout( () => {
-
-        //     setShowSlide(true);
-        //     setIsHovered(true);
-
-        //     slideLength = 2.5;
-        //     props.slideStateChange(slideLength)
-
-
-        // }, 300)
-
-
-
-    }
-
-    function contractSlide() {
-
-        // setTimeout( () => {
-
-        //     setShowSlide(false);
-        //     setIsHovered(false);
-
-        //     slideLength = 2.5;
-        //     props.slideStateChange(slideLength)
-
-
-        // }, 3000)
-
-
-
-    }
-    const [isModalOpen, setIsModalOpen] = React.useState(false);
-
-    let showScrollBar = "";
-
-    const toggleModal = () => {
-
-        setIsModalOpen(!isModalOpen);
-        isModalOpen ? showScrollBar = "" : showScrollBar = "hidden";
-        showHoverInfo(false);
-
-        document.body.style.overflow = showScrollBar;
-
-    }
-
-    const handleToggleFavourite = (e) => {
-
-      
+    const stopPropagationAndLaunchHandleToggleFavourite = (e) => {
 
         e.stopPropagation();
+        handleToggleFavourite(userId, setIsFavourite, isFavourite, props, toggleMovieFavorite);
 
-        // console.log("handleToggleFavourite");
-        // console.log(isFavourite);
-   
-        
-        if(userId === null){
-
-            console.log("You must be logged in to perform this action!");
-            notifyError("You must be logged in to perform this action!");
-            return;
-        }
-        const tempIsFavourite = isFavourite;
-
-        setIsFavourite(!tempIsFavourite);
-        toggleMovieFavorite(userId, props.id, !tempIsFavourite);
 
     }
 
-    const handleImageError = (e) => {
-        e.target.src = noImg;
-      };
+
+    let showScrollBar = "";
 
     return (
 
@@ -147,11 +65,11 @@ export default function MovieCard(props) {
 
 
 
-            <div className="carousel-card-container" onClick={expandSlide} onMouseEnter={() => { showHoverInfo(true) }} onMouseLeave={() => { showHoverInfo(false) }}>
+            <div className="carousel-card-container" onMouseEnter={() => { showHoverInfo(true) }} onMouseLeave={() => { showHoverInfo(false) }} >
 
-                <div className="carousel-image-container" onClick={toggleModal}>
+                <div className="carousel-image-container" onClick={() => toggleModal(setIsModalOpen, isModalOpen, showScrollBar)}>
 
-                    <img className={isHovered ? "carousel-movie-poster carousel-movie-poster-hover" : "carousel-movie-poster"} src={props.posterPath} onError={ handleImageError} loading="lazy"></img>
+                    <img className={isHovered ? "carousel-movie-poster carousel-movie-poster-hover" : "carousel-movie-poster"} src={props.posterPath} onError={handleImageError} loading="lazy"></img>
 
                     <div className="carousel-image-overlay-container">
 
@@ -159,8 +77,8 @@ export default function MovieCard(props) {
 
                             (
 
-                                isFavourite ? <FaHeart className="carousel-movie-poster-heart-icon carousel-movie-poster-heart-icon-true" onMouseEnter={() => { showHoverInfo(true) }} onClick={ (e) => { handleToggleFavourite(e) } } /> :
-                                    <FaRegHeart className="carousel-movie-poster-heart-icon" onMouseEnter={ () => { showHoverInfo(true) }} onClick={ (e) => { handleToggleFavourite(e) }} />
+                                isFavourite ? <FaHeart className="carousel-movie-poster-heart-icon carousel-movie-poster-heart-icon-true" onMouseEnter={() => { showHoverInfo(true) }} onClick={(e) => stopPropagationAndLaunchHandleToggleFavourite(e)} /> :
+                                    <FaRegHeart className="carousel-movie-poster-heart-icon" onMouseEnter={() => { showHoverInfo(true) }} onClick={(e) => stopPropagationAndLaunchHandleToggleFavourite(e)} />
                             ) :
                             null
 
@@ -185,7 +103,7 @@ export default function MovieCard(props) {
 
                 {isModalOpen &&
 
-                    <MovieModal isModalOpen={isModalOpen} toggleModal={toggleModal} handleToggleFavourite={ handleToggleFavourite } isFavourite={isFavourite}{...props} />
+                    <MovieModal isModalOpen={isModalOpen} toggleModal={() => toggleModal(setIsModalOpen, isModalOpen, showScrollBar)} handleToggleFavourite={() => handleToggleFavourite(userId, setIsFavourite, isFavourite, props, toggleMovieFavorite)} isFavourite={isFavourite}{...props} />
 
                 }
 

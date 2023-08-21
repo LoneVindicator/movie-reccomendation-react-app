@@ -2,8 +2,6 @@ import React from "react";
 import tmdbLogo from "../images/tmdb-logo.svg"
 import MovieModal from "./MovieModal";
 
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../firebase";
 import { toggleMovieFavorite, isMovieFavorited } from "../firebase";
 
 import { fetchRandomMoviesForHero, newMovieObject, toggleModal, handleImageError, handleToggleFavourite, onAuthCheckIfMovieIsFavourited } from "../utils";

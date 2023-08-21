@@ -165,7 +165,7 @@ function onAuthCheckIfMovieIsFavourited(setAuthUser, movieId, setIsFavourite) {
     }
 }
 
-function fetchMovieInfo( movieId, handleSetMovieData ) {
+function fetchMovieInfo( movieId, handleSetMovieData) {
 
     const fetchData = async () => {
         try {
@@ -184,6 +184,7 @@ function fetchMovieInfo( movieId, handleSetMovieData ) {
             };
 
             handleSetMovieData(mergedData);
+          
 
         } catch (error) {
             // Handle any errors that may occur during the API calls
@@ -197,9 +198,91 @@ function fetchMovieInfo( movieId, handleSetMovieData ) {
 
 }
 
+function fetchMoviesForCarousel(randNumArray, nowPlaying, listSelector, handleSetMovieData){
+
+    if (nowPlaying === true) {
+
+      const fetchData = async () => {
+        try {
+          const movieInfo = await axios.get(`https://api.themoviedb.org/3/movie/${listSelector}?api_key=${apiKey}`);
+
+          // Assuming both APIs return data in the form of { data: ... }
+          const responseMovieInfo = movieInfo.data.results;
+
+          // Merge the data from both responses into the same object
+          const mergedData = responseMovieInfo.slice(0, 10);
+
+          handleSetMovieData(mergedData);
+        } catch (error) {
+          // Handle any errors that may occur during the API calls
+          console.error('Error fetching data:', error);
+          return null; // Or handle the error appropriately
+        }
+      };
+
+      fetchData();
+
+      return;
+
+    }
+
+
+
+
+    const fetchData = async (index) => {
+      try {
+        const movieInfo = await axios.get(`https://api.themoviedb.org/3/movie/${index}?api_key=${apiKey}`);
+        const castInfo = await axios.get(`https://api.themoviedb.org/3/movie/${index}/credits?api_key=${apiKey}`);
+
+
+
+        // Assuming both APIs return data in the form of { data: ... }
+        const responseMovieInfo = movieInfo.data;
+        const responseCastInfo = castInfo.data;
+
+        // Merge the data from both responses into the same object
+        const mergedData = {
+          ...responseMovieInfo,
+          ...responseCastInfo,
+        };
+
+
+
+        return mergedData;
+      } catch (error) {
+        // Handle any errors that may occur during the API calls
+        console.error('Error fetching data:', error);
+
+        if (error.response.status === 404) {
+
+          return fetchData(Math.random() * (1000 - 1) + 1);
+
+        }
+
+        return null; // Or handle the error appropriately
+      }
+    };
+
+    const fetchAllData = async () => {
+      const mergedDataArray = [];
+
+      for (const index of randNumArray) {
+        const mergedData = await fetchData(index);
+        if (mergedData) {
+          mergedDataArray.push(mergedData);
+        }
+      }
+
+
+      handleSetMovieData(mergedDataArray);
+    };
+
+    fetchAllData();
+}
+
 const handleBackdropError = (e) => {
     e.target.src = noBackdrop;
 };
 
 
-export { formatRuntime, getRandomNumber, fetchRandomMoviesForHero, newMovieObject, toggleModal, handleImageError, handleToggleFavourite, onAuthCheckIfMovieIsFavourited, fetchMovieInfo, handleBackdropError };
+export { formatRuntime, getRandomNumber, fetchRandomMoviesForHero, newMovieObject, toggleModal, handleImageError, handleToggleFavourite, onAuthCheckIfMovieIsFavourited, fetchMovieInfo, handleBackdropError, fetchMoviesForCarousel };

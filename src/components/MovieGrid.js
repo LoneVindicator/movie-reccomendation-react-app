@@ -25,6 +25,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 // 4. Filter by category
 // 5. Refactor
 // 6. Ignore just a push test
+// 7. Use a loading skeleton
 
 export default function MovieGrid(props) {
 

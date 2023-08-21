@@ -112,5 +112,4 @@ const getFavoriteMovieIds = async (userId) => {
 };
 
 
-
 export { auth, saveUserDataToDatabase, toggleMovieFavorite, isMovieFavorited, getFavoriteMovieIds };

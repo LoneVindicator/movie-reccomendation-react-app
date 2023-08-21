@@ -15,7 +15,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import MovieModal from "./MovieModal";
 import { auth, isMovieFavorited, toggleMovieFavorite } from "../firebase";
 
-import { onAuthCheckIfMovieIsFavourited, toggleModal, handleImageError, handleToggleFavourite } from "../utils";
+import { onAuthCheckIfMovieIsFavourited, toggleModal, handlePosterImageError, handleToggleFavourite } from "../utils";
 
 export default function MovieCard(props) {
 
@@ -71,7 +71,7 @@ export default function MovieCard(props) {
 
                 <div className="carousel-image-container" onClick={() => toggleModal(setIsModalOpen, isModalOpen, showScrollBar)}>
 
-                    <img className={isHovered ? "carousel-movie-poster carousel-movie-poster-hover" : "carousel-movie-poster"} src={props.posterPath} onError={handleImageError} loading="lazy"></img>
+                    <img className={isHovered ? "carousel-movie-poster carousel-movie-poster-hover" : "carousel-movie-poster"} src={props.posterPath} onError={handlePosterImageError} loading="lazy"></img>
 
                     <div className="carousel-image-overlay-container">
 

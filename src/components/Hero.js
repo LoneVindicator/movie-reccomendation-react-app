@@ -4,7 +4,7 @@ import MovieModal from "./MovieModal";
 
 import { toggleMovieFavorite, isMovieFavorited } from "../firebase";
 
-import { fetchRandomMoviesForHero, newMovieObject, toggleModal, handleImageError, handleToggleFavourite, onAuthCheckIfMovieIsFavourited } from "../utils";
+import { fetchRandomMoviesForHero, newMovieObject, toggleModal, handleBackdropImageError, handleToggleFavourite, onAuthCheckIfMovieIsFavourited } from "../utils";
 
 export default function Hero() {
 
@@ -61,7 +61,7 @@ export default function Hero() {
             </div>
             <div className="hero-image-component">
 
-                <img className="hero-img" src={movieData.backdrop_path} onError={ handleImageError }></img>
+                <img className="hero-img" src={movieData.backdrop_path} onError={ handleBackdropImageError }></img>
             </div>
 
             {isModalOpen &&

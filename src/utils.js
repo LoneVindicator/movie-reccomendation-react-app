@@ -1,8 +1,12 @@
 import axios from "axios";
 import tmdbConfig from "./tmdb.json"
-import noBackdrop from "./images/backdrop-no-img.png"
 import { notifyError } from "./App";
 import { auth, isMovieFavorited } from "./firebase";
+
+import backdropPlaceholder from "./images/backdrop-no-img.png"
+import castPlaceholder from "./images/cast-no-img.png"
+import posterPlaceholder from "./images/movie-no-img.png"
+
 
 const apiKey = tmdbConfig.apiKey;
 
@@ -105,8 +109,16 @@ const toggleModal = (setIsModalOpen, isModalOpen, showScrollBar) => {
 
 }
 
-const handleImageError = (e) => {
-    e.target.src = noBackdrop;
+const handlePosterImageError = (e) => {
+    e.target.src = posterPlaceholder;
+};
+
+const handleBackdropImageError = (e) => {
+    e.target.src = backdropPlaceholder;
+};
+
+const handleCastImageError = (e) => {
+    e.target.src = castPlaceholder
 };
 
 
@@ -280,10 +292,6 @@ function fetchMoviesForCarousel(randNumArray, nowPlaying, listSelector, handleSe
     fetchAllData();
 }
 
-const handleBackdropError = (e) => {
-    e.target.src = noBackdrop;
-};
-
 function fetchMoviesForGrid(favouriteMovieArr, castId, handleSetMovieData, setActorInfo){
 
     if (favouriteMovieArr != null) {
@@ -370,4 +378,4 @@ function fetchMoviesForGrid(favouriteMovieArr, castId, handleSetMovieData, setAc
     fetchData();
 }
 
-export { formatRuntime, getRandomNumber, fetchRandomMoviesForHero, newMovieObject, toggleModal, handleImageError, handleToggleFavourite, onAuthCheckIfMovieIsFavourited, fetchMovieInfo, handleBackdropError, fetchMoviesForCarousel, fetchMoviesForGrid };
+export { formatRuntime, getRandomNumber, fetchRandomMoviesForHero, newMovieObject, toggleModal, handlePosterImageError, handleBackdropImageError, handleCastImageError, handleToggleFavourite, onAuthCheckIfMovieIsFavourited, fetchMovieInfo, fetchMoviesForCarousel, fetchMoviesForGrid };

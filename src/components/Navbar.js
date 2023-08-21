@@ -16,6 +16,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import tmdbConfig from "../tmdb.json"
 import MovieModal from "./MovieModal";
 import { notifyError } from "../App";
+import { onAuthCheckIfMovieIsFavourited } from "../utils";
 
 export default function Navbar(props) {
 
@@ -27,11 +28,48 @@ export default function Navbar(props) {
     const [favouriteMovieArr, setFavoriteMovieArr] = React.useState(null);
     const [isFavourite, setIsFavourite] = React.useState(false);
     const [openSearchDropdown, setOpenSearchDropdown] = React.useState(false);
+    const [isRegistrationModalOpen, setIsRegistrationModalOpen] = React.useState(false);
+    const [isMovieGridModalOpen, setIsMovieGridModalOpen] = React.useState(false);
+    const [authUser, setAuthUser] = React.useState(null);
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+    let showScrollBar = "";
 
     const toggleLoginModal = () => {
 
         setIsLoginModalOpen(!isLoginModalOpen);
         handleIsRegistrationModalOpen(false);
+
+    }
+
+    const handleIsRegistrationModalOpen = (bool) => {
+
+        setIsRegistrationModalOpen(bool);
+
+    }
+
+
+
+    const toggleMovieGridModal = () => {
+
+        if (authUser === null) {
+
+            notifyError("You must be logged in to perform this action");
+            return;
+        }
+
+        setIsMovieGridModalOpen(!isMovieGridModalOpen);
+
+    }
+
+    const toggleModal = () => {
+
+        console.log("toggle run!")
+
+        setIsModalOpen(!isModalOpen);
+        isModalOpen ? showScrollBar = "" : showScrollBar = "hidden";
+
+        document.body.style.overflow = showScrollBar;
 
     }
 
@@ -59,30 +97,11 @@ export default function Navbar(props) {
 
     }
 
-    const [isRegistrationModalOpen, setIsRegistrationModalOpen] = React.useState(false);
-
-    const handleIsRegistrationModalOpen = (bool) => {
-
-        setIsRegistrationModalOpen(bool);
-
-    }
-
-    const [isMovieGridModalOpen, setIsMovieGridModalOpen] = React.useState(false);
-
-    const toggleMovieGridModal = () => {
-
-        if (authUser === null) {
-
-            notifyError("You must be logged in to perform this action");
-            return;
-        }
-
-        setIsMovieGridModalOpen(!isMovieGridModalOpen);
-
-    }
 
 
-    const [authUser, setAuthUser] = React.useState(null);
+
+
+
 
     React.useEffect(() => {
 
@@ -155,21 +174,9 @@ export default function Navbar(props) {
     const handleSearchClick = (movieId) => {
 
         setMovieId(movieId);
-        checkMovieFavorited(authUser, movieId)
+        onAuthCheckIfMovieIsFavourited(setAuthUser, movieId, setIsFavourite)
         toggleModal();
         setOpenSearchDropdown(null);
-
-        async function checkMovieFavorited(userId, movieId) {
-            try {
-                const isTempFavorite = await isMovieFavorited(userId, movieId);
-
-                //   console.log(`isTempFavourite is: ${isTempFavorite}`)
-                //   console.log(isTempFavorite);
-                setIsFavourite(isTempFavorite);
-            } catch (error) {
-                console.error("Error occurred:", error);
-            }
-        }
 
 
     }
@@ -206,18 +213,6 @@ export default function Navbar(props) {
 
         fetchData();
 
-        async function checkMovieFavorited(userId, movieId) {
-            try {
-                const isTempFavorite = await isMovieFavorited(userId, movieId);
-
-                //   console.log(`isTempFavourite is: ${isTempFavorite}`)
-                //   console.log(isTempFavorite);
-                setIsFavourite(isTempFavorite);
-            } catch (error) {
-                console.error("Error occurred:", error);
-            }
-        }
-
         return;
 
 
@@ -225,22 +220,9 @@ export default function Navbar(props) {
 
     }
 
-    const [isModalOpen, setIsModalOpen] = React.useState(false);
 
-    let showScrollBar = "";
 
-    const toggleModal = () => {
 
-        console.log("toggle run!")
-
-        setIsModalOpen(!isModalOpen);
-        isModalOpen ? showScrollBar = "" : showScrollBar = "hidden";
-
-        document.body.style.overflow = showScrollBar;
-
-        console.log(`isScrollBar visible: ${showScrollBar}`)
-
-    }
 
     const handleSearchMovie = (updatedQuery) => {
 

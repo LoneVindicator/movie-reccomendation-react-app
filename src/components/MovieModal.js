@@ -2,16 +2,13 @@ import React from "react"
 import ReactDOM from "react-dom"
 import Cast from "./Cast";
 import tmdbLogo from "../images/tmdb-logo.svg"
-import noPoster from "../images/movie-no-img.png";
-import noBackdrop from "../images/backdrop-no-img.png";
-import tmdbConfig from "../tmdb.json"
 import { FaRegWindowClose } from "react-icons/fa";
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
 
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
-import { fetchMovieInfo, formatRuntime, handleBackdropError } from "../utils";
+import { fetchMovieInfo, formatRuntime, handleBackdropImageError, handlePosterImageError } from "../utils";
 
 // Import Swiper styles
 import 'swiper/css';
@@ -103,7 +100,7 @@ export default function MovieModal(props) {
 
                     <div className="modal-image-container">
 
-                        <img className="modal-image-poster" src={movieData.backdropPath} onError={handleBackdropError} ></img>
+                        <img className="modal-image-poster" src={movieData.backdropPath} onError={handleBackdropImageError} ></img>
                         <FaRegWindowClose className="modal-close-btn" onClick={props.toggleModal} />
 
 
@@ -120,7 +117,7 @@ export default function MovieModal(props) {
 
                                     <div className="carousel-image-container" >
 
-                                        <img className={isHovered ? "carousel-movie-poster carousel-movie-poster-hover modal-movie-poster" : "carousel-movie-poster"} src={movieData.posterPath} onError={props.handleImageError} loading="lazy"></img>
+                                        <img className={isHovered ? "carousel-movie-poster carousel-movie-poster-hover modal-movie-poster" : "carousel-movie-poster"} src={movieData.posterPath} onError={handlePosterImageError} loading="lazy"></img>
 
                                         <div className="carousel-image-overlay-container">
 

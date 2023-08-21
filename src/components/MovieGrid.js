@@ -4,7 +4,7 @@ import MovieCard from "./MovieCard";
 import { FaRegWindowClose } from "react-icons/fa";
 import noImg from "../images/cast-no-img.png"
 
-import { fetchMoviesForGrid, handleImageError } from "../utils";
+import { fetchMoviesForGrid, handleCastImageError} from "../utils";
 
 
 // Import Swiper styles
@@ -82,7 +82,7 @@ export default function MovieGrid(props) {
 
                         <div className="grid-cast-photo-container">
 
-                            <img className="grid-cast-photo" src={props.profilePath} onError={handleImageError} loading="lazy" ></img>
+                            <img className="grid-cast-photo" src={props.profilePath} onError={ handleCastImageError } loading="lazy" ></img>
 
 
                         </div>

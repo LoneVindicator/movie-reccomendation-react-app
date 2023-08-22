@@ -66,6 +66,14 @@ function fetchRandomMoviesForHero(handleSetMovieData) {
             // Handle any errors that may occur during the API calls
             console.error('Error fetching data:', error);
 
+            if (error.response.status === 404) {
+
+                return fetchData(Math.random() * (1000 - 1) + 1);
+
+            }
+
+            return null; // Or handle the error appropriately
+
         }
     };
 
@@ -378,4 +386,15 @@ function fetchMoviesForGrid(favouriteMovieArr, castId, handleSetMovieData, setAc
     fetchData();
 }
 
-export { formatRuntime, getRandomNumber, fetchRandomMoviesForHero, newMovieObject, toggleModal, handlePosterImageError, handleBackdropImageError, handleCastImageError, handleToggleFavourite, onAuthCheckIfMovieIsFavourited, fetchMovieInfo, fetchMoviesForCarousel, fetchMoviesForGrid };
+const handleImageLoad = (key, setIsLoading) => {
+
+    setIsLoading((prevLoading) => ({
+
+      ...prevLoading,
+      [key]: false,
+
+    }));
+
+  };
+
+export { formatRuntime, getRandomNumber, fetchRandomMoviesForHero, newMovieObject, toggleModal, handlePosterImageError, handleBackdropImageError, handleCastImageError, handleToggleFavourite, onAuthCheckIfMovieIsFavourited, fetchMovieInfo, fetchMoviesForCarousel, fetchMoviesForGrid, handleImageLoad };

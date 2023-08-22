@@ -4,6 +4,9 @@ import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import noImg from "../images/movie-no-img.png"
 import { notifyError } from "../App";
 
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+
 
 // Import Swiper styles
 import 'swiper/css';
@@ -25,6 +28,8 @@ export default function MovieCard(props) {
     const [userId, setUserId] = React.useState(null);
     const [isModalOpen, setIsModalOpen] = React.useState(false);
 
+
+
     let showScrollBar = "";
 
     React.useEffect(() => {
@@ -39,7 +44,7 @@ export default function MovieCard(props) {
 
         setIsHovered(false);
 
-        
+
 
     }, [isModalOpen]);
 
@@ -58,9 +63,6 @@ export default function MovieCard(props) {
 
     }
 
-
-
-
     return (
 
         <div className="carousel-card-container-overlay">
@@ -71,7 +73,7 @@ export default function MovieCard(props) {
 
                 <div className="carousel-image-container" onClick={() => toggleModal(setIsModalOpen, isModalOpen, showScrollBar)}>
 
-                    <img className={isHovered ? "carousel-movie-poster carousel-movie-poster-hover" : "carousel-movie-poster"} src={props.posterPath} onError={handlePosterImageError} loading="lazy"></img>
+                        <img className={isHovered ? "carousel-movie-poster carousel-movie-poster-hover" : "carousel-movie-poster"} src={props.posterPath} onError={handlePosterImageError} loading="lazy" ></img>
 
                     <div className="carousel-image-overlay-container">
 
@@ -96,7 +98,7 @@ export default function MovieCard(props) {
 
                 <div className="carousel-movie-title-container" >
 
-                    <h1 className="carousel-movie-title hover">{props.title}</h1>
+                    <h1 className="carousel-movie-title hover grid-movie-title">{props.title}</h1>
 
 
 

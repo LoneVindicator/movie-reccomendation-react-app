@@ -4,6 +4,8 @@ import Cast from "./Cast";
 import tmdbLogo from "../images/tmdb-logo.svg"
 import { FaRegWindowClose } from "react-icons/fa";
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
+import noImg from "../images/movie-no-img.png"
+import noBackdrop from "../images/backdrop-no-img.png"
 
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
@@ -25,7 +27,12 @@ export default function MovieModal(props) {
     const [movieData, setMovieData] = React.useState([]);
     const [viewableSlideCount, setViewableSlideCount] = React.useState(2);
     const [isHovered, setIsHovered] = React.useState(false);
-    const [isLoading, setIsLoading] = React.useState(true);
+    const [isLoading, setIsLoading] = React.useState({
+        poster: true,
+        backdrop: true,
+        page: true,
+
+    });
 
     const handleViewableSlideCountStateChange = (updatedValue) => {
 
@@ -67,10 +74,6 @@ export default function MovieModal(props) {
 
 
         setMovieData(newMovie);
-        setIsLoading(true)
-
-
-
 
     };
 
@@ -89,91 +92,309 @@ export default function MovieModal(props) {
 
     }, []);
 
+    React.useEffect(() => {
+
+        if(isLoading.backdrop === false){
+
+            handleImageLoad("page");
+            
+           
+        }else{
+
+            setTimeout(() => {
+
+                handleImageLoad("page");
+                
+            }, 5000);
+        }
+
+
+    }, [isLoading.backdrop, isLoading.poster]);
+
+    const handleImageLoad = (key) => {
+
+        setIsLoading((prevLoading) => ({
+
+            ...prevLoading,
+            [key]: false,
+
+        }));
+
+    };
 
     return ReactDOM.createPortal(
+
 
         <div className="movie-modal-overlay" onClick={props.toggleModal}>
 
 
-                <div className="movie-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="movie-modal-content" onClick={(e) => e.stopPropagation()}>
 
 
-                    <div className="modal-image-container">
+                <div className="modal-image-container">
+
+                    {isLoading.page ?
+
+                        <>
+
+                            <img className="modal-image-poster" src={movieData.backdropPath} onError={handleBackdropImageError} style={{ display: "none" }} onLoad={() => { handleImageLoad("backdrop") }}></img>
+                            <Skeleton className="modal-image-poster" height={550} style={{ position: "inherit" }} baseColor="#08283C" enableAnimation={false} />
+
+                        </> :
 
                         <img className="modal-image-poster" src={movieData.backdropPath} onError={handleBackdropImageError} ></img>
-                        <FaRegWindowClose className="modal-close-btn" onClick={props.toggleModal} />
 
 
-                    </div>
-
-                    <div className="modal-bottom-container">
 
 
-                        <div className="modal-info-container">
 
-                            <div className="modal-info-container-lhs">
 
-                                <div className="carousel-card-container" onMouseEnter={() => { showHoverInfo(true) }} onMouseLeave={() => { showHoverInfo(false) }} >
 
-                                    <div className="carousel-image-container" >
+
+                    }
+
+
+
+
+
+                    <FaRegWindowClose className="modal-close-btn" onClick={props.toggleModal} />
+
+
+                </div>
+
+                <div className="modal-bottom-container">
+
+
+                    <div className="modal-info-container">
+
+                        <div className="modal-info-container-lhs">
+
+                            <div className="carousel-card-container" onMouseEnter={() => { showHoverInfo(true) }} onMouseLeave={() => { showHoverInfo(false) }} >
+
+                                <div className="carousel-image-container" >
+
+                                    {isLoading.page ?
+
+                                        <>
+                                            <img className={isHovered ? "carousel-movie-poster carousel-movie-poster-hover modal-movie-poster" : "carousel-movie-poster"} src={movieData.posterPath} onError={handlePosterImageError} onLoad={() => { handleImageLoad("poster") }} loading="lazy" style={{ display: "none" }}></img>
+                                            <Skeleton className="carousel-movie-poster" height={320} width={240} baseColor="#08283C" enableAnimation={false} />
+
+
+                                        </> :
 
                                         <img className={isHovered ? "carousel-movie-poster carousel-movie-poster-hover modal-movie-poster" : "carousel-movie-poster"} src={movieData.posterPath} onError={handlePosterImageError} loading="lazy"></img>
 
-                                        <div className="carousel-image-overlay-container">
 
-                                            {isHovered ?
-
-                                                (
-
-                                                    props.isFavourite ? <FaHeart className="carousel-movie-poster-heart-icon carousel-movie-poster-heart-icon-true" onMouseEnter={() => { showHoverInfo(true) }} onClick={(e) => { props.handleToggleFavourite(e) }} /> :
-                                                        <FaRegHeart className="carousel-movie-poster-heart-icon" onMouseEnter={() => { showHoverInfo(true) }} onClick={(e) => { props.handleToggleFavourite(e, props.isFavourite) }} />
-                                                ) :
-                                                null
+                                    }
 
 
+                                    <div className="carousel-image-overlay-container">
 
-                                            }
+                                        {isHovered ?
+
+                                            (
+
+                                                props.isFavourite ? <FaHeart className="carousel-movie-poster-heart-icon carousel-movie-poster-heart-icon-true" onMouseEnter={() => { showHoverInfo(true) }} onClick={(e) => { props.handleToggleFavourite(e) }} /> :
+                                                    <FaRegHeart className="carousel-movie-poster-heart-icon" onMouseEnter={() => { showHoverInfo(true) }} onClick={(e) => { props.handleToggleFavourite(e, props.isFavourite) }} />
+                                            ) :
+                                            null
 
 
 
-                                        </div>
+                                        }
+
+
 
                                     </div>
 
                                 </div>
 
-                                <div className="modal-text-container">
+                            </div>
 
-                                    <h1 className="modal-text-movie-name">{movieData.title}</h1>
-                                    <h1 className="modal-text-movie-info">{movieData.releaseDate} {movieData.genre && `· ${movieData.genre[0]}`} · {movieData.runtime}</h1>
+                            <div className="modal-text-container">
+
+                                <h1 className="modal-text-movie-name" >{isLoading.page ? <Skeleton width={400} height={20} baseColor="#08283C" enableAnimation={false} /> : movieData.title}</h1>
+                                {isLoading.page ?
+
+                                    <>
+                                        <h1 className="modal-text-movie-info" style={{ display: "none" }}>{movieData.releaseDate} {movieData.genre && `· ${movieData.genre[0]}`} · {movieData.runtime}</h1>
+                                        <Skeleton width={200} height={8} baseColor="#08283C" enableAnimation={false} />
+
+                                    </> :
+
+                                    <h1 className="modal-text-movie-info">{movieData.releaseDate} {movieData.genre && `· ${movieData.genre[0]}`} · {movieData.runtime}</h1>}
+
+                                {isLoading.page ?
+
+                                    <>
+
+                                        <div className="modal-rating-container" style={{ display: "none" }}>
+
+                                            <img className="modal-rating-logo modal-tmdb-logo" src={tmdbLogo}></img>
+                                            <p className="modal-rating-info modal-tmdb-rating">{movieData.rating}</p>
+
+
+                                        </div>
+
+                                        <Skeleton width={150} height={8} baseColor="#08283C" enableAnimation={false} />
+
+                                    </> :
+
                                     <div className="modal-rating-container">
 
                                         <img className="modal-rating-logo modal-tmdb-logo" src={tmdbLogo}></img>
                                         <p className="modal-rating-info modal-tmdb-rating">{movieData.rating}</p>
 
 
-                                    </div>
-                                    <h1 className="modal-text-movie-desc">{movieData.synopsis}</h1>
+                                    </div>}
+
+
+                                <h1 className="modal-text-movie-desc">{isLoading.page ? <Skeleton width={400} height={10} count={9} baseColor="#08283C" enableAnimation={false} /> : movieData.synopsis}</h1>
+
+                                {isLoading.page ?
+
+                                    <>
+
+                                        <div className="modal-text-genre-container" style={{display: "none"}}>
+
+                                            {movieData.genre &&
+
+                                                movieData.genre.map((item, index) => (
+
+                                                    <p key={index} className="modal-text-genre">{item}</p>
+                                                ))}
+
+
+
+                                        </div>
+                                        
+                                        <div className="modal-text-genre-container">
+
+                                            <Skeleton width={80} height={20} baseColor="#08283C" enableAnimation={false}/>
+                                            <Skeleton width={140} height={20} baseColor="#08283C" enableAnimation={false}/>
+                                            <Skeleton width={163} height={20} baseColor="#08283C" enableAnimation={false}/>
+                                            
+                                            </div></> :
 
                                     <div className="modal-text-genre-container">
 
                                         {movieData.genre &&
 
                                             movieData.genre.map((item, index) => (
+
                                                 <p key={index} className="modal-text-genre">{item}</p>
                                             ))}
 
 
 
-                                    </div>
-
-
-                                </div>
+                                    </div>}
 
 
                             </div>
 
 
+                        </div>
+
+
+                        {isLoading.page ?
+
+
+
+<>
+
+<div className="modal-cast-container" style={{ display: "none" }}>
+
+<h1 className="modal-cast-title">Cast</h1>
+
+<Swiper
+    direction={'vertical'}
+    centeredSlides={false}
+    grabCursor={false}
+    pagination={{
+        clickable: true,
+    }}
+    modules={[Pagination, Navigation]}
+    className="mySwiper verticalCastSwiper"
+    onSlideChange={(swiper) =>
+        handleViewableSlideCountStateChange(swiper.activeIndex)
+    }
+
+    breakpoints={{
+        // when window width is >= 320px
+
+        110: {
+            slidesPerView: 2.5,
+            direction: 'horizontal',
+            navigation: false,
+
+        },
+
+        365: {
+            direction: 'horizontal',
+            slidesPerView: 3.8,
+            navigation: false,
+
+
+        },
+
+        620: {
+            direction: 'horizontal',
+            slidesPerView: 5.8,
+            navigation: false,
+
+
+        },
+
+        1060: {
+            direction: 'vertical',
+            slidesPerView: 3,
+            navigation: true,
+
+
+        },
+
+
+    }
+    }
+
+
+
+>
+
+    {movieData.cast && movieData.cast.map((cast, index) => (
+
+        <SwiperSlide key={index} >
+
+
+
+            <Cast
+
+                key={index}
+                name={cast.name}
+                character={cast.character}
+                castId={cast.id}
+                profilePath={`https://www.themoviedb.org/t/p/w300_and_h450_bestv2${cast.profile_path}`}
+                toggleModal={props.toggleModal}
+          
+
+            >
+
+
+            </Cast>
+
+
+        </SwiperSlide>
+    ))}
+
+</Swiper>
+
+</div>
+
+<Skeleton  width={300} height={400} baseColor="#08283C" enableAnimation={false} />
+
+</>
+
+                           :
 
                             <div className="modal-cast-container">
 
@@ -238,6 +459,8 @@ export default function MovieModal(props) {
 
                                         <SwiperSlide key={index} >
 
+
+
                                             <Cast
 
                                                 key={index}
@@ -246,10 +469,13 @@ export default function MovieModal(props) {
                                                 castId={cast.id}
                                                 profilePath={`https://www.themoviedb.org/t/p/w300_and_h450_bestv2${cast.profile_path}`}
                                                 toggleModal={props.toggleModal}
+                                           
+
                                             >
 
 
                                             </Cast>
+
 
                                         </SwiperSlide>
                                     ))}
@@ -258,13 +484,19 @@ export default function MovieModal(props) {
 
                             </div>
 
+                        }
 
 
-                        </div>
+
+
+
+
 
                     </div>
 
                 </div>
+
+            </div>
 
 
         </div>,

@@ -696,7 +696,6 @@ footer {
   white-space: nowrap;
 }
 
-
 /*  ============================== */
 
 .movie-modal-overlay {
@@ -732,7 +731,7 @@ footer {
   color: black;
   border-radius: 0.5em;
   animation: fadeInOut 0.3s ease-in-out;
-  overflow-y: scroll;
+  overflow-y: hidden;
   overflow-x: hidden;
   /* CSS animation */
 
@@ -814,20 +813,21 @@ footer {
   height: 100%;
   grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
   /* Automatically adjust columns with minimum width of 150px */
-  grid-template-rows: repeat(auto-fill, minmax(500px, 1fr));
   /* Automatically adjust rows with minimum height of 200px */
   grid-column-gap: 1em;
   grid-row-gap: 2em;
   /* Gap between grid item
   s, adjust as per your preference */
+
+  margin-top: 5em;
+  margin-bottom: 5em;
 }
 
 .movie-grid-item {
-  display: flex;
+
   align-items: center;
   border: 1px solid #000;
   height: 100%;
-  width: 11em;
   /* This will make each item occupy the full height of the row */
   border: none;
 
@@ -1096,7 +1096,7 @@ footer {
 .modal-cast-photo {
 
   width: 5.7em;
-  height: 7em;
+
 }
 
 .modal-cast-text-container {
@@ -1465,11 +1465,7 @@ footer {
     padding-right: 3em;
   }
 
-  .movie-grid-container {
 
-    grid-template-columns: repeat(6, 1fr);
-
-  }
 
 }
 

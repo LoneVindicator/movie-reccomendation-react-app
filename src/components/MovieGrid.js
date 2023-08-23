@@ -12,6 +12,9 @@ import 'swiper/css';
 import 'swiper/css/navigation'
 import 'swiper/css/pagination';
 
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+
 // import required modules
 
 import { Grid, Pagination } from 'swiper/modules';
@@ -30,7 +33,12 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 export default function MovieGrid(props) {
 
     const [movieData, setMovieData] = React.useState([]);
-    const [actorInfo, setActorInfo] = React.useState([])
+    const [actorInfo, setActorInfo] = React.useState([]);
+    const [isLoading, setIsLoading] = React.useState({
+
+        moviePoster: true,
+    
+      });
 
     const handleSetMovieData = (movieInfoArray) => {
 
@@ -58,6 +66,17 @@ export default function MovieGrid(props) {
        fetchMoviesForGrid(props.favouriteMovieArr, props.castId, handleSetMovieData, setActorInfo)
 
     }, []);
+
+    const handleImageLoad = (key) => {
+
+        setIsLoading((prevLoading) => ({
+    
+          ...prevLoading,
+          [key]: false,
+    
+        }));
+    
+      };
 
     return ReactDOM.createPortal(
 
@@ -109,7 +128,11 @@ export default function MovieGrid(props) {
 
 
 
-                <div className="movie-grid-container">
+                {isLoading.moviePoster?
+                
+            <>
+            
+            <div className="movie-grid-container" style={{display: "none"}} onLoad={() => { handleImageLoad("moviePoster") }}>
                     {movieData.map((movie) => (
                         <div key={movie.id} className="movie-grid-item">
                             <MovieCard
@@ -129,6 +152,40 @@ export default function MovieGrid(props) {
                         </div>
                     ))}
                 </div>
+                
+                <div className="movie-grid-container">
+                    {Array.from( { length: 20 }, ( index ) => (
+                        <div key={index} className="movie-grid-item">
+
+                            <Skeleton height={350} baseColor="#08283C" enableAnimation={false} />
+                            <Skeleton width={150} baseColor="#08283C" enableAnimation={false} style={{marginTop:"0.8em"}} />
+
+
+                
+                        </div>
+                    ))}
+                </div></>:
+                
+                <div className="movie-grid-container">
+                    {movieData.map((movie) => (
+                        <div key={movie.id} className="movie-grid-item">
+                            <MovieCard
+                                id={movie.id}
+                                title={movie.title}
+                                posterPath={movie.poster_path}
+                                backdropPath={movie.backdrop_path}
+                                synopsis={movie.synopsis}
+                                runtime={movie.runtime}
+                                rating={movie.rating}
+                                genre={movie.genre}
+                                releaseDate={movie.release_date}
+                                cast={movie.cast}
+                                {...props}
+
+                            />
+                        </div>
+                    ))}
+                </div>}
 
 
 

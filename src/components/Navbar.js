@@ -10,6 +10,7 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { FaHeart } from "react-icons/fa6";
 import axios from "axios";
 import { getFavoriteMovieIds, isMovieFavorited, toggleMovieFavorite } from "../firebase";
+import { toggleModal } from "../utils";
 import MovieGrid from "./MovieGrid";
 
 import 'react-toastify/dist/ReactToastify.css';
@@ -59,17 +60,6 @@ export default function Navbar(props) {
         }
 
         setIsMovieGridModalOpen(!isMovieGridModalOpen);
-
-    }
-
-    const toggleModal = () => {
-
-        console.log("toggle run!")
-
-        setIsModalOpen(!isModalOpen);
-        isModalOpen ? showScrollBar = "" : showScrollBar = "hidden";
-
-        document.body.style.overflow = showScrollBar;
 
     }
 
@@ -175,7 +165,7 @@ export default function Navbar(props) {
 
         setMovieId(movieId);
         onAuthCheckIfMovieIsFavourited(setAuthUser, movieId, setIsFavourite)
-        toggleModal();
+        toggleModal(setIsModalOpen, isModalOpen, showScrollBar);
         setOpenSearchDropdown(null);
 
 
@@ -344,7 +334,7 @@ export default function Navbar(props) {
 
             {isModalOpen &&
 
-                <MovieModal isModalOpen={isModalOpen} toggleModal={toggleModal} id={movieId} handleToggleFavourite={handleToggleFavourite} isFavourite={isFavourite} {...props} />
+                <MovieModal isModalOpen={isModalOpen} toggleModal={() => toggleModal(setIsModalOpen, isModalOpen, showScrollBar)} id={movieId} handleToggleFavourite={handleToggleFavourite} isFavourite={isFavourite} {...props} />
 
             }
 

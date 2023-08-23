@@ -3,10 +3,14 @@ import MovieCard from "../components/MovieCard"
 import { fetchMoviesForCarousel } from "../utils";
 
 
+
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation'
 import 'swiper/css/pagination';
+
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 // import required modules
 import { Pagination, Navigation } from 'swiper/modules';
@@ -16,6 +20,12 @@ export default function Carousel(props) {
 
   const [viewableSlideCount, setViewableSlideCount] = React.useState(6.5);
   const [movieData, setMovieData] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState({
+
+    moviePoster: true,
+    page: true,
+
+  });
 
   const handleViewableSlideCountStateChange = (updatedValue) => {
 
@@ -49,8 +59,38 @@ export default function Carousel(props) {
 
     fetchMoviesForCarousel(props.randNumArray, props.nowPlaying, props.listSelector, handleSetMovieData);
 
-   
+
   }, []);
+
+  const handleImageLoad = (key) => {
+
+    setIsLoading((prevLoading) => ({
+
+      ...prevLoading,
+      [key]: false,
+
+    }));
+
+  };
+
+  React.useEffect(() => {
+
+    if(isLoading.moviePoster === false){
+
+        handleImageLoad("page");
+        
+       
+    }else{
+
+        setTimeout(() => {
+
+            handleImageLoad("page");
+            
+        }, 10000);
+    }
+
+
+}, [isLoading.moviePoster]);
 
 
 
@@ -60,13 +100,13 @@ export default function Carousel(props) {
     <div className="carousel-component-container">
       <h1 className="carousel-title">{props.carouselTitle}</h1>
       <Swiper
- 
+
         centeredSlides={false}
         grabCursor={false}
         pagination={{
           clickable: true,
         }}
-    
+
         modules={[Pagination, Navigation]}
         className="mySwiper"
         onSlideChange={(swiper) =>
@@ -79,56 +119,56 @@ export default function Carousel(props) {
           // when window width is >= 320px
           320: {
             slidesPerView: 2.2,
-            navigation:false,
-        
+            navigation: false,
+
           },
           // when window width is >= 480px
           480: {
-            slidesPerView: 2.2,  
-            navigation:false,   
-         
+            slidesPerView: 2.2,
+            navigation: false,
+
           },
           // when window width is >= 640px
           640: {
             slidesPerView: 3.6,
-            navigation:false,
-          
+            navigation: false,
+
           },
           840: {
             slidesPerView: 4.2,
-            navigation:false,
+            navigation: false,
 
-        
-           
+
+
           },
 
           1240: {
             slidesPerView: 3.8,
-            navigation:true,
-           
-          
+            navigation: true,
+
+
           },
 
           1440: {
             slidesPerView: 4.8,
-            navigation:true,
-      
-        
+            navigation: true,
+
+
           },
 
           1640: {
             slidesPerView: 5.6,
-            navigation:true,
-      
-        
+            navigation: true,
+
+
           },
 
           1840: {
             slidesPerView: 6.1,
-            navigation:true,
-         
-         
-            
+            navigation: true,
+
+
+
           },
 
         }
@@ -136,27 +176,80 @@ export default function Carousel(props) {
 
 
       >
-      {movieData.map((movie, index) => (
 
-        <SwiperSlide key={index}>
-          <MovieCard
-            id={movie.id}
-            title={movie.title}
-            posterPath={movie.poster_path}
-            backdropPath={movie.backdrop_path}
-            synopsis={movie.synopsis}
-            runtime={movie.runtime}
-            rating={movie.rating}
-            genre={movie.genre}
-            releaseDate={movie.release_date}
-            cast={movie.cast}
-            slideStateChange={handleViewableSlideCountStateChange}
-            viewableSlideCount={viewableSlideCount}
-          />
-        </SwiperSlide>
-      ))}
+        {isLoading.page ?
 
-    </Swiper>
+          <>
+
+            {movieData.map((movie, index) => (
+
+              <SwiperSlide key={index} style={{ display: "none" }} onLoad={() => { handleImageLoad("moviePoster") }}>
+
+
+                <MovieCard
+                  id={movie.id}
+                  title={movie.title}
+                  posterPath={movie.poster_path}
+                  backdropPath={movie.backdrop_path}
+                  synopsis={movie.synopsis}
+                  runtime={movie.runtime}
+                  rating={movie.rating}
+                  genre={movie.genre}
+                  releaseDate={movie.release_date}
+                  cast={movie.cast}
+                  slideStateChange={handleViewableSlideCountStateChange}
+                  viewableSlideCount={viewableSlideCount}
+                />
+              </SwiperSlide>
+            ))}
+
+            {Array.from( { length: 14 }, ( index ) => (
+
+              <SwiperSlide key={index} >
+
+                <div className="carousel-card-container">
+                  <Skeleton className="carousel-movie-poster" width={"90%"} height={300} baseColor="#08283C" enableAnimation={false} />
+                  <Skeleton className="carousel-movie-title" width={"60%"} baseColor="#08283C" enableAnimation={false} style={{marginTop:"0.8em"}} />
+
+
+                </div>
+
+
+
+
+
+              </SwiperSlide>
+            ))}
+
+
+
+          </> :
+
+          <>
+
+            {
+              movieData.map((movie, index) => (
+
+                <SwiperSlide key={index}>
+
+
+                  <MovieCard
+                    id={movie.id}
+                    title={movie.title}
+                    posterPath={movie.poster_path}
+                    slideStateChange={handleViewableSlideCountStateChange}
+                    viewableSlideCount={viewableSlideCount}
+                  />
+                </SwiperSlide>
+              ))
+            }
+
+          </>
+
+        }
+
+
+      </Swiper>
     </div >
   );
 }

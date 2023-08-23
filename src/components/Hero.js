@@ -79,14 +79,14 @@ export default function Hero() {
 
             <div className="hero-text-component">
 
-                <h1 className="hero-title">{isLoading.page? <Skeleton width={400} height={20} baseColor="#08283C" enableAnimation={false} /> : movieData.title} </h1>
+                <h1 className="hero-title">{isLoading.page? <Skeleton width={400} height={"50%"} baseColor="#08283C" enableAnimation={false} /> : movieData.title} </h1>
 
                 {isLoading.page ?
 
                     <>
 
                         <h1 className="hero-info" style={{ display: "none" }} >{movieData.releaseDate} · {movieData.genre} · {movieData.runtime} </h1>
-                        <Skeleton className="hero-info" width={200} height={20} baseColor="#08283C" enableAnimation={false} />
+                        <Skeleton className="hero-info" width={200} height={"50%"} baseColor="#08283C" enableAnimation={false} />
 
                     </> :
 

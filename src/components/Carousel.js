@@ -208,8 +208,8 @@ export default function Carousel(props) {
               <SwiperSlide key={index} >
 
                 <div className="carousel-card-container">
-                  <Skeleton width={220} height={300} baseColor="#08283C" enableAnimation={false} />
-                  <Skeleton width={150} baseColor="#08283C" enableAnimation={false} style={{marginTop:"0.8em"}} />
+                  <Skeleton className="carousel-movie-poster" width={"90%"} height={300} baseColor="#08283C" enableAnimation={false} />
+                  <Skeleton className="carousel-movie-title" width={"60%"} baseColor="#08283C" enableAnimation={false} style={{marginTop:"0.8em"}} />
 
 
                 </div>

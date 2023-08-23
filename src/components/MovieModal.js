@@ -97,14 +97,14 @@ export default function MovieModal(props) {
         if(isLoading.backdrop === false){
 
             handleImageLoad("page");
-            
-           
+
+
         }else{
 
             setTimeout(() => {
 
                 handleImageLoad("page");
-                
+
             }, 5000);
         }
 
@@ -138,7 +138,7 @@ export default function MovieModal(props) {
                         <>
 
                             <img className="modal-image-poster" src={movieData.backdropPath} onError={handleBackdropImageError} style={{ display: "none" }} onLoad={() => { handleImageLoad("backdrop") }}></img>
-                            <Skeleton className="modal-image-poster" height={550} style={{ position: "inherit" }} baseColor="#08283C" enableAnimation={false} />
+                            <Skeleton className="modal-image-poster" style={{ position: "inherit", aspectRatio: "16/9" }} baseColor="#08283C" enableAnimation={false} />
 
                         </> :
 
@@ -177,7 +177,7 @@ export default function MovieModal(props) {
 
                                         <>
                                             <img className={isHovered ? "carousel-movie-poster carousel-movie-poster-hover modal-movie-poster" : "carousel-movie-poster"} src={movieData.posterPath} onError={handlePosterImageError} onLoad={() => { handleImageLoad("poster") }} loading="lazy" style={{ display: "none" }}></img>
-                                            <Skeleton className="carousel-movie-poster" height={320} width={240} baseColor="#08283C" enableAnimation={false} />
+                                            <Skeleton className="carousel-movie-poster" height={320} width={240} style={{ aspectRatio: "4/3" }} baseColor="#08283C" enableAnimation={false} />
 
 
                                         </> :
@@ -213,12 +213,12 @@ export default function MovieModal(props) {
 
                             <div className="modal-text-container">
 
-                                <h1 className="modal-text-movie-name" >{isLoading.page ? <Skeleton width={400} height={20} baseColor="#08283C" enableAnimation={false} /> : movieData.title}</h1>
+                                <h1 className="modal-text-movie-name" >{isLoading.page ? <Skeleton baseColor="#08283C" enableAnimation={false} /> : movieData.title}</h1>
                                 {isLoading.page ?
 
                                     <>
                                         <h1 className="modal-text-movie-info" style={{ display: "none" }}>{movieData.releaseDate} {movieData.genre && `· ${movieData.genre[0]}`} · {movieData.runtime}</h1>
-                                        <Skeleton width={200} height={8} baseColor="#08283C" enableAnimation={false} />
+                                        <Skeleton className="modal-text-movie-info" width={"70%"} baseColor="#08283C" enableAnimation={false} />
 
                                     </> :
 
@@ -236,7 +236,7 @@ export default function MovieModal(props) {
 
                                         </div>
 
-                                        <Skeleton width={150} height={8} baseColor="#08283C" enableAnimation={false} />
+                                        <Skeleton className="modal-rating-container" width={"40%"} baseColor="#08283C" enableAnimation={false} />
 
                                     </> :
 
@@ -249,13 +249,13 @@ export default function MovieModal(props) {
                                     </div>}
 
 
-                                <h1 className="modal-text-movie-desc">{isLoading.page ? <Skeleton width={400} height={10} count={9} baseColor="#08283C" enableAnimation={false} /> : movieData.synopsis}</h1>
+                                <h1 className="modal-text-movie-desc">{isLoading.page ? <Skeleton count={9} baseColor="#08283C" enableAnimation={false} /> : movieData.synopsis}</h1>
 
                                 {isLoading.page ?
 
                                     <>
 
-                                        <div className="modal-text-genre-container" style={{display: "none"}}>
+                                        <div className="modal-text-genre-container" style={{ display: "none" }}>
 
                                             {movieData.genre &&
 
@@ -267,14 +267,8 @@ export default function MovieModal(props) {
 
 
                                         </div>
-                                        
-                                        <div className="modal-text-genre-container">
 
-                                            <Skeleton width={80} height={20} baseColor="#08283C" enableAnimation={false}/>
-                                            <Skeleton width={140} height={20} baseColor="#08283C" enableAnimation={false}/>
-                                            <Skeleton width={163} height={20} baseColor="#08283C" enableAnimation={false}/>
-                                            
-                                            </div></> :
+                                    </> :
 
                                     <div className="modal-text-genre-container">
 
@@ -300,101 +294,101 @@ export default function MovieModal(props) {
 
 
 
-<>
+                            <>
 
-<div className="modal-cast-container" style={{ display: "none" }}>
+                                <div className="modal-cast-container" style={{ display: "none" }}>
 
-<h1 className="modal-cast-title">Cast</h1>
+                                    <h1 className="modal-cast-title">Cast</h1>
 
-<Swiper
-    direction={'vertical'}
-    centeredSlides={false}
-    grabCursor={false}
-    pagination={{
-        clickable: true,
-    }}
-    modules={[Pagination, Navigation]}
-    className="mySwiper verticalCastSwiper"
-    onSlideChange={(swiper) =>
-        handleViewableSlideCountStateChange(swiper.activeIndex)
-    }
+                                    <Swiper
+                                        direction={'vertical'}
+                                        centeredSlides={false}
+                                        grabCursor={false}
+                                        pagination={{
+                                            clickable: true,
+                                        }}
+                                        modules={[Pagination, Navigation]}
+                                        className="mySwiper verticalCastSwiper"
+                                        onSlideChange={(swiper) =>
+                                            handleViewableSlideCountStateChange(swiper.activeIndex)
+                                        }
 
-    breakpoints={{
-        // when window width is >= 320px
+                                        breakpoints={{
+                                            // when window width is >= 320px
 
-        110: {
-            slidesPerView: 2.5,
-            direction: 'horizontal',
-            navigation: false,
+                                            110: {
+                                                slidesPerView: 2.5,
+                                                direction: 'horizontal',
+                                                navigation: false,
 
-        },
+                                            },
 
-        365: {
-            direction: 'horizontal',
-            slidesPerView: 3.8,
-            navigation: false,
-
-
-        },
-
-        620: {
-            direction: 'horizontal',
-            slidesPerView: 5.8,
-            navigation: false,
+                                            365: {
+                                                direction: 'horizontal',
+                                                slidesPerView: 3.8,
+                                                navigation: false,
 
 
-        },
+                                            },
 
-        1060: {
-            direction: 'vertical',
-            slidesPerView: 3,
-            navigation: true,
-
-
-        },
+                                            620: {
+                                                direction: 'horizontal',
+                                                slidesPerView: 5.8,
+                                                navigation: false,
 
 
-    }
-    }
+                                            },
+
+                                            1060: {
+                                                direction: 'vertical',
+                                                slidesPerView: 3,
+                                                navigation: true,
 
 
+                                            },
 
->
 
-    {movieData.cast && movieData.cast.map((cast, index) => (
-
-        <SwiperSlide key={index} >
+                                        }
+                                        }
 
 
 
-            <Cast
+                                    >
 
-                key={index}
-                name={cast.name}
-                character={cast.character}
-                castId={cast.id}
-                profilePath={`https://www.themoviedb.org/t/p/w300_and_h450_bestv2${cast.profile_path}`}
-                toggleModal={props.toggleModal}
-          
+                                        {movieData.cast && movieData.cast.map((cast, index) => (
 
-            >
+                                            <SwiperSlide key={index} >
 
 
-            </Cast>
+
+                                                <Cast
+
+                                                    key={index}
+                                                    name={cast.name}
+                                                    character={cast.character}
+                                                    castId={cast.id}
+                                                    profilePath={`https://www.themoviedb.org/t/p/w300_and_h450_bestv2${cast.profile_path}`}
+                                                    toggleModal={props.toggleModal}
 
 
-        </SwiperSlide>
-    ))}
+                                                >
 
-</Swiper>
 
-</div>
+                                                </Cast>
 
-<Skeleton  width={300} height={400} baseColor="#08283C" enableAnimation={false} />
 
-</>
+                                            </SwiperSlide>
+                                        ))}
 
-                           :
+                                    </Swiper>
+
+                                </div>
+
+                                <Skeleton className="modal-cast-container" style={{ aspectRatio: "5.5/9" }} baseColor="#08283C" enableAnimation={false} />
+
+                            </>
+
+                            :
 
                             <div className="modal-cast-container">
 
@@ -469,7 +463,7 @@ export default function MovieModal(props) {
                                                 castId={cast.id}
                                                 profilePath={`https://www.themoviedb.org/t/p/w300_and_h450_bestv2${cast.profile_path}`}
                                                 toggleModal={props.toggleModal}
-                                           
+
 
                                             >
 

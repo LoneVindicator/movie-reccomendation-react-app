@@ -169,7 +169,7 @@ export default function MovieModal(props) {
 
                         <div className="modal-info-container-lhs">
 
-                            <div className="carousel-card-container" onMouseEnter={() => { showHoverInfo(true) }} onMouseLeave={() => { showHoverInfo(false) }} >
+                            <div className="carousel-card-container modal-carousel-card-container" onMouseEnter={() => { showHoverInfo(true) }} onMouseLeave={() => { showHoverInfo(false) }} >
 
                                 <div className="carousel-image-container" >
 
@@ -268,6 +268,7 @@ export default function MovieModal(props) {
 
                                         </div>
 
+
                                     </> :
 
                                     <div className="modal-text-genre-container">
@@ -302,6 +303,7 @@ export default function MovieModal(props) {
 
                                     <Swiper
                                         direction={'vertical'}
+                                        spaceBetween={"1%"}
                                         centeredSlides={false}
                                         grabCursor={false}
                                         pagination={{
@@ -341,7 +343,7 @@ export default function MovieModal(props) {
 
                                             1060: {
                                                 direction: 'vertical',
-                                                slidesPerView: 3,
+                                                slidesPerView: 2.5,
                                                 navigation: true,
 
 
@@ -396,6 +398,7 @@ export default function MovieModal(props) {
 
                                 <Swiper
                                     direction={'vertical'}
+                                    spaceBetween={"1%"}
                                     centeredSlides={false}
                                     grabCursor={false}
                                     pagination={{
@@ -435,7 +438,7 @@ export default function MovieModal(props) {
 
                                         1060: {
                                             direction: 'vertical',
-                                            slidesPerView: 3,
+                                            slidesPerView: 3.0,
                                             navigation: true,
 
 

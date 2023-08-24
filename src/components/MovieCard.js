@@ -65,55 +65,52 @@ export default function MovieCard(props) {
 
     return (
 
-        <div className="carousel-card-container-overlay">
+
+        <div className="carousel-card-container" onMouseEnter={() => { showHoverInfo(true) }} onMouseLeave={() => { showHoverInfo(false) }} >
+
+            <div className="carousel-image-container" onClick={() => toggleModal(setIsModalOpen, isModalOpen, showScrollBar)}>
+
+                <img className={isHovered ? "carousel-movie-poster carousel-movie-poster-hover" : "carousel-movie-poster"} src={props.posterPath} onError={handlePosterImageError} loading="lazy" ></img>
+
+                <div className="carousel-image-overlay-container">
+
+                    {isHovered ?
+
+                        (
+
+                            isFavourite ? <FaHeart className="carousel-movie-poster-heart-icon carousel-movie-poster-heart-icon-true" onMouseEnter={() => { showHoverInfo(true) }} onClick={(e) => stopPropagationAndLaunchHandleToggleFavourite(e)} /> :
+                                <FaRegHeart className="carousel-movie-poster-heart-icon" onMouseEnter={() => { showHoverInfo(true) }} onClick={(e) => stopPropagationAndLaunchHandleToggleFavourite(e)} />
+                        ) :
+                        null
 
 
 
-            <div className="carousel-card-container" onMouseEnter={() => { showHoverInfo(true) }} onMouseLeave={() => { showHoverInfo(false) }} >
-
-                <div className="carousel-image-container" onClick={() => toggleModal(setIsModalOpen, isModalOpen, showScrollBar)}>
-
-                        <img className={isHovered ? "carousel-movie-poster carousel-movie-poster-hover" : "carousel-movie-poster"} src={props.posterPath} onError={handlePosterImageError} loading="lazy" ></img>
-
-                    <div className="carousel-image-overlay-container">
-
-                        {isHovered ?
-
-                            (
-
-                                isFavourite ? <FaHeart className="carousel-movie-poster-heart-icon carousel-movie-poster-heart-icon-true" onMouseEnter={() => { showHoverInfo(true) }} onClick={(e) => stopPropagationAndLaunchHandleToggleFavourite(e)} /> :
-                                    <FaRegHeart className="carousel-movie-poster-heart-icon" onMouseEnter={() => { showHoverInfo(true) }} onClick={(e) => stopPropagationAndLaunchHandleToggleFavourite(e)} />
-                            ) :
-                            null
-
-
-
-                        }
-
-
-
-                    </div>
-
-                </div>
-
-                <div className="carousel-movie-title-container" >
-
-                    <h1 className="carousel-movie-title hover grid-movie-title">{props.title}</h1>
-
+                    }
 
 
 
                 </div>
-
-                {isModalOpen &&
-
-                    <MovieModal isModalOpen={isModalOpen} toggleModal={() => toggleModal(setIsModalOpen, isModalOpen, showScrollBar)} handleToggleFavourite={() => handleToggleFavourite(userId, setIsFavourite, isFavourite, props, toggleMovieFavorite)} isFavourite={isFavourite}{...props} />
-
-                }
 
             </div>
 
+            <div className="carousel-movie-title-container" >
+
+                <h1 className="carousel-movie-title hover grid-movie-title">{props.title}</h1>
+
+
+
+
+            </div>
+
+            {isModalOpen &&
+
+                <MovieModal isModalOpen={isModalOpen} toggleModal={() => toggleModal(setIsModalOpen, isModalOpen, showScrollBar)} handleToggleFavourite={() => handleToggleFavourite(userId, setIsFavourite, isFavourite, props, toggleMovieFavorite)} isFavourite={isFavourite}{...props} />
+
+            }
+
         </div>
+
+
 
 
 

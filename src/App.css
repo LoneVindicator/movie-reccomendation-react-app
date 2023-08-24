@@ -317,6 +317,10 @@ nav {
   ;
 }
 
+.carousel-card-container{
+
+}
+
 /* Carousel Default No Hover */
 /* 
 .carousel-card-container-hover {
@@ -593,8 +597,8 @@ footer {
 
   cursor: pointer;
   font-size: 2.5em;
-  left: 4.5em;
-  top: 0.3em;
+  top: 2.5%;
+  right: 4.5%;
   transition: color 0.6s ease;
 
 
@@ -648,8 +652,6 @@ footer {
   text-overflow: ellipsis;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
-  width: 93%;
-
 
 }
 
@@ -661,7 +663,8 @@ footer {
 
 .carousel-movie-poster {
 
-  width: 14.5em;
+  object-fit: cover;
+  width: 100%;
   opacity: 1;
 
 }
@@ -731,8 +734,8 @@ footer {
   color: black;
   border-radius: 0.5em;
   animation: fadeInOut 0.3s ease-in-out;
-  overflow-y: hidden;
-  overflow-x: hidden;
+  overflow-y: scroll;
+  overflow-x: scroll;
   /* CSS animation */
 
 }
@@ -773,9 +776,7 @@ footer {
   display: flex;
   flex-direction: column;
   gap:0.1em;
-  padding-left: 1em;
-  padding-right: 1em;
-  padding-top: 2em;
+  padding: 1%;
   width: 70vw;
   height: 90vh;
   margin-top: 0;
@@ -814,13 +815,13 @@ footer {
   grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
   /* Automatically adjust columns with minimum width of 150px */
   /* Automatically adjust rows with minimum height of 200px */
-  grid-column-gap: 1em;
-  grid-row-gap: 2em;
+  grid-column-gap: 1.3%;
+  grid-row-gap: 1.3%;
   /* Gap between grid item
   s, adjust as per your preference */
 
-  margin-top: 5em;
-  margin-bottom: 5em;
+  margin-top: 2%;
+  margin-bottom: 2%;
 }
 
 .movie-grid-item {
@@ -948,9 +949,9 @@ footer {
   display: row;
   justify-content: space-between;
 
-  padding: 1.5em;
+  padding: 2%;
 
-  width: 100%;
+ 
   color: white;
 
 }
@@ -959,9 +960,19 @@ footer {
 
   display: flex;
   flex-direction: row;
-  gap: 1.5em;
+  gap: 3%;
+  width: 80%;
 
+}
 
+.modal-text-container{
+
+  width: 62%;
+}
+
+.modal-carousel-card-container{
+
+  width: 30%;
 }
 
 
@@ -977,11 +988,6 @@ footer {
 
 }
 
-.modal-text-container {
-
-  width: 30em;
-  border-radius: 0.5em;
-}
 
 .modal-text-movie-name {
 
@@ -1009,6 +1015,7 @@ footer {
   font-size: 0.9em;
   font-weight: 600;
   flex-wrap: wrap;
+  
 }
 
 .modal-text-genre {
@@ -1019,6 +1026,7 @@ footer {
   padding: 0.3em;
   cursor: pointer;
   min-width: 6%;
+  margin: 0;
 
 }
 
@@ -1035,29 +1043,28 @@ footer {
   font-size: 1em;
   font-weight: 400;
   color: #FFF;
-  width: 96%;
-
 
 }
 
-.modal-cast-container,
-.verticalCastSwiper {
+.modal-cast-container {
 
-  padding: 1em;
-  padding-left: 0;
   background-color: rgb(4, 21, 31, 0.8);
   overflow: hidden;
   border-radius: 0.5em;
+  width: 30%;
 
-  width: 16em;
-  height: 24em;
+}
 
+.verticalCastSwiper{
+
+  height: 23em;
+  
 }
 
 .modal-cast-title {
 
   font-size: 1.3em;
-  margin-top: 0;
+  margin-top: 2%;
   text-align: center;
 }
 
@@ -1067,7 +1074,7 @@ footer {
   flex-direction: row;
 
   align-items: center;
-  gap: 0.8em;
+  gap: 5%;
 
   background-color: rgba(255, 255, 255, 0);
 
@@ -1086,17 +1093,21 @@ footer {
 .modal-cast-photo-container {
 
   /* Adjust the size of the circle */
-  height: 7em;
+
   border-radius: 0.2em;
   /* Make it a circle */
   overflow: hidden;
+  width: 33%;
   /* Hide anything outside the circle */
 
 }
 
 .modal-cast-photo {
 
-  width: 5.7em;
+  width: 100%;
+  object-fit: cover;
+  aspect-ratio: 8/10;
+
 
 }
 
@@ -1105,6 +1116,7 @@ footer {
   display: flex;
   flex-direction: column;
   gap: 0.2em;
+  width: 50%;
 
 }
 
@@ -1255,16 +1267,15 @@ footer {
     min-width: 100%;
   }
 
-  .carousel-movie-poster {
+  /* .carousel-movie-poster {
 
     width: 8em;
-  }
+  } */
 
   .carousel-movie-poster-heart-icon,
   .carousel-movie-poster-heart-icon-true {
 
     font-size: 2em;
-    left: 70%;
 
   }
 
@@ -1379,10 +1390,10 @@ footer {
     width: 1.5em;
   }
 
-  .carousel-movie-poster {
+  /* .carousel-movie-poster {
 
     width: 10em;
-  }
+  } */
 
   .modal-image-poster {
 
@@ -1390,17 +1401,31 @@ footer {
     height: 100%;
   }
 
+  .modal-text-container{
+
+    width: 70%;
+  }
+
   .movie-modal-content {
 
     width: 100%;
+    height: 100vh;
     flex-direction: row;
 
   }
 
-  .modal-info-container-lhs {
+  
 
-    width: 100%;
-  }
+.modal-cast-photo-container {
+
+  width: 100%;
+}
+
+.modal-cast-text-container{
+  width: 100%;
+
+
+}
 
   .modal-info-container {
 
@@ -1412,8 +1437,13 @@ footer {
 
   .modal-cast-container {
 
+    width: 95vw;
+    height: fit-content;
+  }
+
+  .modal-info-container-lhs{
+
     width: 100%;
-    height: 15em;
   }
 
   .modal-cast-member-container {
@@ -1423,15 +1453,9 @@ footer {
     align-items: center;
   }
 
-  .modal-text-movie-desc {
-
-    width: 80%;
-  }
-
   .verticalCastSwiper {
 
-    width: 100%;
-    height: auto;
+    height: fit-content;
     overflow: hidden;
   }
 
@@ -1462,8 +1486,8 @@ footer {
 
     width: 100vw;
     height: 100vh;
-    padding-left: 3em;
-    padding-right: 3em;
+    padding: 5%;
+
   }
 
 
@@ -1578,10 +1602,10 @@ footer {
     height: 0.6em;
   }
 
-  .carousel-movie-poster {
+  /* .carousel-movie-poster {
 
     width: 7em;
-  }
+  } */
 
   .rate-btn-container {
 

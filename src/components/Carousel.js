@@ -102,6 +102,8 @@ export default function Carousel(props) {
       <Swiper
 
         centeredSlides={false}
+        slidesPerView={6.1}
+        spaceBetween={"1%"}
         grabCursor={false}
         pagination={{
           clickable: true,

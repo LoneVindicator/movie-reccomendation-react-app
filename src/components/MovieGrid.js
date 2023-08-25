@@ -28,7 +28,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 // 4. Filter by category
 // 5. Refactor
 // 6. Ignore just a push test
-// 7. Use a loading skeleton
+// 7. Use a loading skeleton (Make It Responsive)
+// 8. Add & Implement Watch Trailer Button
 
 export default function MovieGrid(props) {
 

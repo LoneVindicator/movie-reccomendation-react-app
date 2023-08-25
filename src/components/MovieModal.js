@@ -169,20 +169,20 @@ export default function MovieModal(props) {
 
                         <div className="modal-info-container-lhs">
 
-                            <div className="carousel-card-container modal-carousel-card-container" onMouseEnter={() => { showHoverInfo(true) }} onMouseLeave={() => { showHoverInfo(false) }} >
+                            <div className="carousel-card-container" onMouseEnter={() => { showHoverInfo(true) }} onMouseLeave={() => { showHoverInfo(false) }} >
 
                                 <div className="carousel-image-container" >
 
                                     {isLoading.page ?
 
                                         <>
-                                            <img className={isHovered ? "carousel-movie-poster carousel-movie-poster-hover modal-movie-poster" : "carousel-movie-poster"} src={movieData.posterPath} onError={handlePosterImageError} onLoad={() => { handleImageLoad("poster") }} loading="lazy" style={{ display: "none" }}></img>
-                                            <Skeleton className="carousel-movie-poster" height={320} width={240} style={{ aspectRatio: "4/3" }} baseColor="#08283C" enableAnimation={false} />
+                                            <img className={isHovered ? "carousel-movie-poster carousel-movie-poster-hover modal-movie-poster modal-movie-poster" : "carousel-movie-poster modal-movie-poster"} src={movieData.posterPath} onError={handlePosterImageError} onLoad={() => { handleImageLoad("poster") }} loading="lazy" style={{ display: "none" }}></img>
+                                            <Skeleton className="carousel-movie-poster modal-movie-poster" width={"15vw"} style={{ aspectRatio: "2/3" }} baseColor="#08283C" enableAnimation={false} />
 
 
                                         </> :
 
-                                        <img className={isHovered ? "carousel-movie-poster carousel-movie-poster-hover modal-movie-poster" : "carousel-movie-poster"} src={movieData.posterPath} onError={handlePosterImageError} loading="lazy"></img>
+                                        <img className={isHovered ? "carousel-movie-poster carousel-movie-poster-hover modal-movie-poster" : "carousel-movie-poster modal-movie-poster"} src={movieData.posterPath} onError={handlePosterImageError} loading="lazy"></img>
 
 
                                     }
@@ -213,7 +213,7 @@ export default function MovieModal(props) {
 
                             <div className="modal-text-container">
 
-                                <h1 className="modal-text-movie-name" >{isLoading.page ? <Skeleton baseColor="#08283C" enableAnimation={false} /> : movieData.title}</h1>
+                                <h1 className="modal-text-movie-name" >{isLoading.page ? <Skeleton style={{ width: "25vw" }} baseColor="#08283C" enableAnimation={false} /> : movieData.title}</h1>
                                 {isLoading.page ?
 
                                     <>
@@ -236,7 +236,7 @@ export default function MovieModal(props) {
 
                                         </div>
 
-                                        <Skeleton className="modal-rating-container" width={"40%"} baseColor="#08283C" enableAnimation={false} />
+                                        <Skeleton className="modal-rating-container" width={"70%"} baseColor="#08283C" enableAnimation={false} />
 
                                     </> :
 
@@ -249,7 +249,7 @@ export default function MovieModal(props) {
                                     </div>}
 
 
-                                <h1 className="modal-text-movie-desc">{isLoading.page ? <Skeleton count={9} baseColor="#08283C" enableAnimation={false} /> : movieData.synopsis}</h1>
+                                <h1 className="modal-text-movie-desc">{isLoading.page ? <Skeleton count={5} baseColor="#08283C" enableAnimation={false} /> : movieData.synopsis}</h1>
 
                                 {isLoading.page ?
 
@@ -385,8 +385,8 @@ export default function MovieModal(props) {
                                     </Swiper>
 
                                 </div>
-
-                                <Skeleton className="modal-cast-container" style={{ aspectRatio: "5.5/9" }} baseColor="#08283C" enableAnimation={false} />
+{/* 
+                                <Skeleton className="modal-cast-container" style={{ aspectRatio: "5.5/9" }} baseColor="#08283C" enableAnimation={false} /> */}
 
                             </>
 
@@ -414,17 +414,9 @@ export default function MovieModal(props) {
                                         // when window width is >= 320px
 
                                         110: {
-                                            slidesPerView: 2.5,
-                                            direction: 'horizontal',
-                                            navigation: false,
-
-                                        },
-
-                                        365: {
-                                            direction: 'horizontal',
                                             slidesPerView: 3.8,
+                                            direction: 'horizontal',
                                             navigation: false,
-
 
                                         },
 

@@ -75,22 +75,22 @@ export default function Carousel(props) {
 
   React.useEffect(() => {
 
-    if(isLoading.moviePoster === false){
+    if (isLoading.moviePoster === false) {
+
+      handleImageLoad("page");
+
+
+    } else {
+
+      setTimeout(() => {
 
         handleImageLoad("page");
-        
-       
-    }else{
 
-        setTimeout(() => {
-
-            handleImageLoad("page");
-            
-        }, 10000);
+      }, 10000);
     }
 
 
-}, [isLoading.moviePoster]);
+  }, [isLoading.moviePoster]);
 
 
 
@@ -102,14 +102,10 @@ export default function Carousel(props) {
       <Swiper
 
         centeredSlides={false}
-        slidesPerView={6.1}
         spaceBetween={"1%"}
-        grabCursor={false}
-        pagination={{
-          clickable: true,
-        }}
-
-        modules={[Pagination, Navigation]}
+        navigation={true}
+        grabCursor={true}
+        modules={[Navigation]}
         className="mySwiper"
         onSlideChange={(swiper) =>
           handleViewableSlideCountStateChange(swiper.activeIndex)
@@ -118,58 +114,20 @@ export default function Carousel(props) {
         }
 
         breakpoints={{
-          // when window width is >= 320px
-          320: {
-            slidesPerView: 2.2,
-            navigation: false,
 
-          },
-          // when window width is >= 480px
-          480: {
-            slidesPerView: 2.2,
-            navigation: false,
+          0: {
+            slidesPerView: 3.2,
+           
 
           },
           // when window width is >= 640px
           640: {
-            slidesPerView: 3.6,
-            navigation: false,
-
+            slidesPerView: 5.2,
+            
           },
           840: {
-            slidesPerView: 4.2,
-            navigation: false,
-
-
-
-          },
-
-          1240: {
-            slidesPerView: 3.8,
-            navigation: true,
-
-
-          },
-
-          1440: {
-            slidesPerView: 4.8,
-            navigation: true,
-
-
-          },
-
-          1640: {
-            slidesPerView: 5.6,
-            navigation: true,
-
-
-          },
-
-          1840: {
-            slidesPerView: 6.1,
-            navigation: true,
-
-
+            slidesPerView: 6.2,
+          
 
           },
 
@@ -205,13 +163,13 @@ export default function Carousel(props) {
               </SwiperSlide>
             ))}
 
-            {Array.from( { length: 14 }, ( index ) => (
+            {Array.from({ length: 14 }, (index) => (
 
               <SwiperSlide key={index} >
 
                 <div className="carousel-card-container">
                   <Skeleton className="carousel-movie-poster" width={"90%"} height={300} baseColor="#08283C" enableAnimation={false} />
-                  <Skeleton className="carousel-movie-title" width={"60%"} baseColor="#08283C" enableAnimation={false} style={{marginTop:"0.8em"}} />
+                  <Skeleton className="carousel-movie-title" width={"60%"} baseColor="#08283C" enableAnimation={false} style={{ marginTop: "0.8em" }} />
 
 
                 </div>

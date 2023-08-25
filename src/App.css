@@ -232,7 +232,7 @@ nav {
 .rating-logo,
 .modal-rating-logo {
 
-  width: 2.0em;
+  width: 1.5em;
 
 }
 
@@ -317,9 +317,8 @@ nav {
   ;
 }
 
-.carousel-card-container{
+.carousel-card-container {}
 
-}
 
 /* Carousel Default No Hover */
 /* 
@@ -686,6 +685,8 @@ footer {
 
   opacity: 0.9;
   background-color: black;
+  max-height: 25em;
+  min-height: 15em;
 
 }
 
@@ -775,10 +776,10 @@ footer {
 
   display: flex;
   flex-direction: column;
-  gap:0.1em;
+  gap: 0.1em;
   padding: 1%;
   width: 70vw;
-  height: 90vh;
+  height: 80vh;
   margin-top: 0;
   overflow-y: scroll;
   overflow-x: scroll;
@@ -793,7 +794,7 @@ footer {
   width: 100%;
 }
 
-.grid-close-btn-container{
+.grid-close-btn-container {
 
   display: flex;
   justify-content: flex-end;
@@ -820,8 +821,8 @@ footer {
   /* Gap between grid item
   s, adjust as per your preference */
 
-  margin-top: 2%;
-  margin-bottom: 2%;
+  margin-top: 7%;
+  margin-bottom: 7%;
 }
 
 .movie-grid-item {
@@ -834,51 +835,57 @@ footer {
 
 }
 
-.grid-cast-info{
+.grid-cast-info {
 
   display: flex;
   flex-direction: row;
   gap: 1em;
 
-  height: 19em;
+  height: 30vh;
 
 }
 
 .movie-grid-modal-title {
 
   font-size: 1.5em;
-  
+
 }
 
-.grid-cast-photo-container{
+.grid-cast-photo-container {
 
   height: 100%;
 
 }
 
-.grid-cast-photo{
+.grid-cast-photo {
 
   height: 100%;
 }
 
-.grid-cast-text{
+.grid-cast-text {
 
   width: 70%;
   height: 100%;
   overflow: hidden;
-  
+
 }
 
-.grid-actor-name{
+.grid-actor-name {
 
   margin: 0;
 }
 
-.movie-grid-modal-desc{
+.movie-grid-modal-desc {
 
-  color:#B3B3B3;
+  color: #B3B3B3;
   font-size: 0.9em;
-  text-overflow: ellipsis;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 9;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  max-width: 47em;
+
 
 
 }
@@ -951,7 +958,7 @@ footer {
 
   padding: 2%;
 
- 
+
   color: white;
 
 }
@@ -965,12 +972,12 @@ footer {
 
 }
 
-.modal-text-container{
+.modal-text-container {
 
   width: 62%;
 }
 
-.modal-carousel-card-container{
+.modal-carousel-card-container {
 
   width: 30%;
 }
@@ -1015,7 +1022,7 @@ footer {
   font-size: 0.9em;
   font-weight: 600;
   flex-wrap: wrap;
-  
+
 }
 
 .modal-text-genre {
@@ -1042,6 +1049,7 @@ footer {
 
   font-size: 1em;
   font-weight: 400;
+  white-space: break-spaces;
   color: #FFF;
 
 }
@@ -1055,10 +1063,10 @@ footer {
 
 }
 
-.verticalCastSwiper{
+.verticalCastSwiper {
 
   height: 23em;
-  
+
 }
 
 .modal-cast-title {
@@ -1284,10 +1292,9 @@ footer {
     top: 15%;
   }
 
-  .grid-cast-info{
+  .movie-grid-container {
 
-    height: 19em;
-  
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   }
 
 
@@ -1353,7 +1360,7 @@ footer {
 
   .rate-component {
 
-    margin-bottom: 3em;
+    margin-bottom: 3%;
 
   }
 
@@ -1401,7 +1408,7 @@ footer {
     height: 100%;
   }
 
-  .modal-text-container{
+  .modal-text-container {
 
     width: 70%;
   }
@@ -1414,18 +1421,20 @@ footer {
 
   }
 
-  
-
-.modal-cast-photo-container {
-
-  width: 100%;
-}
-
-.modal-cast-text-container{
-  width: 100%;
 
 
-}
+  .modal-cast-photo-container {
+
+    width: 100%;
+  }
+
+  .modal-cast-text-container {
+    width: 100%;
+    padding-left: 10%;
+    padding-bottom: 10%;
+
+
+  }
 
   .modal-info-container {
 
@@ -1441,7 +1450,7 @@ footer {
     height: fit-content;
   }
 
-  .modal-info-container-lhs{
+  .modal-info-container-lhs {
 
     width: 100%;
   }
@@ -1461,7 +1470,7 @@ footer {
 
   .modal-text-movie-desc {
 
-    font-size: 0.9em;
+    /* font-size: 0.9em; */
   }
 
   .modal-text-genre {
@@ -1484,9 +1493,9 @@ footer {
 
   .movie-grid-modal-content {
 
-    width: 100vw;
+    width: 95vw;
     height: 100vh;
-    padding: 5%;
+    padding: 2%;
 
   }
 
@@ -1626,7 +1635,8 @@ footer {
 
   .modal-text-movie-desc {
 
-    font-size: 0.5em;
+    /* font-size: 0.5em; */
+    
   }
 
   .modal-text-genre {
@@ -1648,6 +1658,11 @@ footer {
   .modal-close-btn {
 
     font-size: 1.3em
+  }
+
+  .movie-grid-container {
+
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   }
 
 
